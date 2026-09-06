@@ -12,7 +12,7 @@ const result = spawnSync(
         '-i', input,
         '-vf', 'scale=1920:-2',
         '-c:v', 'libx264',
-        '-crf', '26',
+        '-crf', '30',
         '-preset', 'slow',
         '-an',
         '-movflags', '+faststart',
