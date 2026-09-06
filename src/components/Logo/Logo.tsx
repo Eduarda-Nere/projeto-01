@@ -13,7 +13,7 @@ const LogoSvg = styled.svg<{ $scrolled: boolean }>`
 
     .lopez-text {
         fill: ${({ $scrolled, theme }) =>
-            $scrolled ? theme.colors.navy : theme.colors.paper};};
+        $scrolled ? theme.colors.navy : theme.colors.paper};};
         transition: fill 0.3s ${({ theme }) => theme.ease};
     }
 
@@ -42,8 +42,8 @@ export const Logo: React.FC<LogoProps> = ({ scrolled = false }) => {
                 x="0"
                 y="45"
                 fontFamily="'League Spartan', Arial, sans-serif"
-                fontSize="53"
-                font-weight="350"
+                fontSize="55"
+                fontWeight="350"
                 textLength="180"
                 lengthAdjust="spacingAndGlyphs"
             >
@@ -63,7 +63,7 @@ export const Logo: React.FC<LogoProps> = ({ scrolled = false }) => {
                 y="122"
                 fontFamily="'Inter', Arial, sans-serif"
                 fontSize="20"
-                font-weight="350"
+                fontWeight="350"
                 textLength="180"
                 lengthAdjust="spacing"
             >

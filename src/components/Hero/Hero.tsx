@@ -21,11 +21,16 @@ function Hero() {
         return () => clearTimeout(timer);
     }, []);
 
+    const hideLoader = () => {
+        document.getElementById('initial-loader')?.remove();
+    };
+
     return (
         <HeroSection id="top">
             <HeroBg
                 ref={parallaxRef}
                 src={heroVideo}
+                onLoadedData={hideLoader}
                 autoPlay
                 loop
                 muted
