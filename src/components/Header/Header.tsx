@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation } from 'react-router-dom'; // ADICIONADO
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     StyledHeader,
     HeaderRow,
@@ -36,8 +36,8 @@ function Header() {
         opacity: 0,
     });
 
-    // ADICIONADO: detectar se está na página 404
     const location = useLocation();
+    const navigate = useNavigate();
     const isNotFound = location.pathname !== '/';
 
     const navRef = useRef<HTMLElement>(null);
@@ -92,6 +92,57 @@ function Header() {
         }, 150);
     };
 
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault();
+        closeMenu();
+
+        if (isNotFound) {
+            navigate('/');
+            setTimeout(() => {
+                const element = document.querySelector(href);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        } else {
+            const element = document.querySelector(href);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    };
+
+    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        closeMenu();
+
+        if (isNotFound) {
+            navigate('/');
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+        e.preventDefault();
+        closeMenu();
+
+        if (isNotFound) {
+            navigate('/#contato');
+            setTimeout(() => {
+                const element = document.querySelector('#contato');
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        } else {
+            const element = document.querySelector('#contato');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    };
+
     useEffect(() => {
         return () => {
             if (timeoutRef.current) {
@@ -108,13 +159,35 @@ function Header() {
         return () => window.removeEventListener('resize', handleResize);
     }, [hideIndicator]);
 
+    const handleMobileNavClick = (href: string) => {
+        closeMenu();
+        
+        if (isNotFound) {
+            navigate('/');
+            setTimeout(() => {
+                const element = document.querySelector(href);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        } else {
+            const element = document.querySelector(href);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    };
+
     return (
         <>
-            {/* ALTERADO: adicionado isNotFound */}
             <StyledHeader $scrolled={scrolled || isNotFound}>
                 <HeaderRow>
-                    <LogoLink href="#top" aria-label="Ir para o topo">
-                        <Logo scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
+                    <LogoLink
+                        href="#top"
+                        aria-label="Ir para o topo"
+                        onClick={handleLogoClick}
+                    >
+                        <Logo scrolled={scrolled || isNotFound} />
                     </LogoLink>
 
                     <MainNav ref={navRef} aria-label="Navegação principal">
@@ -130,6 +203,7 @@ function Header() {
                                 $scrolled={scrolled || isNotFound}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={(e) => handleNavClick(e, link.href)}
                             >
                                 {link.label}
                             </NavLink>
@@ -137,7 +211,13 @@ function Header() {
                     </MainNav>
 
                     <FlowButtonWrapper>
-                        <FlowButton text="Contato" scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
+                        <FlowButton
+                            text="Contato"
+                            scrolled={scrolled || isNotFound}
+                            as="a"
+                            href="#contato"
+                            onClick={handleContactClick}
+                        />
                     </FlowButtonWrapper>
                 </HeaderRow>
             </StyledHeader>
@@ -149,19 +229,44 @@ function Header() {
                 $active={menuOpen}
                 $scrolled={scrolled || isNotFound}
             >
-                <BurgerSpan $index={1} $active={menuOpen} $scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
-                <BurgerSpan $index={2} $active={menuOpen} $scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
-                <BurgerSpan $index={3} $active={menuOpen} $scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
+                <BurgerSpan $index={1} $active={menuOpen} $scrolled={scrolled || isNotFound} />
+                <BurgerSpan $index={2} $active={menuOpen} $scrolled={scrolled || isNotFound} />
+                <BurgerSpan $index={3} $active={menuOpen} $scrolled={scrolled || isNotFound} />
             </Burger>
 
             <MenuOverlay $show={menuOpen} onClick={closeMenu} />
 
             <MobileMenu $open={menuOpen} aria-label="Menu mobile">
+                <button
+                    onClick={closeMenu}
+                    aria-label="Fechar menu"
+                    style={{
+                        position: 'absolute',
+                        top: '1.5rem',
+                        right: '1.5rem',
+                        background: 'none',
+                        border: 'none',
+                        color: '#f6f2e9',
+                        fontSize: '1.5rem',
+                        cursor: 'pointer',
+                        padding: '0.5rem',
+                        zIndex: 320,
+                    }}
+                >
+                    ✕
+                </button>
+
                 <MobileMenuInner>
                     <MobileMenuList>
                         {[...NAV_LINKS, { href: '#contato', label: 'Contato' }].map((link, index) => (
                             <MobileMenuItem key={link.href} $open={menuOpen} $delay={0.08 + index * 0.06}>
-                                <MobileMenuLink href={link.href} onClick={closeMenu}>
+                                <MobileMenuLink
+                                    href={link.href}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleMobileNavClick(link.href);
+                                    }}
+                                >
                                     {link.label}
                                 </MobileMenuLink>
                             </MobileMenuItem>
