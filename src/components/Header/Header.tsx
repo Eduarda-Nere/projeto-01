@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'; // ADICIONADO
 import {
     StyledHeader,
     HeaderRow,
@@ -36,14 +36,13 @@ function Header() {
         opacity: 0,
     });
 
+    // ADICIONADO: detectar se está na página 404
     const location = useLocation();
-    const navigate = useNavigate();
     const isNotFound = location.pathname !== '/';
+
     const navRef = useRef<HTMLElement>(null);
     const indicatorRef = useRef<HTMLSpanElement>(null);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    const shouldBeScrolled = scrolled || isNotFound;
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 60);
@@ -93,57 +92,6 @@ function Header() {
         }, 150);
     };
 
-    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        e.preventDefault();
-        closeMenu();
-
-        if (isNotFound) {
-            navigate('/');
-            setTimeout(() => {
-                const element = document.querySelector(href);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 100);
-        } else {
-            const element = document.querySelector(href);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    };
-
-    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        closeMenu();
-
-        if (isNotFound) {
-            navigate('/');
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    };
-
-    const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
-        e.preventDefault();
-        closeMenu();
-
-        if (isNotFound) {
-            navigate('/#contato');
-            setTimeout(() => {
-                const element = document.querySelector('#contato');
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 100);
-        } else {
-            const element = document.querySelector('#contato');
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    };
-
     useEffect(() => {
         return () => {
             if (timeoutRef.current) {
@@ -162,30 +110,26 @@ function Header() {
 
     return (
         <>
-            <StyledHeader $scrolled={shouldBeScrolled}>
+            {/* ALTERADO: adicionado isNotFound */}
+            <StyledHeader $scrolled={scrolled || isNotFound}>
                 <HeaderRow>
-                    <LogoLink
-                        href="#top"
-                        aria-label="Ir para o topo"
-                        onClick={handleLogoClick}
-                    >
-                        <Logo scrolled={shouldBeScrolled} />
+                    <LogoLink href="#top" aria-label="Ir para o topo">
+                        <Logo scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
                     </LogoLink>
 
                     <MainNav ref={navRef} aria-label="Navegação principal">
                         <NavIndicator
                             ref={indicatorRef}
-                            $scrolled={shouldBeScrolled}
+                            $scrolled={scrolled || isNotFound}
                             style={indicatorStyle}
                         />
                         {NAV_LINKS.map((link) => (
                             <NavLink
                                 key={link.href}
                                 href={link.href}
-                                $scrolled={shouldBeScrolled}
+                                $scrolled={scrolled || isNotFound}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
-                                onClick={(e) => handleNavClick(e, link.href)}
                             >
                                 {link.label}
                             </NavLink>
@@ -193,39 +137,31 @@ function Header() {
                     </MainNav>
 
                     <FlowButtonWrapper>
-                        <FlowButton
-                            text="Contato"
-                            scrolled={shouldBeScrolled}
-                            as="a"
-                            href="#contato"
-                            onClick={handleContactClick}
-                        />
+                        <FlowButton text="Contato" scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
                     </FlowButtonWrapper>
-
-                    <Burger
-                        onClick={() => setMenuOpen((prev) => !prev)}
-                        aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-                        aria-expanded={menuOpen}
-                        $active={menuOpen}
-                        $scrolled={shouldBeScrolled}
-                    >
-                        <BurgerSpan $index={1} $active={menuOpen} $scrolled={shouldBeScrolled} />
-                        <BurgerSpan $index={2} $active={menuOpen} $scrolled={shouldBeScrolled} />
-                        <BurgerSpan $index={3} $active={menuOpen} $scrolled={shouldBeScrolled} />
-                    </Burger>
                 </HeaderRow>
             </StyledHeader>
 
+            <Burger
+                onClick={() => setMenuOpen((prev) => !prev)}
+                aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-expanded={menuOpen}
+                $active={menuOpen}
+                $scrolled={scrolled || isNotFound}
+            >
+                <BurgerSpan $index={1} $active={menuOpen} $scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
+                <BurgerSpan $index={2} $active={menuOpen} $scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
+                <BurgerSpan $index={3} $active={menuOpen} $scrolled={scrolled || isNotFound} /> {/* ALTERADO */}
+            </Burger>
+
             <MenuOverlay $show={menuOpen} onClick={closeMenu} />
+
             <MobileMenu $open={menuOpen} aria-label="Menu mobile">
                 <MobileMenuInner>
                     <MobileMenuList>
                         {[...NAV_LINKS, { href: '#contato', label: 'Contato' }].map((link, index) => (
                             <MobileMenuItem key={link.href} $open={menuOpen} $delay={0.08 + index * 0.06}>
-                                <MobileMenuLink
-                                    href={link.href}
-                                    onClick={(e) => handleNavClick(e, link.href)}
-                                >
+                                <MobileMenuLink href={link.href} onClick={closeMenu}>
                                     {link.label}
                                 </MobileMenuLink>
                             </MobileMenuItem>
