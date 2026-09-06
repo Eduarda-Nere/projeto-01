@@ -161,7 +161,7 @@ function Header() {
 
     const handleMobileNavClick = (href: string) => {
         closeMenu();
-        
+
         if (isNotFound) {
             navigate('/');
             setTimeout(() => {
@@ -253,7 +253,6 @@ function Header() {
                         zIndex: 320,
                     }}
                 >
-                    ✕
                 </button>
 
                 <MobileMenuInner>

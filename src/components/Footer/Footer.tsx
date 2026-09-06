@@ -1,4 +1,3 @@
-// src/components/Footer/Footer.tsx
 import {
     StyledFooter,
     FooterTop,
