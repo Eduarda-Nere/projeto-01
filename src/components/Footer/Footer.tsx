@@ -12,6 +12,7 @@ import {
     FooterRight,
     FooterCol,
     FooterLeftContent,
+    FooterTitle,
 } from './Footer.styles';
 import { Logo } from '../Logo/Logo';
 
@@ -65,7 +66,7 @@ function Footer() {
 
                     <FooterRight>
                         <FooterCol>
-                            <h4>Contato</h4>
+                            <FooterTitle>Contato</FooterTitle>
                             {CONTACT_ITEMS.map((item) => (
                                 <FooterContactItem key={item.text}>
                                     <i className={`fas ${item.icon}`} aria-hidden="true" />

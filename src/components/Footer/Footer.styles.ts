@@ -211,18 +211,6 @@ export const FooterCol = styled.div`
     align-items: center;
     text-align: center;
   }
-
-  h4 {
-    font-size: clamp(0.7rem, 0.8vw, 0.8rem);
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.gold};
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    margin-bottom: 4px;
-    margin: 0;
-    padding: 0;
-  }
 `;
 
 export const FooterContactItem = styled.div`
@@ -260,4 +248,17 @@ export const FooterBottom = styled.div`
   span {
     color: ${({ theme }) => theme.colors.gold};
   }
+`;
+
+export const FooterTitle = styled.span`
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.gold};
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  margin-bottom: 4px;
+  margin: 0;
+  padding: 0;
+  display: block;
 `;
