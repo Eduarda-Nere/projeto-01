@@ -114,7 +114,7 @@ export const FooterBrandText = styled.div`
     font-size: clamp(0.85rem, 0.9vw, 0.95rem);
     line-height: 1.7;
     max-width: 550px;
-    color: rgba(250, 248, 244, 0.55);
+    color: rgba(250, 248, 244, 0.65);
     text-align: left;
     margin: 0;
     padding: 0;
@@ -229,7 +229,7 @@ export const FooterContactItem = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  color: rgba(250, 248, 244, 0.55);
+  color: rgba(250, 248, 244, 0.65);
   font-size: clamp(0.85rem, 0.9vw, 0.95rem);
   padding: 4px 0;
   cursor: default;
@@ -254,7 +254,7 @@ export const FooterBottom = styled.div`
   padding: 22px clamp(1.5rem, 4vw, 3rem);
   text-align: center;
   font-size: clamp(0.7rem, 0.8vw, 0.8rem);
-  color: rgba(250, 248, 244, 0.35);
+  color: rgba(250, 248, 244, 0.65);
   border-top: 1px solid ${({ theme }) => theme.colors.lineOnNavy};
 
   span {
