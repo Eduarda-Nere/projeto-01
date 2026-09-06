@@ -1,9 +1,13 @@
 import styled from 'styled-components';
+import { forwardRef } from 'react';
 
 interface FlowButtonProps {
     text?: string;
     scrolled?: boolean;
     className?: string;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+    as?: 'button' | 'a';
+    href?: string;
 }
 
 const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
@@ -26,12 +30,14 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     flex-shrink: 0;
+    font-family: ${({ theme }) => theme.fonts.body};
+    text-decoration: none;
 
     &:hover {
         border-color: ${({ $scrolled, theme }) =>
             $scrolled ? theme.colors.navy : theme.colors.gold};
         border-radius: 6px;
-        color: ${({ theme }) => theme.colors.cream}; /* SEMPRE BRANCO NO HOVER */
+        color: ${({ theme }) => theme.colors.cream};
         background: transparent;
     }
 
@@ -62,7 +68,7 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
 
     &:hover {
         .btn-text {
-            color: ${({ theme }) => theme.colors.cream}; /* SEMPRE BRANCO NO HOVER */
+            color: ${({ theme }) => theme.colors.cream};
         }
 
         .btn-circle {
@@ -75,13 +81,39 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
     }
 `;
 
-export function FlowButton({ text = "Contato", scrolled = false }: FlowButtonProps) {
-    return (
-        <StyledFlowButton as="a" href="#contato" $scrolled={scrolled}>
-            <span className="btn-text">{text}</span>
-            <span className="btn-circle" />
-        </StyledFlowButton>
-    );
-}
+export const FlowButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, FlowButtonProps>(
+    ({ text = "Contato", scrolled = false, onClick, as = 'button', href, ...props }, ref) => {
+        if (as === 'a' && href) {
+            return (
+                <StyledFlowButton
+                    as="a"
+                    href={href}
+                    $scrolled={scrolled}
+                    onClick={onClick as React.MouseEventHandler<HTMLAnchorElement>}
+                    ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+                    {...props}
+                >
+                    <span className="btn-text">{text}</span>
+                    <span className="btn-circle" />
+                </StyledFlowButton>
+            );
+        }
+
+        return (
+            <StyledFlowButton
+                as="button"
+                $scrolled={scrolled}
+                onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
+                ref={ref as React.ForwardedRef<HTMLButtonElement>}
+                {...props}
+            >
+                <span className="btn-text">{text}</span>
+                <span className="btn-circle" />
+            </StyledFlowButton>
+        );
+    }
+);
+
+FlowButton.displayName = 'FlowButton';
 
 export default FlowButton;
