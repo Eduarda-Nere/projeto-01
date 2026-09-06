@@ -12,7 +12,7 @@ export function useParallax<T extends HTMLElement>(speed: number = 0.3) {
         ).matches;
         if (prefersReducedMotion) return;
 
-        let frame: number;
+        let frame: number | null = null;
 
         function update() {
             if (!el) return;
@@ -26,8 +26,23 @@ export function useParallax<T extends HTMLElement>(speed: number = 0.3) {
             frame = requestAnimationFrame(update);
         }
 
-        frame = requestAnimationFrame(update);
-        return () => cancelAnimationFrame(frame);
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (frame === null) frame = requestAnimationFrame(update);
+                } else if (frame !== null) {
+                    cancelAnimationFrame(frame);
+                    frame = null;
+                }
+            },
+            { threshold: 0 }
+        );
+        observer.observe(el);
+
+        return () => {
+            observer.disconnect();
+            if (frame !== null) cancelAnimationFrame(frame);
+        };
     }, [speed]);
 
     return ref;
