@@ -1,0 +1,13 @@
+# Lopez Engenharia
+
+> Engenharia civil com foco em projetos residenciais e comerciais, oferecendo soluções em construção, reforma e gerenciamento de obras.
+
+## Páginas Principais
+- [Início](https://felipelopez.vercel.app/): Página inicial com a visão geral da empresa.
+- [Sobre Nós](https://felipelopez.vercel.app/#sobre): História, missão e valores da Lopez Engenharia.
+- [Carreira](https://felipelopez.vercel.app/#carreira): Áreas de atuação e projetos da equipe.
+- [Projetos](https://felipelopez.vercel.app/#projetos): Portfólio com os principais projetos realizados.
+- [Perguntas Frequentes](https://felipelopez.vercel.app/#faq): Dúvidas comuns sobre os serviços e processo de orçamento.
+
+## Contato
+- [Contato](https://felipelopez.vercel.app/#contato): Informações para entrar em contato com a equipe.
