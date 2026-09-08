@@ -9,7 +9,7 @@ export const FaqSection = styled.section`
 export const Wrap = styled.div`
   max-width: ${({ theme }) => theme.layout.container};
   margin: 0 auto;
-  padding: 0 clamp(1.25rem, 4vw, 3rem);
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
 `;
 
 export const SectionHeadCenter = styled.div<{ $visible: boolean }>`
@@ -36,7 +36,6 @@ export const Title = styled.h2`
 export const FaqList = styled.div<{ $visible: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: .5rem;
   max-width: 800px;
   margin: 0 auto;
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
@@ -47,6 +46,17 @@ export const FaqList = styled.div<{ $visible: boolean }>`
 
 export const FaqItem = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.lineOnCream};
+  width: calc(100% - 5px);
+  margin-left: 0;
+  padding-right: 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    width: calc(100% - 5px);
+  }
 `;
 
 export const FaqQuestion = styled.button`
@@ -64,6 +74,8 @@ export const FaqQuestion = styled.button`
   align-items: center;
   text-align: left;
   transition: color .3s ${({ theme }) => theme.ease};
+  gap: 1.5rem;
+  line-height: 1.6;
 
   &:hover {
     color: ${({ theme }) => theme.colors.gold};
@@ -73,22 +85,70 @@ export const FaqQuestion = styled.button`
 export const FaqIcon = styled.span<{ $open: boolean }>`
   flex: 0 0 24px;
   font-size: 1.2rem;
+  text-align: center;
   color: ${({ theme }) => theme.colors.gold};
   transform: rotate(${({ $open }) => ($open ? '45deg' : '0deg')});
   transition: transform .4s ${({ theme }) => theme.ease};
 `;
 
 export const FaqAnswer = styled.div<{ $open: boolean }>`
-  max-height: ${({ $open }) => ($open ? '300px' : '0')};
+  max-height: ${({ $open }) => ($open ? '600px' : '0')};
   overflow: hidden;
-  padding: ${({ $open }) => ($open ? '0 0 1.5rem' : '0')};
+  padding: ${({ $open }) => ($open ? '5px 0 1.5rem 0' : '0')};
   transition: max-height .5s ${({ theme }) => theme.ease},
               padding .4s ${({ theme }) => theme.ease};
+`;
 
-  p {
-    color: ${({ theme }) => theme.colors.ink70};
-    font-size: .95rem;
-    line-height: 1.8;
-    max-width: 60ch;
+const AnswerTextBase = styled.div`
+  color: ${({ theme }) => theme.colors.ink70};
+  font-size: .95rem;
+  line-height: 1.8;
+  text-align: justify;
+  max-width: 100%;
+`;
+
+export const FaqAnswerContent = styled(AnswerTextBase)``;
+
+export const FaqAnswerText = styled(AnswerTextBase).attrs({ as: 'p' })`
+  margin: 0 0 0.5rem 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const FaqListPoint = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const FaqListItem = styled.li`
+  color: ${({ theme }) => theme.colors.ink70};
+  font-size: .95rem;
+  line-height: 1.8;
+  padding-left: 1.5rem;
+  padding-right: 0;
+  position: relative;
+  margin-bottom: 0.25rem;
+  text-align: justify;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: ${({ theme }) => theme.colors.gold};
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `;
