@@ -1,34 +1,16 @@
 import {
     StyledFooter,
     FooterTop,
+    FooterBrand,
     FooterLogo,
-    FooterBrandText,
-    FooterSocial,
-    SocialLink,
+    FooterTagline,
     FooterContactItem,
     FooterBottom,
-    FooterGrid,
-    FooterLeft,
-    FooterRight,
-    FooterCol,
-    FooterLeftContent,
-    FooterTitle,
+    FooterContactWrapper,
+    FooterContactWithIcon,
+    FooterContent,
 } from './Footer.styles';
 import { Logo } from '../Logo/Logo';
-
-const SOCIAL_LINKS = [
-    { icon: 'fa-facebook-f', label: 'Facebook', url: '#' },
-    { icon: 'fa-instagram', label: 'Instagram', url: '#' },
-    { icon: 'fa-linkedin-in', label: 'LinkedIn', url: '#' },
-    { icon: 'fa-youtube', label: 'YouTube', url: '#' },
-    { icon: 'fa-whatsapp', label: 'WhatsApp', url: '#' },
-];
-
-const CONTACT_ITEMS = [
-    { icon: 'fa-map-marker-alt', text: 'Av. Exemplo, 123 - Centro, Capivari - SP' },
-    { icon: 'fa-envelope', text: 'contato@empresa.com.br' },
-    { icon: 'fa-phone-alt', text: '(19) 99999-9999' },
-];
 
 function Footer() {
     const currentYear = new Date().getFullYear();
@@ -36,50 +18,39 @@ function Footer() {
     return (
         <StyledFooter id="contato">
             <FooterTop>
-                <FooterGrid>
-                    <FooterLeft>
-                        <FooterLogo>
-                            <Logo scrolled={true} />
-                        </FooterLogo>
-                        <FooterLeftContent>
-                            <FooterBrandText>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </FooterBrandText>
-                            <FooterSocial>
-                                {SOCIAL_LINKS.map((social) => (
-                                    <SocialLink
-                                        key={social.label}
-                                        href={social.url}
-                                        aria-label={social.label}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <i className={`fab ${social.icon}`} aria-hidden="true" />
-                                    </SocialLink>
-                                ))}
-                            </FooterSocial>
-                        </FooterLeftContent>
-                    </FooterLeft>
-
-                    <FooterRight>
-                        <FooterCol>
-                            <FooterTitle>Contato</FooterTitle>
-                            {CONTACT_ITEMS.map((item) => (
-                                <FooterContactItem key={item.text}>
-                                    <i className={`fas ${item.icon}`} aria-hidden="true" />
-                                    <span>{item.text}</span>
-                                </FooterContactItem>
-                            ))}
-                        </FooterCol>
-                    </FooterRight>
-                </FooterGrid>
+                <FooterBrand>
+                    <FooterLogo>
+                        <Logo scrolled={true} />
+                    </FooterLogo>
+                    <FooterContent>
+                        <FooterTagline>
+                            Construção de escopo completo - projeto, aprovação, execução e
+                            entrega - em obras residenciais, comerciais e industriais.
+                        </FooterTagline>
+                        <FooterContactWrapper>
+                            <FooterContactWithIcon>
+                                <i className="fas fa-map-marker-alt" aria-hidden="true" />
+                                <span>Piracicaba - SP</span>
+                            </FooterContactWithIcon>
+                            <FooterContactItem
+                                href="https://wa.me/5519994318392"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <i className="fab fa-whatsapp" aria-hidden="true" />
+                                <span>(19) 99431-8392</span>
+                            </FooterContactItem>
+                            <FooterContactItem href="mailto:lopezengenharia@hotmail.com">
+                                <i className="fas fa-envelope" aria-hidden="true" />
+                                <span>lopezengenharia@hotmail.com</span>
+                            </FooterContactItem>
+                        </FooterContactWrapper>
+                    </FooterContent>
+                </FooterBrand>
             </FooterTop>
 
             <FooterBottom>
-                <p>&copy; <span>{currentYear}</span> · Todos os direitos reservados</p>
+                <p>&copy; {currentYear} Lopez Engenharia · Todos os direitos reservados</p>
             </FooterBottom>
         </StyledFooter>
     );
