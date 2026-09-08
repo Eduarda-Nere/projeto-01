@@ -48,10 +48,10 @@ function Hero() {
             <Wrap>
                 <HeroInner>
                     <HeroContent $visible={visible}>
-                        <HeroTitle $visible={visible}>Lorem ipsum dolor consectetur</HeroTitle>
+                        <HeroTitle $visible={visible}>Um contrato. Um responsável. Uma data.</HeroTitle>
                         <HeroDesc $visible={visible}>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam
-                            perspiciatis doloremque cupiditate culpa quis debitis modi ipsa beatae.
+                            A Lopez Engenharia assume a obra inteira - viabilidade, projeto, aprovação, execução e entrega - em empreendimentos 
+                            residenciais, comerciais e industriais. Você acompanha, nós respondemos.
                         </HeroDesc>
                     </HeroContent>
                 </HeroInner>

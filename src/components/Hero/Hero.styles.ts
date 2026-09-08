@@ -55,7 +55,7 @@ export const HeroContent = styled.div<{ $visible: boolean }>`
 `;
 
 export const HeroTitle = styled.h1<{ $visible: boolean }>`
-  font-size: clamp(4rem, 9vw, 6.5rem);
+  font-size: clamp(3.7rem, 8.5vw, 6rem);
   line-height: 1;
   color: ${({ theme }) => theme.colors.paper};
   max-width: 16ch;
@@ -70,11 +70,11 @@ export const HeroTitle = styled.h1<{ $visible: boolean }>`
 `;
 
 export const HeroDesc = styled.p<{ $visible: boolean }>`
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.85);
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  max-width: 46ch;
+  max-width: 60ch;
   margin: 0;
   margin-top: 0.75rem;
   transform: translateY(${({ $visible }) => ($visible ? '0' : '44px')});
