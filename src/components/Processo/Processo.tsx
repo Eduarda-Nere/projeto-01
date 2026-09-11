@@ -21,7 +21,7 @@ import {
     ImageOverlay,
     NavButtons,
     NavButton,
-} from './Career.styles';
+} from './Processo.styles';
 import fundoImg from '../../assets/img/fundo.jpg';
 
 const SERVICES = [
@@ -47,7 +47,7 @@ const SERVICES = [
 
 const AUTO_PLAY_DURATION = 5000;
 
-function Career() {
+function Processo() {
     const { ref, inView } = useInView<HTMLDivElement>();
     const [activeIndex, setActiveIndex] = useState(0);
     const [direction, setDirection] = useState(0);
@@ -98,12 +98,12 @@ function Career() {
     };
 
     return (
-        <CareerSection id="carreira">
+        <CareerSection id="processo">
             <Wrap>
                 <CareerGrid ref={ref}>
                     <CareerContent $visible={inView}>
                         <HeaderWrapper>
-                            <Title>Carreira</Title>
+                            <Title>Processo</Title>
                         </HeaderWrapper>
 
                         {SERVICES.map((service, index) => {
@@ -210,4 +210,4 @@ function Career() {
     );
 }
 
-export default Career;
+export default Processo;

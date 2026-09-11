@@ -20,9 +20,9 @@ import { Logo } from '../Logo/Logo';
 
 const NAV_LINKS = [
     { href: '#sobre', label: 'Sobre Nós' },
-    { href: '#carreira', label: 'Carreira' },
+    { href: '#cultura', label: 'Cultura' },
+    { href: '#processo', label: 'Processo' },
     { href: '#projetos', label: 'Projetos' },
-    { href: '#faq', label: 'Perguntas' },
 ];
 
 function Footer() {

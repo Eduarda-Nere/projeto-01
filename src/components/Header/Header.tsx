@@ -22,9 +22,14 @@ import { FlowButton } from '../ui/FlowButton';
 
 const NAV_LINKS = [
     { href: '#sobre', label: 'Sobre Nós' },
-    { href: '#carreira', label: 'Carreira' },
+    { href: '#cultura', label: 'Cultura' },
+    { href: '#processo', label: 'Processo' },
     { href: '#projetos', label: 'Projetos' },
-    { href: '#faq', label: 'Perguntas' },
+];
+
+const MOBILE_NAV_LINKS = [
+    ...NAV_LINKS,
+    { href: '#contato', label: 'Contato' },
 ];
 
 function Header() {
@@ -123,12 +128,14 @@ function Header() {
         }
     };
 
-    const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    const handleContactClick = (
+        e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>
+    ) => {
         e.preventDefault();
         closeMenu();
 
         if (isNotFound) {
-            navigate('/#contato');
+            navigate('/');
             setTimeout(() => {
                 const element = document.querySelector('#contato');
                 if (element) {
@@ -237,28 +244,14 @@ function Header() {
             <MenuOverlay $show={menuOpen} onClick={closeMenu} />
 
             <MobileMenu $open={menuOpen} aria-label="Menu mobile">
-                <button
-                    onClick={closeMenu}
-                    aria-label="Fechar menu"
-                    style={{
-                        position: 'absolute',
-                        top: '1.5rem',
-                        right: '1.5rem',
-                        background: 'none',
-                        border: 'none',
-                        color: '#f6f2e9',
-                        fontSize: '1.5rem',
-                        cursor: 'pointer',
-                        padding: '0.5rem',
-                        zIndex: 320,
-                    }}
-                >
-                </button>
-
                 <MobileMenuInner>
                     <MobileMenuList>
-                        {[...NAV_LINKS, { href: '#contato', label: 'Contato' }].map((link, index) => (
-                            <MobileMenuItem key={link.href} $open={menuOpen} $delay={0.08 + index * 0.06}>
+                        {MOBILE_NAV_LINKS.map((link, index) => (
+                            <MobileMenuItem
+                                key={link.href}
+                                $open={menuOpen}
+                                $delay={0.08 + index * 0.06}
+                            >
                                 <MobileMenuLink
                                     href={link.href}
                                     onClick={(e) => {
