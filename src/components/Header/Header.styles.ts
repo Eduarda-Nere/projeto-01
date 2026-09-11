@@ -10,7 +10,7 @@ export const StyledHeader = styled.header<{ $scrolled: boolean }>`
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     border-bottom: 1px solid transparent;
-    transitiona: background 0.30s ${({ theme }) => theme.ease},
+    transition: background 0.30s ${({ theme }) => theme.ease},
         border-color 0.30s ${({ theme }) => theme.ease},
         box-shadow 0.30s ${({ theme }) => theme.ease};
 

@@ -177,6 +177,7 @@ export const ImageOverlay = styled.div`
   position: absolute;
   inset-x: 0;
   bottom: 0;
+  left: 0;
   height: 33%;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
   opacity: 0.6;
