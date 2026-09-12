@@ -9,13 +9,9 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     -webkit-tap-highlight-color: transparent;
-    scroll-behavior: smooth;
     scroll-padding-top: 80px;
     overflow-x: hidden;
-  }
-
-  html {
-    scrollbar-color: ${({ theme }) => theme.colors.navy} ${({ theme }) => theme.colors.paper};;
+    scrollbar-color: ${({ theme }) => theme.colors.navy} ${({ theme }) => theme.colors.paper};
   }
 
   ::-webkit-scrollbar {
@@ -24,13 +20,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.colors.paper};;
+    background: ${({ theme }) => theme.colors.paper};
   }
 
   ::-webkit-scrollbar-thumb {
     background: ${({ theme }) => theme.colors.navy};
     border-radius: 20px;
-    border: 3px solid ${({ theme }) => theme.colors.paper};;
+    border: 3px solid ${({ theme }) => theme.colors.paper};
     transition: background 0.3s ease;
   }
 
@@ -69,20 +65,13 @@ export const GlobalStyle = createGlobalStyle`
 
   h1, h2, h3, h4 {
     font-family: ${({ theme }) => theme.fonts.display};
-    font-weight: 400;
-    letter-spacing: -.01em;
+    letter-spacing: -0.01em;
   }
 
-  *:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.gold} !important;
-    outline-offset: 2px !important;
+  :focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.gold};
+    outline-offset: 2px;
     border-radius: 4px;
-  }
-
-  button:focus-visible,
-  a:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.colors.gold} !important;
-    outline-offset: 2px !important;
   }
 
   ::selection {

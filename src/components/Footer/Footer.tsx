@@ -17,13 +17,7 @@ import {
     FooterBottomInner,
 } from './Footer.styles';
 import { Logo } from '../Logo/Logo';
-
-const NAV_LINKS = [
-    { href: '#sobre', label: 'Sobre Nós' },
-    { href: '#cultura', label: 'Cultura' },
-    { href: '#processo', label: 'Processo' },
-    { href: '#projetos', label: 'Projetos' },
-];
+import { FOOTER_NAV_LINKS } from '../../constants/nav';
 
 function Footer() {
     const currentYear = new Date().getFullYear();
@@ -57,7 +51,7 @@ function Footer() {
                 <FooterNav aria-label="Navegação do rodapé">
                     <FooterTitle>Navegação</FooterTitle>
                     <FooterNavList>
-                        {NAV_LINKS.map((link) => (
+                        {FOOTER_NAV_LINKS.map((link) => (
                             <li key={link.href}>
                                 <FooterNavLink href={link.href}>{link.label}</FooterNavLink>
                             </li>

@@ -12,6 +12,8 @@ import {
 import { useParallax } from '../../hooks/useParallax';
 import heroVideo from '../../assets/video/video.mp4';
 
+const LOADER_MAX_WAIT = 3000;
+
 function Hero() {
     const [visible, setVisible] = useState(false);
     const parallaxRef = useParallax<HTMLVideoElement>(0.25);
@@ -21,14 +23,30 @@ function Hero() {
         return () => clearTimeout(timer);
     }, []);
 
-    const hideLoader = () => {
+    useEffect(() => {
+        const hideLoader = () => {
+            const loader = document.getElementById('initial-loader');
+            if (!loader) return;
+
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.3s ease';
+
+            window.setTimeout(() => {
+                loader.remove();
+            }, 400);
+        };
+
+        const timeout = window.setTimeout(hideLoader, LOADER_MAX_WAIT);
+
+        return () => window.clearTimeout(timeout);
+    }, []);
+
+    const handleVideoLoaded = () => {
         const loader = document.getElementById('initial-loader');
         if (loader) {
             loader.style.opacity = '0';
-            loader.style.transition = 'opacity 0.2s ease';
-            setTimeout(() => {
-                loader.remove();
-            }, 500);
+            loader.style.transition = 'opacity 0.3s ease';
+            window.setTimeout(() => loader.remove(), 400);
         }
     };
 
@@ -37,7 +55,7 @@ function Hero() {
             <HeroBg
                 ref={parallaxRef}
                 src={heroVideo}
-                onLoadedData={hideLoader}
+                onLoadedData={handleVideoLoaded}
                 autoPlay
                 loop
                 muted
@@ -48,10 +66,13 @@ function Hero() {
             <Wrap>
                 <HeroInner>
                     <HeroContent $visible={visible}>
-                        <HeroTitle $visible={visible}>Um contrato. Um responsável. Uma data.</HeroTitle>
+                        <HeroTitle $visible={visible}>
+                            Um contrato. Um responsável. Uma data.
+                        </HeroTitle>
                         <HeroDesc $visible={visible}>
-                            A Lopez Engenharia assume a obra inteira - viabilidade, projeto, aprovação, execução e entrega - em empreendimentos 
-                            residenciais, comerciais e industriais. Você acompanha, nós respondemos.
+                            A Lopez Engenharia assume a obra inteira - viabilidade, projeto,
+                            aprovação, execução e entrega - em empreendimentos residenciais,
+                            comerciais e industriais. Você acompanha, nós respondemos.
                         </HeroDesc>
                     </HeroContent>
                 </HeroInner>

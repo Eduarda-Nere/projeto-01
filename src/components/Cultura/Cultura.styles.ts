@@ -3,44 +3,10 @@ import styled from 'styled-components';
 export const CulturaSection = styled.section`
   background: ${({ theme }) => theme.colors.navy};
   color: ${({ theme }) => theme.colors.cream};
-  padding: clamp(4rem, 8vw, 7rem) 0;
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  scroll-margin-top: 80px;
   position: relative;
   overflow: hidden;
-`;
-
-export const Wrap = styled.div`
-  max-width: ${({ theme }) => theme.layout.container};
-  margin: 0 auto;
-  padding: 0 clamp(1.5rem, 4vw, 3rem);
-`;
-
-export const SectionHead = styled.div<{ $visible: boolean }>`
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto clamp(3rem, 6vw, 5rem);
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transform: translateY($({ $visible }) => ($visible ? '0' : '32px'));
-  transition: opacity 0.9s ${({ theme }) => theme.ease},
-              transform 0.9s ${({ theme }) => theme.ease};
-`;
-
-export const Title = styled.h2`
-  font-size: clamp(2rem, 3.6vw, 2.9rem);
-  line-height: 1.08;
-  color: ${({ theme }) => theme.colors.cream};
-  margin: 0 0 1rem;
-
-  span {
-    color: ${({ theme }) => theme.colors.gold};
-  }
-`;
-
-export const Subtitle = styled.p`
-  font-size: clamp(0.9rem, 1vw, 1rem);
-  line-height: 1.7;
-  color: rgba(250, 248, 244, 0.7);
-  margin: 0 auto;
-  max-width: 52ch;
 `;
 
 export const CardsGrid = styled.div<{ $visible: boolean }>`
@@ -48,7 +14,7 @@ export const CardsGrid = styled.div<{ $visible: boolean }>`
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(1.25rem, 2vw, 2rem);
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transform: translateY($({ $visible }) => ($visible ? '0' : '32px'));
+  transform: translateY(${({ $visible }) => ($visible ? '0' : '32px')});
   transition: opacity 0.9s ${({ theme }) => theme.ease} 0.1s,
               transform 0.9s ${({ theme }) => theme.ease} 0.1s;
 
@@ -71,7 +37,7 @@ export const Card = styled.article<{ $delay: number; $visible: boolean }>`
   flex-direction: column;
   gap: 0.9rem;
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transform: translateY($({ $visible }) => ($visible ? '0' : '24px'));
+  transform: translateY(${({ $visible }) => ($visible ? '0' : '24px')});
   transition: opacity 0.8s ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
               transform 0.8s ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
               border-color 0.3s ${({ theme }) => theme.ease},
@@ -101,7 +67,7 @@ export const CardTitle = styled.h3`
 `;
 
 export const CardText = styled.p`
-  font-size: clamp(0.82rem, 0.9vw, 0.9rem);
+  font-size: 0.95rem;
   line-height: 1.7;
   color: rgba(250, 248, 244, 0.7);
   margin: 0;

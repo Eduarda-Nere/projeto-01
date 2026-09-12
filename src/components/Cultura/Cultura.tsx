@@ -1,10 +1,7 @@
-import { useInView } from '../../hooks/useInView';
+import { useInViewOnce } from '../../hooks/useInViewOnce';
+import { SectionWrap, SectionHead, SectionTitle, SectionSubtitle } from '../ui';
 import {
     CulturaSection,
-    Wrap,
-    SectionHead,
-    Title,
-    Subtitle,
     CardsGrid,
     Card,
     CardNumber,
@@ -36,19 +33,21 @@ const CARDS = [
 ];
 
 function Cultura() {
-    const { ref: headRef, inView: headInView } = useInView<HTMLDivElement>();
-    const { ref: cardsRef, inView: cardsInView } = useInView<HTMLDivElement>();
+    const { ref: headRef, inView: headInView } = useInViewOnce<HTMLDivElement>();
+    const { ref: cardsRef, inView: cardsInView } = useInViewOnce<HTMLDivElement>();
 
     return (
         <CulturaSection id="cultura">
-            <Wrap>
-                <SectionHead ref={headRef} $visible={headInView}>
-                    <Title>Cultura</Title>
-                    <Subtitle>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </Subtitle>
-                </SectionHead>
+            <SectionWrap>
+                <div ref={headRef}>
+                    <SectionHead visible={headInView}>
+                        <SectionTitle $light>Cultura</SectionTitle>
+                        <SectionSubtitle $light>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </SectionSubtitle>
+                    </SectionHead>
+                </div>
 
                 <CardsGrid ref={cardsRef} $visible={cardsInView}>
                     {CARDS.map((card, index) => (
@@ -63,7 +62,7 @@ function Cultura() {
                         </Card>
                     ))}
                 </CardsGrid>
-            </Wrap>
+            </SectionWrap>
         </CulturaSection>
     );
 }

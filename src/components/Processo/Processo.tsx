@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from '../../hooks/useInView';
+import { useInViewOnce } from '../../hooks/useInViewOnce';
+import { SectionWrap } from '../ui';
 import {
-    CareerSection,
-    Wrap,
-    CareerGrid,
-    CareerContent,
+    ProcessoSection,
+    ProcessoGrid,
+    ProcessoContent,
     HeaderWrapper,
     Title,
     TabButton,
@@ -48,7 +48,7 @@ const SERVICES = [
 const AUTO_PLAY_DURATION = 5000;
 
 function Processo() {
-    const { ref, inView } = useInView<HTMLDivElement>();
+    const { ref, inView } = useInViewOnce<HTMLDivElement>();
     const [activeIndex, setActiveIndex] = useState(0);
     const [direction, setDirection] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
@@ -98,10 +98,10 @@ function Processo() {
     };
 
     return (
-        <CareerSection id="processo">
-            <Wrap>
-                <CareerGrid ref={ref}>
-                    <CareerContent $visible={inView}>
+        <ProcessoSection id="processo">
+            <SectionWrap>
+                <ProcessoGrid ref={ref}>
+                    <ProcessoContent $visible={inView}>
                         <HeaderWrapper>
                             <Title>Processo</Title>
                         </HeaderWrapper>
@@ -153,14 +153,14 @@ function Processo() {
                                 </TabButton>
                             );
                         })}
-                    </CareerContent>
+                    </ProcessoContent>
 
                     <GalleryWrapper>
                         <GalleryContainer
                             onMouseEnter={() => setIsPaused(true)}
                             onMouseLeave={() => setIsPaused(false)}
                         >
-                            <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                            <AnimatePresence initial={false} custom={direction}>
                                 <GalleryImage
                                     key={activeIndex}
                                     custom={direction}
@@ -190,7 +190,7 @@ function Processo() {
                                     }}
                                     aria-label="Anterior"
                                 >
-                                    <i className="fas fa-chevron-left"></i>
+                                    <i className="fas fa-chevron-left" aria-hidden="true" />
                                 </NavButton>
                                 <NavButton
                                     onClick={(e) => {
@@ -199,14 +199,14 @@ function Processo() {
                                     }}
                                     aria-label="Próximo"
                                 >
-                                    <i className="fas fa-chevron-right"></i>
+                                    <i className="fas fa-chevron-right" aria-hidden="true" />
                                 </NavButton>
                             </NavButtons>
                         </GalleryContainer>
                     </GalleryWrapper>
-                </CareerGrid>
-            </Wrap>
-        </CareerSection>
+                </ProcessoGrid>
+            </SectionWrap>
+        </ProcessoSection>
     );
 }
 

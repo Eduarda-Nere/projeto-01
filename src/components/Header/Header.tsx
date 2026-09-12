@@ -18,19 +18,8 @@ import {
     FlowButtonWrapper,
 } from './Header.styles';
 import { Logo } from '../Logo/Logo';
-import { FlowButton } from '../ui/FlowButton';
-
-const NAV_LINKS = [
-    { href: '#sobre', label: 'Sobre Nós' },
-    { href: '#cultura', label: 'Cultura' },
-    { href: '#processo', label: 'Processo' },
-    { href: '#projetos', label: 'Projetos' },
-];
-
-const MOBILE_NAV_LINKS = [
-    ...NAV_LINKS,
-    { href: '#contato', label: 'Contato' },
-];
+import { FlowButton } from '../ui';
+import { NAV_LINKS, MOBILE_NAV_LINKS } from '../../constants/nav';
 
 function Header() {
     const [scrolled, setScrolled] = useState(false);

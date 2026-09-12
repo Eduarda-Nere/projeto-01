@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface LogoProps {
@@ -13,7 +12,7 @@ const LogoSvg = styled.svg<{ $scrolled: boolean }>`
 
     .lopez-text {
         fill: ${({ $scrolled, theme }) =>
-        $scrolled ? theme.colors.navy : theme.colors.paper};};
+            $scrolled ? theme.colors.navy : theme.colors.paper};
         transition: fill 0.3s ${({ theme }) => theme.ease};
     }
 
@@ -28,10 +27,11 @@ const LogoSvg = styled.svg<{ $scrolled: boolean }>`
     }
 `;
 
-export const Logo: React.FC<LogoProps> = ({ scrolled = false }) => {
+export function Logo({ scrolled = false, className }: LogoProps) {
     return (
         <LogoSvg
             $scrolled={scrolled}
+            className={className}
             viewBox="0 0 180 130"
             xmlns="http://www.w3.org/2000/svg"
             role="img"
@@ -71,4 +71,4 @@ export const Logo: React.FC<LogoProps> = ({ scrolled = false }) => {
             </text>
         </LogoSvg>
     );
-};
+}

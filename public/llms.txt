@@ -5,7 +5,8 @@
 ## Páginas Principais
 - [Início](https://felipelopez.vercel.app/): Página inicial com a visão geral da empresa.
 - [Sobre Nós](https://felipelopez.vercel.app/#sobre): História, missão e valores da Lopez Engenharia.
-- [Carreira](https://felipelopez.vercel.app/#carreira): Áreas de atuação e projetos da equipe.
+- [Cultura](https://felipelopez.vercel.app/#cultura): Valores e princípios que guiam a atuação da empresa.
+- [Processo](https://felipelopez.vercel.app/#processo): Etapas do fluxo de trabalho, do projeto à entrega da chave.
 - [Projetos](https://felipelopez.vercel.app/#projetos): Portfólio com os principais projetos realizados.
 - [Perguntas Frequentes](https://felipelopez.vercel.app/#faq): Dúvidas comuns sobre os serviços e processo de orçamento.
 

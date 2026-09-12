@@ -1,41 +1,9 @@
-// src/components/Projects/Projects.styles.ts
 import styled from 'styled-components';
 
 export const ProjectsSection = styled.section`
   background: ${({ theme }) => theme.colors.paper};
   padding: clamp(3rem, 6vw, 5rem) 0;
   scroll-margin-top: 80px;
-`;
-
-export const Wrap = styled.div`
-  max-width: ${({ theme }) => theme.layout.container};
-  margin: 0 auto;
-  padding: 0 clamp(1.5rem, 4vw, 3rem);
-`;
-
-export const SectionHead = styled.div<{ $visible: boolean }>`
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto clamp(2.5rem, 5vw, 4rem);
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transform: translateY(${({ $visible }) => ($visible ? '0' : '44px')});
-  transition: opacity .9s ${({ theme }) => theme.ease},
-              transform .9s ${({ theme }) => theme.ease};
-`;
-
-export const Title = styled.h2`
-  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
-  line-height: 1.08;
-  color: ${({ theme }) => theme.colors.navy};
-  margin-bottom: 1rem;
-`;
-
-export const Subtitle = styled.p`
-  color: ${({ theme }) => theme.colors.ink70};
-  font-size: 1rem;
-  line-height: 1.7;
-  max-width: 52ch;
-  margin: 0 auto;
 `;
 
 export const CardsGrid = styled.div<{ $visible: boolean }>`

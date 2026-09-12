@@ -20,6 +20,15 @@ export const theme = {
         headerHeight: '96px',
     },
     ease: 'cubic-bezier(.22, .61, .36, 1)',
+    easeOut: 'cubic-bezier(0.23, 1, 0.32, 1)',
+    duration: {
+        fast: '0.3s',
+        base: '0.4s',
+        medium: '0.6s',
+        slow: '0.8s',
+        slower: '0.9s',
+        slowest: '1.1s',
+    },
     gap: 'clamp(1.25rem, 3vw, 2.5rem)',
 } as const;
 

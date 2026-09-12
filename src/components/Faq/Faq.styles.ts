@@ -6,33 +6,6 @@ export const FaqSection = styled.section`
   scroll-margin-top: 80px;
 `;
 
-export const Wrap = styled.div`
-  max-width: ${({ theme }) => theme.layout.container};
-  margin: 0 auto;
-  padding: 0 clamp(1.5rem, 4vw, 3rem);
-`;
-
-export const SectionHeadCenter = styled.div<{ $visible: boolean }>`
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto clamp(2.5rem, 5vw, 4rem);
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transform: translateY(${({ $visible }) => ($visible ? '0' : '44px')});
-  transition: opacity .9s ${({ theme }) => theme.ease},
-              transform .9s ${({ theme }) => theme.ease};
-
-  h2 {
-    color: ${({ theme }) => theme.colors.navy};
-  }
-`;
-
-export const Title = styled.h2`
-  font-size: clamp(2rem, 3.6vw, 2.9rem);
-  line-height: 1.08;
-  margin-top: .9rem;
-  margin-bottom: 1.4rem;
-`;
-
 export const FaqList = styled.div<{ $visible: boolean }>`
   display: flex;
   flex-direction: column;
@@ -46,16 +19,9 @@ export const FaqList = styled.div<{ $visible: boolean }>`
 
 export const FaqItem = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.lineOnCream};
-  width: calc(100% - 5px);
-  margin-left: 0;
-  padding-right: 0;
 
   &:last-child {
     border-bottom: none;
-  }
-
-  @media (max-width: 768px) {
-    width: calc(100% - 5px);
   }
 `;
 
@@ -101,7 +67,7 @@ export const FaqAnswer = styled.div<{ $open: boolean }>`
 
 const AnswerTextBase = styled.div`
   color: ${({ theme }) => theme.colors.ink70};
-  font-size: .95rem;
+  font-size: 0.95rem;
   line-height: 1.8;
   text-align: justify;
   max-width: 100%;
@@ -129,7 +95,7 @@ export const FaqListPoint = styled.ul`
 
 export const FaqListItem = styled.li`
   color: ${({ theme }) => theme.colors.ink70};
-  font-size: .95rem;
+  font-size: 0.95rem;
   line-height: 1.8;
   padding-left: 1.5rem;
   padding-right: 0;

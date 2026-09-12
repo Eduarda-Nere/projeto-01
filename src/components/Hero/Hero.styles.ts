@@ -57,6 +57,7 @@ export const HeroContent = styled.div<{ $visible: boolean }>`
 export const HeroTitle = styled.h1<{ $visible: boolean }>`
   font-size: clamp(3.7rem, 8.5vw, 6rem);
   line-height: 1;
+  font-weight: 400;
   color: ${({ theme }) => theme.colors.paper};
   max-width: 16ch;
   margin: 0;
