@@ -1,8 +1,8 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import About from './components/About/About';
-import Cultura from './components/Cultura/Cultura';
 import Processo from './components/Processo/Processo';
+import Cultura from './components/Cultura/Cultura';
 import Faq from './components/Faq/Faq';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';

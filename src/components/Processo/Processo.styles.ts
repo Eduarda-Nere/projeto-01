@@ -1,39 +1,22 @@
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 
 export const ProcessoSection = styled.section`
-    background: ${({ theme }) => theme.colors.paper};
+    background: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.cream};
     padding: clamp(3rem, 6vw, 5rem) 0;
     scroll-margin-top: 80px;
+    position: relative;
+    overflow: hidden;
 `;
 
-export const ProcessoGrid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(2.5rem, 6vw, 5rem);
-    align-items: start;
-
-    @media (max-width: 980px) {
-        grid-template-columns: 1fr;
-    }
-`;
-
-export const ProcessoContent = styled.div<{ $visible: boolean }>`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+export const Head = styled.div<{ $visible: boolean }>`
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
     opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateX(${({ $visible }) => ($visible ? '0' : '-56px')});
+    transform: translateY(${({ $visible }) => ($visible ? '0' : '32px')});
     transition: opacity ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease},
                 transform ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease};
-
-    @media (max-width: 980px) {
-        order: 1;
-    }
-`;
-
-export const HeaderWrapper = styled.div`
-    margin-bottom: 2rem;
 `;
 
 export const Title = styled.h2`
@@ -41,188 +24,108 @@ export const Title = styled.h2`
     line-height: 1.08;
     font-weight: 400;
     letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.cream};
+    margin: 0 0 0.75rem;
+`;
+
+export const Tagline = styled.p`
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: ${({ theme }) => theme.colors.gold};
     margin: 0;
-    max-width: 18ch;
 `;
 
-export const TabButton = styled.button<{ $active: boolean }>`
+export const CardsGrid = styled.div<{ $visible: boolean }>`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1.25rem, 2vw, 2rem);
+    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+    transform: translateY(${({ $visible }) => ($visible ? '0' : '32px')});
+    transition: opacity ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease} 0.1s,
+                transform ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease} 0.1s;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 560px) {
+        grid-template-columns: 1fr;
+    }
+`;
+
+export const Card = styled.article<{ $delay: number; $visible: boolean }>`
     position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.5rem 0;
-    text-align: left;
-    border-top: 1px solid ${({ theme }) => theme.colors.lineOnCream};
-    background: transparent;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    cursor: pointer;
-    width: 100%;
-    transition: color ${({ theme }) => theme.duration.medium} ${({ theme }) => theme.ease};
-
-    &:first-child {
-        border-top: none;
-    }
-
-    color: ${({ $active, theme }) =>
-        $active ? theme.colors.navy : theme.colors.ink70};
-
-    &:hover {
-        color: ${({ theme }) => theme.colors.navy};
-    }
-
-    @media (max-width: 768px) {
-        padding: 1.25rem 0;
-    }
-`;
-
-export const TabContent = styled.div`
+    padding: 1.75rem 1.5rem;
+    border: 1px solid rgba(210, 170, 78, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.015);
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    flex: 1;
-`;
-
-export const TabTitle = styled.span<{ $active: boolean }>`
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    transition: color ${({ theme }) => theme.duration.medium} ${({ theme }) => theme.ease};
-    color: ${({ $active, theme }) =>
-        $active ? theme.colors.navy : 'inherit'};
-`;
-
-export const TabDescription = styled.div`
-    overflow: hidden;
-`;
-
-export const TabDescriptionText = styled.p`
-    color: ${({ theme }) => theme.colors.ink70};
-    font-size: 0.95rem;
-    line-height: 1.7;
-    max-width: 40ch;
-    padding-bottom: 0.5rem;
-`;
-
-export const ProgressBar = styled.div`
-    position: absolute;
-    left: -1rem;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: ${({ theme }) => theme.colors.lineOnCream};
-
-    @media (max-width: 768px) {
-        left: -0.75rem;
-    }
-`;
-
-export const ProgressFill = styled(motion.div)`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: ${({ theme }) => theme.colors.navy};
-    transform-origin: top;
-`;
-
-export const GalleryWrapper = styled.div`
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: flex-start;
-    padding-top: 4.5rem;
-
-    @media (max-width: 980px) {
-        order: 2;
-        padding-top: 0;
-    }
-`;
-
-export const GalleryContainer = styled.div`
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4/3;
-    border-radius: 1rem;
-    overflow: hidden;
-    background: ${({ theme }) => theme.colors.paper};
-`;
-
-export const GalleryImage = styled(motion.div)`
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    will-change: transform, opacity;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-`;
-
-export const ImageOverlay = styled.div`
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 33%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
-    opacity: 0.6;
-`;
-
-export const NavButtons = styled.div`
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    display: flex;
-    gap: 0.5rem;
-    z-index: 20;
-
-    @media (min-width: 768px) {
-        bottom: 2rem;
-        right: 2rem;
-        gap: 0.75rem;
-    }
-`;
-
-export const NavButton = styled.button`
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: ${({ theme }) => theme.colors.navy};
-    cursor: pointer;
-    transition: all ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
-
-    i {
-        font-size: 0.9rem;
-    }
+    gap: 1rem;
+    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+    transform: translateY(${({ $visible }) => ($visible ? '0' : '24px')});
+    transition: opacity ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
+                transform ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
+                border-color ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease},
+                background ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
 
     &:hover {
-        background: ${({ theme }) => theme.colors.paper};
+        border-color: ${({ theme }) => theme.colors.gold};
+        background: rgba(210, 170, 78, 0.05);
     }
+`;
 
-    &:active {
-        transform: scale(0.9);
-    }
+export const CardNumber = styled.span`
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: ${({ theme }) => theme.colors.gold};
+    opacity: 0.9;
+`;
 
-    @media (min-width: 768px) {
-        width: 3rem;
-        height: 3rem;
+export const CardTitle = styled.h3`
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: ${({ theme }) => theme.colors.cream};
+    margin: 0;
+`;
 
-        i {
-            font-size: 1.1rem;
-        }
-    }
+export const CardText = styled.p`
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: rgba(250, 248, 244, 0.7);
+    margin: 0;
+`;
+
+export const CardDelivery = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid ${({ theme }) => theme.colors.lineOnNavy};
+`;
+
+export const CardDeliveryLabel = styled.span`
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.colors.gold};
+    opacity: 0.85;
+`;
+
+export const CardDeliveryText = styled.span`
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: rgba(250, 248, 244, 0.55);
 `;
