@@ -1,32 +1,30 @@
-import { useState, useCallback, useRef, useMemo } from 'react';
-import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, useReducedMotion } from 'framer-motion';
 import { SectionWrap } from '../ui';
 import {
     CulturaSection,
     Header,
     Title,
     Subtitle,
-    Stage,
-    TimelineScale,
-    TimelineColumn,
-    TimelineCanvas,
-    TimelineTrack,
-    TimelineProgress,
-    TimelinePoints,
-    TimelinePoint,
-    Dot,
-    PointLabel,
-    NavBar,
-    ArrowButton,
-    ContentPanel,
-    PanelSizer,
-    PanelInner,
-    PanelKicker,
+    PillarList,
+    PillarRow,
+    RowMain,
+    RowKicker,
+    RowTitleGroup,
+    RowTitle,
+    RowTeaser,
+    RowAction,
+    FooterNote,
+    ModalOverlay,
+    ModalPanel,
+    ModalClose,
+    ModalKicker,
+    ModalTitle,
     TopicList,
     TopicItem,
     TopicTitle,
     TopicParagraph,
-    FooterNote,
 } from './Cultura.styles';
 
 type Topic = {
@@ -38,15 +36,17 @@ type Topic = {
 type Pillar = {
     id: string;
     kicker: string;
-    short: string;
+    title: string;
+    topicsLabel: string;
     topics: Topic[];
 };
 
 const PILLARS: Pillar[] = [
     {
         id: 'metodo',
-        kicker: 'O método · como pensamos a obra',
-        short: 'Método',
+        kicker: 'Como pensamos a obra',
+        title: 'Método',
+        topicsLabel: 'Simplificação, Organização e Planejamento',
         topics: [
             {
                 title: 'Simplificação',
@@ -56,7 +56,7 @@ const PILLARS: Pillar[] = [
                     'Nenhuma etapa entra em execução sem estar descrita em linguagem que a equipe de campo entende sem intérprete.',
             },
             {
-                title: 'Organização e planejamento',
+                title: 'Organização e Planejamento',
                 paragraph:
                     'O trabalho pesado acontece antes da primeira máquina no terreno. Compatibilizar, sequenciar, dimensionar e travar fornecedor é mais barato na mesa do que na obra parada.',
                 practice:
@@ -66,8 +66,10 @@ const PILLARS: Pillar[] = [
     },
     {
         id: 'pessoas',
-        kicker: 'As pessoas · como trabalhamos juntos',
-        short: 'Pessoas',
+        kicker: 'Como trabalhamos juntos',
+        title: 'Pessoas',
+        topicsLabel:
+            'Delegação com autoridade, Evolução a cada obra e Servir é resolver',
         topics: [
             {
                 title: 'Delegação com autoridade',
@@ -94,8 +96,9 @@ const PILLARS: Pillar[] = [
     },
     {
         id: 'compromisso',
-        kicker: 'O compromisso · o que garantimos',
-        short: 'Compromisso',
+        kicker: 'O que garantimos',
+        title: 'Compromisso',
+        topicsLabel: 'Transparência, Previsibilidade e Segurança',
         topics: [
             {
                 title: 'Transparência',
@@ -122,236 +125,190 @@ const PILLARS: Pillar[] = [
     },
 ];
 
-const headerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-    },
-};
+const EASE = [0.23, 1, 0.32, 1] as const;
 
-const headerItem = {
-    hidden: { opacity: 0, y: 24 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.8, ease: [0.23, 1, 0.32, 1] as const },
-    },
-};
-
-const panelVariants = {
-    enter: (dir: number) => ({
-        opacity: 0,
-        y: dir > 0 ? 24 : -24,
-        filter: 'blur(6px)',
-    }),
-    center: {
-        opacity: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as const },
-    },
-    exit: (dir: number) => ({
-        opacity: 0,
-        y: dir > 0 ? -24 : 24,
-        filter: 'blur(6px)',
-        transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as const },
-    }),
-};
-
-const topicListVariants = {
+const listContainer = {
     hidden: {},
-    visible: {
-        transition: { staggerChildren: 0.08, delayChildren: 0.15 },
-    },
+    visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
 };
 
-const topicItemVariants = {
-    hidden: { opacity: 0, x: -12 },
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const },
-    },
+const rowVariants = {
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
-export default function Cultura() {
-    const sectionRef = useRef<HTMLElement>(null);
+function Cultura() {
+    const [activeId, setActiveId] = useState<string | null>(null);
+    const activePillar = PILLARS.find((pillar) => pillar.id === activeId) ?? null;
+    const prefersReducedMotion = useReducedMotion();
 
-    const [active, setActive] = useState(0);
-    const [direction, setDirection] = useState(1);
+    useEffect(() => {
+        if (activeId === null) return;
 
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start end', 'end start'],
-    });
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setActiveId(null);
+        };
 
-    const stageScale = useTransform(
-        scrollYProgress,
-        [0, 0.5, 1],
-        [0.97, 1, 0.98]
-    );
+        document.addEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'hidden';
+        window.__lenis?.stop();
 
-    const progress = PILLARS.length > 1 ? active / (PILLARS.length - 1) : 0;
-
-    const heaviest = useMemo(
-        () =>
-            PILLARS.reduce(
-                (max, p) => (p.topics.length > max.topics.length ? p : max),
-                PILLARS[0]
-            ),
-        []
-    );
-
-    const goTo = useCallback((next: number) => {
-        setActive((prev) => {
-            if (next === prev) return prev;
-            const total = PILLARS.length;
-            const forward = (next - prev + total) % total <= total / 2;
-            setDirection(forward ? 1 : -1);
-            return next;
-        });
-    }, []);
-
-    const handlePrev = useCallback(() => {
-        setDirection(-1);
-        setActive((prev) => (prev - 1 + PILLARS.length) % PILLARS.length);
-    }, []);
-
-    const handleNext = useCallback(() => {
-        setDirection(1);
-        setActive((prev) => (prev + 1) % PILLARS.length);
-    }, []);
-
-    const current = PILLARS[active];
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = '';
+            window.__lenis?.start();
+        };
+    }, [activeId]);
 
     return (
-        <CulturaSection id="cultura" ref={sectionRef}>
-            <SectionWrap>
-                <Header
-                    variants={headerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.4 }}
-                >
-                    <Title variants={headerItem}>Cultura Lopez</Title>
-                    <Subtitle variants={headerItem}>
-                        A Cultura Lopez define o que aceitamos e recusamos em cada
-                        obra: imprevisto é falha de método, e resultado vem de quem
-                        entende o porquê.
-                    </Subtitle>
-                </Header>
+        <>
+            <CulturaSection id="cultura">
+                <SectionWrap>
+                    <Header
+                        initial={{ opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.4 }}
+                        transition={{ duration: 0.8, ease: EASE }}
+                    >
+                        <Title>Cultura Lopez</Title>
+                        <Subtitle>
+                            A Cultura Lopez define o que aceitamos e recusamos
+                            em cada obra: imprevisto é falha de método, e
+                            resultado vem de quem entende o porquê.
+                        </Subtitle>
+                    </Header>
 
-                <Stage>
-                    <TimelineScale style={{ scale: stageScale }}>
-                        <TimelineColumn>
-                            <TimelineCanvas>
-                                <TimelineTrack>
-                                    <TimelineProgress $progress={progress} />
-                                </TimelineTrack>
-
-                                <TimelinePoints>
-                                    {PILLARS.map((pillar, i) => {
-                                        const isActive = i === active;
-
-                                        return (
-                                            <TimelinePoint
-                                                key={pillar.id}
-                                                $active={isActive}
-                                                aria-label={pillar.kicker}
-                                                aria-pressed={isActive}
-                                                onClick={() => goTo(i)}
-                                                whileHover={{ scale: 1.06 }}
-                                                whileTap={{ scale: 0.94 }}
-                                            >
-                                                <Dot
-                                                    className="dot"
-                                                    $active={isActive}
-                                                    layout
-                                                />
-                                                <PointLabel $active={isActive}>
-                                                    {pillar.short}
-                                                </PointLabel>
-                                            </TimelinePoint>
-                                        );
-                                    })}
-                                </TimelinePoints>
-                            </TimelineCanvas>
-                        </TimelineColumn>
-                    </TimelineScale>
-
-                    <NavBar>
-                        <ArrowButton
-                            type="button"
-                            aria-label="Pilar anterior"
-                            onClick={handlePrev}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.92 }}
-                        >
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M15 6 L9 12 L15 18" />
-                            </svg>
-                        </ArrowButton>
-
-                        <ArrowButton
-                            type="button"
-                            aria-label="Próximo pilar"
-                            onClick={handleNext}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.92 }}
-                        >
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M9 6 L15 12 L9 18" />
-                            </svg>
-                        </ArrowButton>
-                    </NavBar>
-
-                    <ContentPanel>
-                        <PanelSizer aria-hidden="true">
-                            <PanelKicker>{heaviest.kicker}</PanelKicker>
-                            <TopicList as="div">
-                                {heaviest.topics.map((topic) => (
-                                    <TopicItem key={topic.title}>
-                                        <TopicTitle>
-                                            {topic.title}
-                                        </TopicTitle>
-                                        <TopicParagraph>
-                                            {topic.paragraph}
-                                        </TopicParagraph>
-                                        <TopicParagraph>
-                                            <strong>Na prática:</strong>{' '}
-                                            {topic.practice}
-                                        </TopicParagraph>
-                                    </TopicItem>
-                                ))}
-                            </TopicList>
-                        </PanelSizer>
-
-                        <AnimatePresence
-                            mode="wait"
-                            custom={direction}
-                            initial={false}
-                        >
-                            <PanelInner
-                                key={current.id}
-                                custom={direction}
-                                variants={panelVariants}
-                                initial="enter"
-                                animate="center"
-                                exit="exit"
+                    <PillarList
+                        variants={listContainer}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                    >
+                        {PILLARS.map((pillar) => (
+                            <PillarRow
+                                key={pillar.id}
+                                variants={rowVariants}
+                                onClick={() => setActiveId(pillar.id)}
+                                whileHover={
+                                    prefersReducedMotion ? undefined : 'hover'
+                                }
+                                whileTap={
+                                    prefersReducedMotion
+                                        ? undefined
+                                        : { opacity: 0.6 }
+                                }
+                                initial="rest"
                             >
-                                <PanelKicker>{current.kicker}</PanelKicker>
-
-                                <TopicList
-                                    variants={topicListVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                >
-                                    {current.topics.map((topic) => (
-                                        <TopicItem
-                                            key={topic.title}
-                                            variants={topicItemVariants}
+                                <RowMain>
+                                    <RowKicker
+                                        variants={{
+                                            rest: { color: '#d2aa4e' },
+                                            hover: { x: 4 },
+                                        }}
+                                        transition={{
+                                            duration: 0.4,
+                                            ease: EASE,
+                                        }}
+                                    >
+                                        {pillar.kicker}
+                                    </RowKicker>
+                                    <RowTitleGroup>
+                                        <RowTitle
+                                            variants={{
+                                                rest: { x: 0 },
+                                                hover: { x: 8 },
+                                            }}
+                                            transition={{
+                                                duration: 0.4,
+                                                ease: EASE,
+                                            }}
                                         >
+                                            {pillar.title}
+                                        </RowTitle>
+                                        <RowTeaser
+                                            variants={{
+                                                rest: { x: 0 },
+                                                hover: { x: 8 },
+                                            }}
+                                            transition={{
+                                                duration: 0.4,
+                                                ease: EASE,
+                                            }}
+                                        >
+                                            {pillar.topicsLabel}
+                                        </RowTeaser>
+                                    </RowTitleGroup>
+                                </RowMain>
+
+                                <RowAction
+                                    aria-hidden="true"
+                                    variants={{
+                                        rest: { rotate: 0 },
+                                        hover: { rotate: 45 },
+                                    }}
+                                    transition={{ duration: 0.4, ease: EASE }}
+                                >
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12 5v14M5 12h14" />
+                                    </svg>
+                                </RowAction>
+                            </PillarRow>
+                        ))}
+                    </PillarList>
+
+                    <FooterNote
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.6 }}
+                        transition={{ duration: 0.8, ease: EASE }}
+                    >
+                        <strong>Confiabilidade</strong> não está nesta lista
+                        porque não é um princípio: é o que sobra quando todos os
+                        outros foram cumpridos até o fim. Nenhuma empresa
+                        consegue declarar confiabilidade — só consegue ser
+                        encontrada tendo-a.
+                    </FooterNote>
+                </SectionWrap>
+            </CulturaSection>
+
+            {createPortal(
+                <AnimatePresence>
+                    {activePillar && (
+                        <ModalOverlay
+                            onClick={() => setActiveId(null)}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.35, ease: EASE }}
+                        >
+                            <ModalPanel
+                                data-lenis-prevent
+                                role="dialog"
+                                aria-modal="true"
+                                aria-label={activePillar.title}
+                                onClick={(event) => event.stopPropagation()}
+                                initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                                transition={{ duration: 0.4, ease: EASE }}
+                            >
+                                <ModalClose
+                                    onClick={() => setActiveId(null)}
+                                    aria-label="Fechar"
+                                >
+                                    ×
+                                </ModalClose>
+
+                                <ModalKicker>
+                                    {activePillar.kicker}
+                                </ModalKicker>
+                                <ModalTitle>
+                                    {activePillar.title}
+                                </ModalTitle>
+
+                                <TopicList>
+                                    {activePillar.topics.map((topic) => (
+                                        <TopicItem key={topic.title}>
                                             <TopicTitle>
                                                 {topic.title}
                                             </TopicTitle>
@@ -359,29 +316,22 @@ export default function Cultura() {
                                                 {topic.paragraph}
                                             </TopicParagraph>
                                             <TopicParagraph>
-                                                <strong>Na prática:</strong>{' '}
+                                                <strong>
+                                                    Na prática:
+                                                </strong>{' '}
                                                 {topic.practice}
                                             </TopicParagraph>
                                         </TopicItem>
                                     ))}
                                 </TopicList>
-                            </PanelInner>
-                        </AnimatePresence>
-                    </ContentPanel>
-                </Stage>
-
-                <FooterNote
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.6 }}
-                    transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-                >
-                    <strong>Confiabilidade</strong> não está nesta lista porque não
-                    é um princípio: é o que sobra quando todos os outros foram
-                    cumpridos até o fim. Nenhuma empresa consegue declarar
-                    confiabilidade — só consegue ser encontrada tendo-a.
-                </FooterNote>
-            </SectionWrap>
-        </CulturaSection>
+                            </ModalPanel>
+                        </ModalOverlay>
+                    )}
+                </AnimatePresence>,
+                document.body
+            )}
+        </>
     );
 }
+
+export default Cultura;
