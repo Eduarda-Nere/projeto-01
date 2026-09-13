@@ -97,7 +97,7 @@ export const FaqListItem = styled.li`
   color: ${({ theme }) => theme.colors.ink70};
   font-size: 0.95rem;
   line-height: 1.8;
-  padding-left: 1.5rem;
+  padding-left: 2rem;
   padding-right: 0;
   position: relative;
   margin-bottom: 0.25rem;
@@ -106,12 +106,13 @@ export const FaqListItem = styled.li`
   &::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: 8px;
     top: 0.7rem;
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background-color: ${({ theme }) => theme.colors.gold};
+    background-color: #d2aa4e;
+    box-shadow: 0 0 0 4px rgba(200, 168, 100, 0.15);
   }
 
   &:last-child {
