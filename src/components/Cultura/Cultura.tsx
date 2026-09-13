@@ -1,249 +1,387 @@
-import { useState, useEffect, useCallback } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { useInViewOnce } from '../../hooks/useInViewOnce';
+import { useState, useCallback, useRef, useMemo } from 'react';
+import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { SectionWrap } from '../ui';
 import {
     CulturaSection,
-    CulturaIntro,
+    Header,
     Title,
     Subtitle,
-    CulturaGrid,
-    CulturaContent,
-    TabButton,
-    TabContent,
-    TabTitle,
-    TabDescription,
+    Stage,
+    TimelineScale,
+    TimelineColumn,
+    TimelineCanvas,
+    TimelineTrack,
+    TimelineProgress,
+    TimelinePoints,
+    TimelinePoint,
+    Dot,
+    PointLabel,
+    NavBar,
+    ArrowButton,
+    ContentPanel,
+    PanelSizer,
+    PanelInner,
+    PanelKicker,
     TopicList,
-    Topic,
+    TopicItem,
     TopicTitle,
     TopicParagraph,
-    ProgressBar,
-    ProgressFill,
-    GalleryWrapper,
-    GalleryFrame,
-    GallerySlide,
+    FooterNote,
 } from './Cultura.styles';
-import fundoImg from '../../assets/img/fundo.jpg';
 
-const GROUPS = [
+type Topic = {
+    title: string;
+    paragraph: string;
+    practice: string;
+};
+
+type Pillar = {
+    id: string;
+    kicker: string;
+    short: string;
+    topics: Topic[];
+};
+
+const PILLARS: Pillar[] = [
     {
         id: 'metodo',
-        alt: 'O método — como pensamos a obra',
-        title: (
-            <>
-                O método
-                <span className="dot" aria-hidden="true" />
-                como pensamos a obra
-            </>
-        ),
-        image: fundoImg,
+        kicker: 'O método · como pensamos a obra',
+        short: 'Método',
         topics: [
             {
                 title: 'Simplificação',
                 paragraph:
-                    'Quebrar a obra até que cada parte seja executável sem improviso.',
+                    'Do simples ao complexo, bem feito. Complexidade é problema mal decomposto. Quebramos a obra até cada parte ser executável sem improviso.',
+                practice:
+                    'Nenhuma etapa entra em execução sem estar descrita em linguagem que a equipe de campo entende sem intérprete.',
             },
             {
                 title: 'Organização e planejamento',
                 paragraph:
-                    'Compatibilizar projetos, sequenciar serviços e travar fornecedor antes da obra começar.',
+                    'O trabalho pesado acontece antes da primeira máquina no terreno. Compatibilizar, sequenciar, dimensionar e travar fornecedor é mais barato na mesa do que na obra parada.',
+                practice:
+                    'Toda obra começa com cronograma físico-financeiro fechado e lista de suprimentos definida, não com a promessa de que serão feitos depois.',
             },
         ],
     },
     {
         id: 'pessoas',
-        alt: 'As pessoas — como trabalhamos juntos',
-        title: (
-            <>
-                As pessoas
-                <span className="dot" aria-hidden="true" />
-                como trabalhamos juntos
-            </>
-        ),
-        image: fundoImg,
+        kicker: 'As pessoas · como trabalhamos juntos',
+        short: 'Pessoas',
         topics: [
             {
                 title: 'Delegação com autoridade',
                 paragraph:
-                    'Quem executa tem informação e autoridade para decidir.',
+                    'Delegar é entregar a tarefa com informação e autoridade para decidir. Quem está na frente de serviço vê antes e decide antes. Confiança verificada, não hierarquia declarada.',
+                practice:
+                    'Quem executa conhece o porquê da decisão, não só a ordem, e tem canal direto para interromper o que estiver errado.',
             },
             {
                 title: 'Evolução a cada obra',
                 paragraph:
-                    'Toda obra termina com revisão do que atrasou e do que será diferente.',
+                    'Toda obra ensina algo; a que não ensinou foi mal observada. Erro sem aprendizado registrado volta mais caro na obra seguinte.',
+                practice:
+                    'Toda obra encerra com uma revisão do que atrasou, do que custou mais que o previsto e do que será feito diferente na próxima.',
             },
             {
                 title: 'Servir é resolver',
                 paragraph:
-                    'O cliente contratou uma obra, não a tarefa de coordenar fornecedores.',
+                    'Atender bem é devolver o problema resolvido, não responder rápido. Coordenar fornecedores e resolver pendências é nossa parte, não do cliente.',
+                practice:
+                    'Nenhuma pendência de obra é devolvida ao cliente como tarefa — ela chega a ele já com a solução proposta e o custo, para decisão.',
             },
         ],
     },
     {
         id: 'compromisso',
-        alt: 'O compromisso — o que garantimos',
-        title: (
-            <>
-                O compromisso
-                <span className="dot" aria-hidden="true" />
-                o que garantimos
-            </>
-        ),
-        image: fundoImg,
+        kicker: 'O compromisso · o que garantimos',
+        short: 'Compromisso',
         topics: [
             {
                 title: 'Transparência',
                 paragraph:
-                    'O cliente vê o mesmo que nós: avanço, custo e desvio.',
+                    'O cliente enxerga o mesmo que nós enxergamos: o avanço real, o custo acumulado e o desvio, quando existe. Notícia ruim não melhora com o tempo. Piora, e chega mais cara.',
+                practice:
+                    'Relatório periódico com avanço, custo e desvios, entregue mesmo — principalmente — quando o desvio é desfavorável.',
             },
             {
                 title: 'Previsibilidade',
                 paragraph:
-                    'Só assumimos prazo depois do projeto executivo, e não antes.',
+                    'Prazo e custo são compromisso, não estimativa otimista para ganhar a concorrência. É por isso que só assumimos prazo depois do projeto executivo, e não antes.',
+                practice:
+                    'O que muda depois de assinado só muda por decisão do cliente, registrada por escrito, com o custo dessa mudança na mesma folha.',
             },
             {
                 title: 'Segurança',
                 paragraph:
-                    'Serviço que não pode ser feito com segurança não é feito.',
+                    'Não é meta, indicador nem programa: é a condição para a obra existir. Serviço que não pode ser feito com segurança não é feito — é replanejado.',
+                practice:
+                    'Qualquer pessoa no canteiro pode parar um serviço inseguro, sem precisar de autorização e sem consequência por ter parado.',
             },
         ],
     },
 ];
 
-const AUTO_PLAY_DURATION = 8000;
+const headerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+    },
+};
 
-const slideVariants = {
-    enter: (direction: number) => ({
-        x: direction > 0 ? '100%' : '-100%',
+const headerItem = {
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.8, ease: [0.23, 1, 0.32, 1] as const },
+    },
+};
+
+const panelVariants = {
+    enter: (dir: number) => ({
+        opacity: 0,
+        y: dir > 0 ? 24 : -24,
+        filter: 'blur(6px)',
     }),
     center: {
-        x: 0,
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as const },
     },
-    exit: (direction: number) => ({
-        x: direction > 0 ? '-100%' : '100%',
+    exit: (dir: number) => ({
+        opacity: 0,
+        y: dir > 0 ? -24 : 24,
+        filter: 'blur(6px)',
+        transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as const },
     }),
 };
 
-function Cultura() {
-    const { ref: headRef, inView: headInView } = useInViewOnce<HTMLDivElement>();
-    const { ref: bodyRef, inView: bodyInView } = useInViewOnce<HTMLDivElement>();
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [direction, setDirection] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
+const topicListVariants = {
+    hidden: {},
+    visible: {
+        transition: { staggerChildren: 0.08, delayChildren: 0.15 },
+    },
+};
 
-    const goTo = useCallback((next: number, dir: number) => {
-        setDirection(dir);
-        setActiveIndex(next);
+const topicItemVariants = {
+    hidden: { opacity: 0, x: -12 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const },
+    },
+};
+
+export default function Cultura() {
+    const sectionRef = useRef<HTMLElement>(null);
+
+    const [active, setActive] = useState(0);
+    const [direction, setDirection] = useState(1);
+
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start end', 'end start'],
+    });
+
+    const stageScale = useTransform(
+        scrollYProgress,
+        [0, 0.5, 1],
+        [0.97, 1, 0.98]
+    );
+
+    const progress = PILLARS.length > 1 ? active / (PILLARS.length - 1) : 0;
+
+    const heaviest = useMemo(
+        () =>
+            PILLARS.reduce(
+                (max, p) => (p.topics.length > max.topics.length ? p : max),
+                PILLARS[0]
+            ),
+        []
+    );
+
+    const goTo = useCallback((next: number) => {
+        setActive((prev) => {
+            if (next === prev) return prev;
+            const total = PILLARS.length;
+            const forward = (next - prev + total) % total <= total / 2;
+            setDirection(forward ? 1 : -1);
+            return next;
+        });
+    }, []);
+
+    const handlePrev = useCallback(() => {
+        setDirection(-1);
+        setActive((prev) => (prev - 1 + PILLARS.length) % PILLARS.length);
     }, []);
 
     const handleNext = useCallback(() => {
-        const next = (activeIndex + 1) % GROUPS.length;
-        goTo(next, 1);
-    }, [activeIndex, goTo]);
+        setDirection(1);
+        setActive((prev) => (prev + 1) % PILLARS.length);
+    }, []);
 
-    const handleTabClick = (index: number) => {
-        if (index === activeIndex) return;
-        const dir = index > activeIndex ? 1 : -1;
-        goTo(index, dir);
-        setIsPaused(false);
-    };
-
-    useEffect(() => {
-        if (isPaused) return;
-
-        const interval = setInterval(() => {
-            handleNext();
-        }, AUTO_PLAY_DURATION);
-
-        return () => clearInterval(interval);
-    }, [activeIndex, isPaused, handleNext]);
+    const current = PILLARS[active];
 
     return (
-        <CulturaSection id="cultura">
+        <CulturaSection id="cultura" ref={sectionRef}>
             <SectionWrap>
-                <CulturaIntro ref={headRef} $visible={headInView}>
-                    <Title>Cultura Lopez</Title>
-                    <Subtitle>
-                        O critério que decide o que aceitamos e o que recusamos — em
-                        cada proposta, cada obra e cada decisão de canteiro.
+                <Header
+                    variants={headerContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.4 }}
+                >
+                    <Title variants={headerItem}>Cultura Lopez</Title>
+                    <Subtitle variants={headerItem}>
+                        A Cultura Lopez define o que aceitamos e recusamos em cada
+                        obra: imprevisto é falha de método, e resultado vem de quem
+                        entende o porquê.
                     </Subtitle>
-                </CulturaIntro>
+                </Header>
 
-                <CulturaGrid ref={bodyRef} $visible={bodyInView}>
-                    <CulturaContent>
-                        {GROUPS.map((group, index) => {
-                            const isActive = activeIndex === index;
-                            return (
-                                <TabButton
-                                    key={group.id}
-                                    $active={isActive}
-                                    onClick={() => handleTabClick(index)}
+                <Stage>
+                    <TimelineScale style={{ scale: stageScale }}>
+                        <TimelineColumn>
+                            <TimelineCanvas>
+                                <TimelineTrack>
+                                    <TimelineProgress $progress={progress} />
+                                </TimelineTrack>
+
+                                <TimelinePoints>
+                                    {PILLARS.map((pillar, i) => {
+                                        const isActive = i === active;
+
+                                        return (
+                                            <TimelinePoint
+                                                key={pillar.id}
+                                                $active={isActive}
+                                                aria-label={pillar.kicker}
+                                                aria-pressed={isActive}
+                                                onClick={() => goTo(i)}
+                                                whileHover={{ scale: 1.06 }}
+                                                whileTap={{ scale: 0.94 }}
+                                            >
+                                                <Dot
+                                                    className="dot"
+                                                    $active={isActive}
+                                                    layout
+                                                />
+                                                <PointLabel $active={isActive}>
+                                                    {pillar.short}
+                                                </PointLabel>
+                                            </TimelinePoint>
+                                        );
+                                    })}
+                                </TimelinePoints>
+                            </TimelineCanvas>
+                        </TimelineColumn>
+                    </TimelineScale>
+
+                    <NavBar>
+                        <ArrowButton
+                            type="button"
+                            aria-label="Pilar anterior"
+                            onClick={handlePrev}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.92 }}
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M15 6 L9 12 L15 18" />
+                            </svg>
+                        </ArrowButton>
+
+                        <ArrowButton
+                            type="button"
+                            aria-label="Próximo pilar"
+                            onClick={handleNext}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.92 }}
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M9 6 L15 12 L9 18" />
+                            </svg>
+                        </ArrowButton>
+                    </NavBar>
+
+                    <ContentPanel>
+                        <PanelSizer aria-hidden="true">
+                            <PanelKicker>{heaviest.kicker}</PanelKicker>
+                            <TopicList as="div">
+                                {heaviest.topics.map((topic) => (
+                                    <TopicItem key={topic.title}>
+                                        <TopicTitle>
+                                            {topic.title}
+                                        </TopicTitle>
+                                        <TopicParagraph>
+                                            {topic.paragraph}
+                                        </TopicParagraph>
+                                        <TopicParagraph>
+                                            <strong>Na prática:</strong>{' '}
+                                            {topic.practice}
+                                        </TopicParagraph>
+                                    </TopicItem>
+                                ))}
+                            </TopicList>
+                        </PanelSizer>
+
+                        <AnimatePresence
+                            mode="wait"
+                            custom={direction}
+                            initial={false}
+                        >
+                            <PanelInner
+                                key={current.id}
+                                custom={direction}
+                                variants={panelVariants}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                            >
+                                <PanelKicker>{current.kicker}</PanelKicker>
+
+                                <TopicList
+                                    variants={topicListVariants}
+                                    initial="hidden"
+                                    animate="visible"
                                 >
-                                    <ProgressBar>
-                                        {isActive && (
-                                            <ProgressFill
-                                                key={`progress-${index}-${isPaused}`}
-                                                initial={{ height: '0%' }}
-                                                animate={isPaused ? { height: '0%' } : { height: '100%' }}
-                                                transition={{
-                                                    duration: AUTO_PLAY_DURATION / 1000,
-                                                    ease: 'linear',
-                                                }}
-                                            />
-                                        )}
-                                    </ProgressBar>
+                                    {current.topics.map((topic) => (
+                                        <TopicItem
+                                            key={topic.title}
+                                            variants={topicItemVariants}
+                                        >
+                                            <TopicTitle>
+                                                {topic.title}
+                                            </TopicTitle>
+                                            <TopicParagraph>
+                                                {topic.paragraph}
+                                            </TopicParagraph>
+                                            <TopicParagraph>
+                                                <strong>Na prática:</strong>{' '}
+                                                {topic.practice}
+                                            </TopicParagraph>
+                                        </TopicItem>
+                                    ))}
+                                </TopicList>
+                            </PanelInner>
+                        </AnimatePresence>
+                    </ContentPanel>
+                </Stage>
 
-                                    <TabContent>
-                                        <TabTitle $active={isActive}>
-                                            {group.title}
-                                        </TabTitle>
-
-                                        <TabDescription $active={isActive}>
-                                            <TopicList>
-                                                {group.topics.map((topic) => (
-                                                    <Topic key={topic.title}>
-                                                        <TopicTitle>{topic.title}</TopicTitle>
-                                                        <TopicParagraph>
-                                                            {topic.paragraph}
-                                                        </TopicParagraph>
-                                                    </Topic>
-                                                ))}
-                                            </TopicList>
-                                        </TabDescription>
-                                    </TabContent>
-                                </TabButton>
-                            );
-                        })}
-                    </CulturaContent>
-
-                    <GalleryWrapper
-                        onMouseEnter={() => setIsPaused(true)}
-                        onMouseLeave={() => setIsPaused(false)}
-                    >
-                        <GalleryFrame>
-                            <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                                <GallerySlide
-                                    key={activeIndex}
-                                    custom={direction}
-                                    variants={slideVariants}
-                                    initial="enter"
-                                    animate="center"
-                                    exit="exit"
-                                    transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-                                    onClick={handleNext}
-                                >
-                                    <img
-                                        src={GROUPS[activeIndex].image}
-                                        alt={GROUPS[activeIndex].alt}
-                                    />
-                                </GallerySlide>
-                            </AnimatePresence>
-                        </GalleryFrame>
-                    </GalleryWrapper>
-                </CulturaGrid>
+                <FooterNote
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                >
+                    <strong>Confiabilidade</strong> não está nesta lista porque não
+                    é um princípio: é o que sobra quando todos os outros foram
+                    cumpridos até o fim. Nenhuma empresa consegue declarar
+                    confiabilidade — só consegue ser encontrada tendo-a.
+                </FooterNote>
             </SectionWrap>
         </CulturaSection>
     );
 }
-
-export default Cultura;
