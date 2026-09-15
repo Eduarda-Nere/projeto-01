@@ -149,13 +149,34 @@ function Cultura() {
             if (event.key === 'Escape') setActiveId(null);
         };
 
-        document.addEventListener('keydown', handleKeyDown);
-        document.body.style.overflow = 'hidden';
+        const scrollbarWidth =
+            window.innerWidth - document.documentElement.clientWidth;
+
+        const html = document.documentElement;
+        const body = document.body;
+
+        const prevHtmlOverflow = html.style.overflow;
+        const prevBodyOverflow = body.style.overflow;
+        const prevBodyPadding = body.style.paddingRight;
+        const prevBodyTouchAction = body.style.touchAction;
+
+        html.style.overflow = 'hidden';
+        body.style.overflow = 'hidden';
+        body.style.paddingRight = `${scrollbarWidth}px`;
+        body.style.touchAction = 'none';
+
         window.__lenis?.stop();
+
+        document.addEventListener('keydown', handleKeyDown);
 
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = '';
+
+            html.style.overflow = prevHtmlOverflow;
+            body.style.overflow = prevBodyOverflow;
+            body.style.paddingRight = prevBodyPadding;
+            body.style.touchAction = prevBodyTouchAction;
+
             window.__lenis?.start();
         };
     }, [activeId]);
@@ -243,13 +264,13 @@ function Cultura() {
                                 <RowAction
                                     aria-hidden="true"
                                     variants={{
-                                        rest: { rotate: 0 },
-                                        hover: { rotate: 45 },
+                                        rest: { x: 0 },
+                                        hover: { x: 6 },
                                     }}
                                     transition={{ duration: 0.4, ease: EASE }}
                                 >
                                     <svg viewBox="0 0 24 24">
-                                        <path d="M12 5v14M5 12h14" />
+                                        <path d="M5 12h14M12 5l7 7-7 7" />
                                     </svg>
                                 </RowAction>
                             </PillarRow>
@@ -283,6 +304,7 @@ function Cultura() {
                         >
                             <ModalPanel
                                 data-lenis-prevent
+                                data-modal-panel
                                 role="dialog"
                                 aria-modal="true"
                                 aria-label={activePillar.title}
@@ -294,9 +316,12 @@ function Cultura() {
                             >
                                 <ModalClose
                                     onClick={() => setActiveId(null)}
-                                    aria-label="Fechar"
+                                    aria-label="Voltar para a lista de pilares"
                                 >
-                                    ×
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                                    </svg>
+                                    Voltar
                                 </ModalClose>
 
                                 <ModalKicker>

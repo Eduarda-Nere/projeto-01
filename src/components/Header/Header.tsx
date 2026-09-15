@@ -21,6 +21,11 @@ import { Logo } from '../Logo/Logo';
 import { FlowButton } from '../ui';
 import { NAV_LINKS, MOBILE_NAV_LINKS } from '../../constants/nav';
 
+const FOCUSABLE_SELECTOR =
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+const HEADER_HEIGHT = 96;
+
 function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -36,6 +41,9 @@ function Header() {
 
     const navRef = useRef<HTMLElement>(null);
     const indicatorRef = useRef<HTMLSpanElement>(null);
+    const mobileMenuRef = useRef<HTMLElement>(null);
+    const burgerRef = useRef<HTMLButtonElement>(null);
+    const previouslyFocusedRef = useRef<HTMLElement | null>(null);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
@@ -47,8 +55,83 @@ function Header() {
 
     useEffect(() => {
         document.body.classList.toggle('no-scroll', menuOpen);
+
+        if (menuOpen) {
+            window.__lenis?.stop();
+        } else {
+            window.__lenis?.start();
+        }
+
         return () => {
             document.body.classList.remove('no-scroll');
+            window.__lenis?.start();
+        };
+    }, [menuOpen]);
+
+    useEffect(() => {
+        if (!menuOpen) return;
+
+        previouslyFocusedRef.current = document.activeElement as HTMLElement;
+
+        const focusFirstElement = () => {
+            const menu = mobileMenuRef.current;
+            if (!menu) return;
+
+            const focusables = menu.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+            if (focusables.length > 0) {
+                focusables[0].focus();
+            }
+        };
+
+        const raf = requestAnimationFrame(focusFirstElement);
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setMenuOpen(false);
+                return;
+            }
+
+            if (event.key !== 'Tab') return;
+
+            const menu = mobileMenuRef.current;
+            if (!menu) return;
+
+            const focusables = Array.from(
+                menu.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+            );
+
+            if (focusables.length === 0) {
+                event.preventDefault();
+                return;
+            }
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            const active = document.activeElement as HTMLElement | null;
+
+            if (event.shiftKey) {
+                if (active === first || !menu.contains(active)) {
+                    event.preventDefault();
+                    last.focus();
+                }
+            } else {
+                if (active === last || !menu.contains(active)) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            cancelAnimationFrame(raf);
+            document.removeEventListener('keydown', handleKeyDown);
+
+            const previouslyFocused = previouslyFocusedRef.current;
+            if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+                previouslyFocused.focus();
+            }
         };
     }, [menuOpen]);
 
@@ -86,23 +169,31 @@ function Header() {
         }, 150);
     };
 
+    const scrollToSection = useCallback((href: string) => {
+        const element = document.querySelector(href) as HTMLElement | null;
+        if (!element) return;
+
+        const lenis = window.__lenis;
+        if (lenis) {
+            lenis.start();
+            lenis.scrollTo(element, {
+                offset: HEADER_HEIGHT,
+                duration: 1.4,
+            });
+        } else {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, []);
+
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
         closeMenu();
 
         if (isNotFound) {
             navigate('/');
-            setTimeout(() => {
-                const element = document.querySelector(href);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 100);
+            setTimeout(() => scrollToSection(href), 100);
         } else {
-            const element = document.querySelector(href);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+            scrollToSection(href);
         }
     };
 
@@ -113,7 +204,13 @@ function Header() {
         if (isNotFound) {
             navigate('/');
         } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const lenis = window.__lenis;
+            if (lenis) {
+                lenis.start();
+                lenis.scrollTo(0, { duration: 1.2 });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
     };
 
@@ -125,17 +222,9 @@ function Header() {
 
         if (isNotFound) {
             navigate('/');
-            setTimeout(() => {
-                const element = document.querySelector('#contato');
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 100);
+            setTimeout(() => scrollToSection('#contato'), 100);
         } else {
-            const element = document.querySelector('#contato');
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+            scrollToSection('#contato');
         }
     };
 
@@ -160,17 +249,9 @@ function Header() {
 
         if (isNotFound) {
             navigate('/');
-            setTimeout(() => {
-                const element = document.querySelector(href);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 100);
+            setTimeout(() => scrollToSection(href), 100);
         } else {
-            const element = document.querySelector(href);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+            scrollToSection(href);
         }
     };
 
@@ -219,9 +300,11 @@ function Header() {
             </StyledHeader>
 
             <Burger
+                ref={burgerRef}
                 onClick={() => setMenuOpen((prev) => !prev)}
                 aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
                 $active={menuOpen}
                 $scrolled={scrolled || isNotFound}
             >
@@ -230,9 +313,15 @@ function Header() {
                 <BurgerSpan $index={3} $active={menuOpen} $scrolled={scrolled || isNotFound} />
             </Burger>
 
-            <MenuOverlay $show={menuOpen} onClick={closeMenu} />
+            <MenuOverlay $show={menuOpen} onClick={closeMenu} aria-hidden="true" />
 
-            <MobileMenu $open={menuOpen} aria-label="Menu mobile">
+            <MobileMenu
+                id="mobile-menu"
+                ref={mobileMenuRef}
+                $open={menuOpen}
+                aria-label="Menu mobile"
+                aria-hidden={!menuOpen}
+            >
                 <MobileMenuInner>
                     <MobileMenuList>
                         {MOBILE_NAV_LINKS.map((link, index) => (

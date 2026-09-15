@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export const CulturaSection = styled.section`
     position: relative;
-    background: #ffffff;
+    background: ${({ theme }) => theme.colors.paper};
     padding: clamp(3rem, 8vw, 7rem) 0;
     scroll-margin-top: 80px;
 `;
@@ -72,7 +72,7 @@ export const RowKicker = styled(motion.span)`
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #d2aa4e;
+    color: ${({ theme }) => theme.colors.gold};
 `;
 
 export const RowTitleGroup = styled.span`
@@ -145,9 +145,7 @@ export const ModalOverlay = styled(motion.div)`
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    background: transparent;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: rgba(0, 0, 0, 0.35);
 `;
 
 export const ModalPanel = styled(motion.div)`
@@ -156,9 +154,15 @@ export const ModalPanel = styled(motion.div)`
     max-height: 85vh;
     overflow-y: auto;
     overscroll-behavior: contain;
-    background: #ffffff;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    background: ${({ theme }) => theme.colors.paper};
     border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
     padding: clamp(2rem, 4vw, 3rem);
+
+    @media (max-width: 520px) {
+        padding-top: 3.5rem;
+    }
 `;
 
 export const ModalClose = styled.button`
@@ -167,17 +171,52 @@ export const ModalClose = styled.button`
     right: clamp(2rem, 4vw, 3rem);
     border: none;
     background: none;
-    padding: 0;
+    padding: 0.25rem 0.5rem;
     margin: 0;
     cursor: pointer;
-    font-size: 1.4rem;
-    line-height: 1;
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: ${({ theme }) => theme.colors.ink70};
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     transition: color 0.3s ease;
-    z-index: 2;
+    z-index: 3;
+    line-height: 1;
+
+    svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform 0.3s ease;
+    }
 
     &:hover {
         color: ${({ theme }) => theme.colors.navy};
+
+        svg {
+            transform: translateX(-3px);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid ${({ theme }) => theme.colors.gold};
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+
+    @media (max-width: 520px) {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem 0.75rem;
+        background: ${({ theme }) => theme.colors.paper};
     }
 `;
 
@@ -188,8 +227,7 @@ export const ModalKicker = styled.span`
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #d2aa4e;
-    padding-right: 2.5rem;
+    color: ${({ theme }) => theme.colors.gold};
 `;
 
 export const ModalTitle = styled.h3`
@@ -197,7 +235,6 @@ export const ModalTitle = styled.h3`
     font-weight: 400;
     color: ${({ theme }) => theme.colors.navy};
     margin: 0.5rem 0 1.75rem;
-    padding-right: 2.5rem;
 `;
 
 export const TopicList = styled.ul`
@@ -222,7 +259,7 @@ export const TopicItem = styled.li`
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: #d2aa4e;
+        background-color: ${({ theme }) => theme.colors.gold};
         box-shadow: 0 0 0 4px rgba(200, 168, 100, 0.15);
     }
 
