@@ -19,8 +19,31 @@ import {
 import { Logo } from '../Logo/Logo';
 import { FOOTER_NAV_LINKS } from '../../constants/nav';
 
+const HEADER_HEIGHT = 96;
+
 function Footer() {
     const currentYear = new Date().getFullYear();
+
+        const handleNavClick = (
+        e: React.MouseEvent<HTMLAnchorElement>,
+        href: string
+    ) => {
+        e.preventDefault();
+
+        const element = document.querySelector(href) as HTMLElement | null;
+        if (!element) return;
+
+        const lenis = window.__lenis;
+        if (lenis) {
+            lenis.start();
+            lenis.scrollTo(element, {
+                offset: HEADER_HEIGHT,
+                duration: 1.4,
+            });
+        } else {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <StyledFooter id="contato">
@@ -53,7 +76,12 @@ function Footer() {
                     <FooterNavList>
                         {FOOTER_NAV_LINKS.map((link) => (
                             <li key={link.href}>
-                                <FooterNavLink href={link.href}>{link.label}</FooterNavLink>
+                                <FooterNavLink
+                                    href={link.href}
+                                    onClick={(e) => handleNavClick(e, link.href)}
+                                >
+                                    {link.label}
+                                </FooterNavLink>
                             </li>
                         ))}
                     </FooterNavList>

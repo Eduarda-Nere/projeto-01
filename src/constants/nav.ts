@@ -10,4 +10,7 @@ export const MOBILE_NAV_LINKS = [
     { href: '#contato', label: 'Contato' },
 ] as const;
 
-export const FOOTER_NAV_LINKS = NAV_LINKS;
+export const FOOTER_NAV_LINKS = [
+    ...NAV_LINKS,
+    { href: '#faq', label: 'Perguntas' },
+] as const;
