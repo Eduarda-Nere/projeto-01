@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export const CulturaSection = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.paper};
-    padding: clamp(3rem, 8vw, 7rem) 0;
+    padding: clamp(3rem, 6vw, 5rem) 0;
     scroll-margin-top: 80px;
 `;
 

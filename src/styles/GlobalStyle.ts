@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   html {
     -webkit-tap-highlight-color: transparent;
     scroll-padding-top: 80px;
-    overflow-x: hidden;
+    overflow-x: clip;
     scrollbar-color: ${({ theme }) => theme.colors.navy} ${({ theme }) => theme.colors.paper};
   }
 
@@ -41,7 +41,7 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
   }
 

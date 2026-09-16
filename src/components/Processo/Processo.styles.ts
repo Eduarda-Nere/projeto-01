@@ -1,121 +1,116 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-export const ProcessoSection = styled.section`
-    background: ${({ theme }) => theme.colors.navy};
-    color: ${({ theme }) => theme.colors.cream};
-    padding: clamp(3rem, 6vw, 5rem) 0;
-    scroll-margin-top: 80px;
+const gridMove = keyframes`
+    0% { background-position: 0 0; }
+    100% { background-position: 54px 54px; }
+`;
+
+export const ProcessoWrapper = styled.section`
     position: relative;
-    overflow: hidden;
+    scroll-margin-top: 80px;
+    padding: clamp(3rem, 6vw, 5rem) 0;
 `;
 
-export const Head = styled.div<{ $visible: boolean }>`
+export const ProcessoHeader = styled.div`
     text-align: center;
-    max-width: 720px;
+    max-width: 1220px;
     margin: 0 auto clamp(2.5rem, 5vw, 4rem);
-    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateY(${({ $visible }) => ($visible ? '0' : '32px')});
-    transition: opacity ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease},
-                transform ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease};
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
 `;
 
-export const Title = styled.h2`
+export const ProcessoTitle = styled.h2`
     font-size: clamp(1.9rem, 3.4vw, 2.5rem);
     line-height: 1.08;
     font-weight: 400;
     letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.colors.cream};
-    margin: 0 0 0.75rem;
+    color: ${({ theme }) => theme.colors.navy};
+    margin: 0 auto;
+    max-width: 20ch;
 `;
 
-export const Tagline = styled.p`
+export const CardsStack = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
+`;
+
+export const StickyCard = styled.article<{
+    $bg: 'dark' | 'light';
+    $index: number;
+}>`
+    position: sticky;
+    top: calc(120px + ${({ $index }) => $index * 2.5}rem);
+    width: 100%;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border-radius: 4px;
+    overflow: hidden;
+    background: ${({ $bg, theme }) =>
+        $bg === 'dark' ? theme.colors.navy : '#ffffff'};
+    color: ${({ $bg, theme }) =>
+        $bg === 'dark' ? theme.colors.cream : theme.colors.navy};
+    border: 1px solid
+        ${({ $bg, theme }) =>
+            $bg === 'dark' ? 'rgba(210, 170, 78, 0.25)' : theme.colors.lineOnCream};
+`;
+
+export const GridBackground = styled.div<{ $isDark: boolean }>`
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, ${({ $isDark }) => $isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'} 1px, transparent 1px),
+        linear-gradient(to bottom, ${({ $isDark }) => $isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'} 1px, transparent 1px);
+    background-size: 54px 54px;
+    animation: ${gridMove} 20s linear infinite;
+`;
+
+export const CardContent = styled.div`
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    text-align: left;
+`;
+
+export const CardTitle = styled.h3`
     font-family: ${({ theme }) => theme.fonts.display};
-    font-size: clamp(1rem, 1.3vw, 1.15rem);
-    font-weight: 400;
-    line-height: 1.4;
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    line-height: 1.2;
+    font-weight: 500;
     letter-spacing: -0.01em;
     color: ${({ theme }) => theme.colors.gold};
     margin: 0;
 `;
 
-export const CardsGrid = styled.div<{ $visible: boolean }>`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(1.25rem, 2vw, 2rem);
-    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateY(${({ $visible }) => ($visible ? '0' : '32px')});
-    transition: opacity ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease} 0.1s,
-                transform ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease} 0.1s;
-
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 560px) {
-        grid-template-columns: 1fr;
-    }
-`;
-
-export const Card = styled.article<{ $delay: number; $visible: boolean }>`
-    position: relative;
-    padding: 1.75rem 1.5rem;
-    border: 1px solid rgba(210, 170, 78, 0.3);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.015);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateY(${({ $visible }) => ($visible ? '0' : '24px')});
-    transition: opacity ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
-                transform ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
-                border-color ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease},
-                background ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
-
-    &:hover {
-        border-color: ${({ theme }) => theme.colors.gold};
-        background: rgba(210, 170, 78, 0.05);
-    }
-`;
-
-export const CardNumber = styled.span`
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    color: ${({ theme }) => theme.colors.gold};
-    opacity: 0.9;
-`;
-
-export const CardTitle = styled.h3`
-    font-family: ${({ theme }) => theme.fonts.display};
-    font-size: 1.15rem;
-    font-weight: 500;
-    line-height: 1.25;
-    color: ${({ theme }) => theme.colors.cream};
+export const CardText = styled.p<{ $isDark: boolean }>`
+    font-size: 0.95rem;
+    line-height: 1.75;
     margin: 0;
-`;
-
-export const CardText = styled.p`
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 0.9rem;
-    line-height: 1.65;
-    color: rgba(250, 248, 244, 0.7);
-    margin: 0;
+    max-width: 62ch;
+    text-align: justify;
+    hyphens: auto;
+    color: ${({ $isDark, theme }) =>
+        $isDark ? 'rgba(250, 248, 244, 0.75)' : theme.colors.ink70};
 `;
 
 export const CardDelivery = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px solid ${({ theme }) => theme.colors.lineOnNavy};
+    margin-top: 0.75rem;
 `;
 
 export const CardDeliveryLabel = styled.span`
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -123,9 +118,10 @@ export const CardDeliveryLabel = styled.span`
     opacity: 0.85;
 `;
 
-export const CardDeliveryText = styled.span`
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 0.78rem;
-    line-height: 1.5;
-    color: rgba(250, 248, 244, 0.55);
+export const CardDeliveryText = styled.span<{ $isDark: boolean }>`
+    font-size: 0.85rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: ${({ $isDark }) =>
+        $isDark ? 'rgba(250, 248, 244, 0.55)' : 'rgba(22, 34, 58, 0.55)'};
 `;
