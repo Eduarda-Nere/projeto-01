@@ -1,28 +1,26 @@
-import { useState, useCallback, useRef, useMemo } from 'react';
-import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { SectionWrap } from '../ui';
+import projetosImg from '../../assets/img/projetos.jpg';
 import {
     ProjectsSection,
     ProjectsHeader,
     ProjectsTitle,
-    ProjectsControls,
-    ProjectsArrowNav,
-    ProjectsArrowButton,
+    ProjectsTabs,
+    ProjectsTab,
+    ProjectsTabKicker,
+    ProjectsDropdown,
+    ProjectsDropdownWrapper,
+    ProjectsDropdownTrigger,
+    ProjectsDropdownChevron,
+    ProjectsDropdownMenu,
+    ProjectsDropdownOption,
     ProjectsStage,
-    ProjectsTimelineScale,
-    ProjectsTimelineColumn,
-    ProjectsTimelineCanvas,
-    ProjectsTimelineTrack,
-    ProjectsTimelineProgress,
-    ProjectsTimelinePoints,
-    ProjectsTimelinePoint,
-    ProjectsDot,
-    ProjectsPointLabel,
+    ProjectsImageColumn,
+    ProjectsImage,
     ProjectsContentPanel,
     ProjectsPanelSizer,
     ProjectsPanelInner,
-    ProjectsPanelTop,
-    ProjectsPanelKicker,
     ProjectsPanelSubtitle,
     ProjectsStatsRow,
     ProjectsStat,
@@ -234,6 +232,23 @@ const headerItem = {
     },
 };
 
+const tabsContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.08, delayChildren: 0.2 },
+    },
+};
+
+const tabItem = {
+    hidden: { opacity: 0, y: 16 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as const },
+    },
+};
+
 const panelVariants = {
     enter: (dir: number) => ({
         opacity: 0,
@@ -255,26 +270,10 @@ const panelVariants = {
 };
 
 function Projects() {
-    const sectionRef = useRef<HTMLElement>(null);
-
     const [active, setActive] = useState(0);
     const [direction, setDirection] = useState(1);
-
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start end', 'end start'],
-    });
-
-    const stageScale = useTransform(
-        scrollYProgress,
-        [0, 0.5, 1],
-        [0.97, 1, 0.98]
-    );
-
-    const progress =
-        PROJECT_PILLARS.length > 1
-            ? active / (PROJECT_PILLARS.length - 1)
-            : 0;
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const heaviest = useMemo(
         () =>
@@ -288,36 +287,45 @@ function Projects() {
     const goTo = useCallback((next: number) => {
         setActive((prev) => {
             if (next === prev) return prev;
-            const total = PROJECT_PILLARS.length;
-            const forward = (next - prev + total) % total <= total / 2;
-            setDirection(forward ? 1 : -1);
+            setDirection(next > prev ? 1 : -1);
             return next;
         });
     }, []);
 
-    const handlePrev = useCallback(() => {
-        setDirection(-1);
-        setActive(
-            (prev) =>
-                (prev - 1 + PROJECT_PILLARS.length) % PROJECT_PILLARS.length
-        );
-    }, []);
+    useEffect(() => {
+        if (!dropdownOpen) return;
 
-    const handleNext = useCallback(() => {
-        setDirection(1);
-        setActive((prev) => (prev + 1) % PROJECT_PILLARS.length);
-    }, []);
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setDropdownOpen(false);
+            }
+        };
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setDropdownOpen(false);
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [dropdownOpen]);
+
+    const handleOptionClick = (i: number) => {
+        goTo(i);
+        setDropdownOpen(false);
+    };
 
     const current = PROJECT_PILLARS[active];
 
     const renderPanelContent = (pillar: ProjectPillar) => (
         <>
-            <ProjectsPanelTop>
-                <ProjectsPanelKicker>
-                    {pillar.kicker}
-                </ProjectsPanelKicker>
-            </ProjectsPanelTop>
-
             <ProjectsPanelSubtitle>
                 {pillar.subtitle}
             </ProjectsPanelSubtitle>
@@ -356,7 +364,7 @@ function Projects() {
     );
 
     return (
-        <ProjectsSection id="projetos" ref={sectionRef}>
+        <ProjectsSection id="projetos">
             <SectionWrap>
                 <ProjectsHeader
                     variants={headerContainer}
@@ -370,87 +378,102 @@ function Projects() {
                     </ProjectsTitle>
                 </ProjectsHeader>
 
-                <ProjectsStage>
-                    <ProjectsControls
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.6 }}
-                        transition={{
-                            duration: 0.6,
-                            ease: [0.23, 1, 0.32, 1],
-                        }}
-                    >
-                        <ProjectsArrowNav>
-                            <ProjectsArrowButton
+                <ProjectsTabs
+                    variants={tabsContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                >
+                    {PROJECT_PILLARS.map((pillar, i) => {
+                        const isActive = i === active;
+
+                        return (
+                            <ProjectsTab
+                                key={pillar.id}
                                 type="button"
-                                aria-label="Projeto anterior"
-                                onClick={handlePrev}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.92 }}
+                                $active={isActive}
+                                variants={tabItem}
+                                onClick={() => goTo(i)}
+                                aria-pressed={isActive}
+                                aria-label={pillar.kicker}
+                                whileTap={{ scale: 0.97 }}
                             >
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M15 6 L9 12 L15 18" />
-                                </svg>
-                            </ProjectsArrowButton>
+                                <ProjectsTabKicker $active={isActive}>
+                                    {pillar.kicker}
+                                </ProjectsTabKicker>
+                            </ProjectsTab>
+                        );
+                    })}
+                </ProjectsTabs>
 
-                            <ProjectsArrowButton
-                                type="button"
-                                aria-label="Próximo projeto"
-                                onClick={handleNext}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.92 }}
+                <ProjectsDropdown
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                >
+                    <ProjectsDropdownWrapper ref={dropdownRef}>
+                        <ProjectsDropdownTrigger
+                            type="button"
+                            onClick={() => setDropdownOpen((v) => !v)}
+                            aria-haspopup="listbox"
+                            aria-expanded={dropdownOpen}
+                        >
+                            <span>{current.kicker}</span>
+                            <ProjectsDropdownChevron
+                                $open={dropdownOpen}
+                                aria-hidden="true"
                             >
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M9 6 L15 12 L9 18" />
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M6 9l6 6 6-6" />
                                 </svg>
-                            </ProjectsArrowButton>
-                        </ProjectsArrowNav>
-                    </ProjectsControls>
+                            </ProjectsDropdownChevron>
+                        </ProjectsDropdownTrigger>
 
-                    <ProjectsTimelineScale style={{ scale: stageScale }}>
-                        <ProjectsTimelineColumn>
-                            <ProjectsTimelineCanvas>
-                                <ProjectsTimelineTrack>
-                                    <ProjectsTimelineProgress
-                                        $progress={progress}
-                                    />
-                                </ProjectsTimelineTrack>
-
-                                <ProjectsTimelinePoints>
+                        <AnimatePresence>
+                            {dropdownOpen && (
+                                <ProjectsDropdownMenu
+                                    role="listbox"
+                                    initial={{ opacity: 0, y: -8 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -8 }}
+                                    transition={{
+                                        duration: 0.2,
+                                        ease: [0.23, 1, 0.32, 1],
+                                    }}
+                                >
                                     {PROJECT_PILLARS.map((pillar, i) => {
                                         const isActive = i === active;
 
                                         return (
-                                            <ProjectsTimelinePoint
+                                            <ProjectsDropdownOption
                                                 key={pillar.id}
+                                                role="option"
+                                                aria-selected={isActive}
                                                 $active={isActive}
-                                                aria-label={pillar.kicker}
-                                                aria-pressed={isActive}
-                                                onClick={() => goTo(i)}
-                                                whileHover={{ scale: 1.06 }}
-                                                whileTap={{ scale: 0.94 }}
+                                                onClick={() =>
+                                                    handleOptionClick(i)
+                                                }
                                             >
-                                                <ProjectsDot
-                                                    $active={isActive}
-                                                    layout
-                                                >
-                                                    <i
-                                                        className="fas fa-home"
-                                                        aria-hidden="true"
-                                                    />
-                                                </ProjectsDot>
-                                                <ProjectsPointLabel
-                                                    $active={isActive}
-                                                >
-                                                    {pillar.short}
-                                                </ProjectsPointLabel>
-                                            </ProjectsTimelinePoint>
+                                                {pillar.kicker}
+                                            </ProjectsDropdownOption>
                                         );
                                     })}
-                                </ProjectsTimelinePoints>
-                            </ProjectsTimelineCanvas>
-                        </ProjectsTimelineColumn>
-                    </ProjectsTimelineScale>
+                                </ProjectsDropdownMenu>
+                            )}
+                        </AnimatePresence>
+                    </ProjectsDropdownWrapper>
+                </ProjectsDropdown>
+
+                <ProjectsStage>
+                    <ProjectsImageColumn>
+                        <ProjectsImage>
+                            <img
+                                src={projetosImg}
+                                alt="Planta do projeto"
+                            />
+                        </ProjectsImage>
+                    </ProjectsImageColumn>
 
                     <ProjectsContentPanel>
                         <ProjectsPanelSizer aria-hidden="true">
