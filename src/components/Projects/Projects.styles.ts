@@ -207,22 +207,19 @@ export const ProjectsStage = styled.div`
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
     column-gap: clamp(2rem, 5vw, 5rem);
     row-gap: 1.5rem;
-    align-items: stretch;
+    align-items: start;
 
     @media (max-width: 940px) {
         grid-template-columns: 1fr;
         column-gap: 0;
         row-gap: 1.7rem;
-        align-items: start;
     }
 `;
 
 export const ProjectsImageColumn = styled.div`
     position: relative;
     display: flex;
-    align-items: stretch;
-    height: 100%;
-    min-height: 100%;
+    align-items: flex-start;
 
     @media (min-width: 941px) {
         margin-left: calc((100vw - 100%) / -2);
@@ -232,16 +229,13 @@ export const ProjectsImageColumn = styled.div`
     @media (max-width: 940px) {
         order: 2;
         width: 100%;
-        height: auto;
-        min-height: 0;
     }
 `;
 
 export const ProjectsImage = styled.div`
     position: relative;
     width: 100%;
-    height: 100%;
-    min-height: 100%;
+    max-height: 520px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -253,18 +247,21 @@ export const ProjectsImage = styled.div`
         position: relative;
         z-index: 1;
         width: 100%;
-        height: 100%;
+        height: auto;
+        max-height: 520px;
         display: block;
         object-fit: cover;
+        object-position: center;
         border-radius: 4px;
     }
 
     @media (max-width: 940px) {
         aspect-ratio: 16 / 10;
+        max-height: none;
         height: auto;
-        min-height: 0;
 
         img {
+            height: 100%;
             object-fit: contain;
         }
     }
