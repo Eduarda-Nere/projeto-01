@@ -105,7 +105,7 @@ const PILLARS: Pillar[] = [
                 paragraph:
                     'O cliente enxerga o mesmo que nós enxergamos: o avanço real, o custo acumulado e o desvio, quando existe. Notícia ruim não melhora com o tempo. Piora, e chega mais cara.',
                 practice:
-                    'Relatório periódico com avanço, custo e desvios, entregue mesmo — principalmente — quando o desvio é desfavorável.',
+                    'Relatório periódico com avanço, custo e desvios, entregue mesmo - principalmente - quando o desvio é desfavorável.',
             },
             {
                 title: 'Previsibilidade',
@@ -117,7 +117,7 @@ const PILLARS: Pillar[] = [
             {
                 title: 'Segurança',
                 paragraph:
-                    'Não é meta, indicador nem programa: é a condição para a obra existir. Serviço que não pode ser feito com segurança não é feito — é replanejado.',
+                    'Não é meta, indicador nem programa: é a condição para a obra existir. Serviço que não pode ser feito com segurança não é feito, é replanejado.',
                 practice:
                     'Qualquer pessoa no canteiro pode parar um serviço inseguro, sem precisar de autorização e sem consequência por ter parado.',
             },
@@ -157,10 +157,12 @@ function Cultura() {
 
         const prevHtmlOverflow = html.style.overflow;
         const prevBodyOverflow = body.style.overflow;
+        const prevBodyPadding = body.style.paddingRight;
         const prevBodyTouchAction = body.style.touchAction;
 
         html.style.overflow = 'hidden';
         body.style.overflow = 'hidden';
+        body.style.paddingRight = `${scrollbarWidth}px`;
         body.style.touchAction = 'none';
 
         const header = document.querySelector('header');
@@ -188,6 +190,7 @@ function Cultura() {
 
             html.style.overflow = prevHtmlOverflow;
             body.style.overflow = prevBodyOverflow;
+            body.style.paddingRight = prevBodyPadding;
             body.style.touchAction = prevBodyTouchAction;
 
             if (header instanceof HTMLElement) {
@@ -307,7 +310,7 @@ function Cultura() {
                         <strong>Confiabilidade</strong> não está nesta lista
                         porque não é um princípio: é o que sobra quando todos os
                         outros foram cumpridos até o fim. Nenhuma empresa
-                        consegue declarar confiabilidade — só consegue ser
+                        consegue declarar confiabilidade - só consegue ser
                         encontrada tendo-a.
                     </FooterNote>
                 </SectionWrap>
