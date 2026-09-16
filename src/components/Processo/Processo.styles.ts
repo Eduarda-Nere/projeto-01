@@ -36,6 +36,11 @@ export const CardsStack = styled.div`
     max-width: 900px;
     margin: 0 auto;
     padding: 0 clamp(1.5rem, 4vw, 3rem);
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        gap: 1rem;
+        padding: 0 1rem;
+    }
 `;
 
 export const StickyCard = styled.article<{
@@ -43,7 +48,7 @@ export const StickyCard = styled.article<{
     $index: number;
 }>`
     position: sticky;
-    top: calc(120px + ${({ $index }) => $index * 2.5}rem);
+    top: calc(180px + ${({ $index }) => $index * 2.5}rem);
     width: 100%;
     min-height: 420px;
     display: flex;
@@ -59,6 +64,12 @@ export const StickyCard = styled.article<{
     border: 1px solid
         ${({ $bg, theme }) =>
             $bg === 'dark' ? 'rgba(210, 170, 78, 0.25)' : theme.colors.lineOnCream};
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        top: calc(120px + ${({ $index }) => $index * 1.5}rem);
+        min-height: auto;
+        padding: 1rem 1.25rem;
+    }
 `;
 
 export const GridBackground = styled.div<{ $isDark: boolean }>`
@@ -79,6 +90,10 @@ export const CardContent = styled.div`
     flex-direction: column;
     gap: 1.25rem;
     text-align: left;
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        gap: 0.5rem;
+    }
 `;
 
 export const CardTitle = styled.h3`
@@ -89,6 +104,10 @@ export const CardTitle = styled.h3`
     letter-spacing: -0.01em;
     color: ${({ theme }) => theme.colors.gold};
     margin: 0;
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        font-size: 1.05rem;
+    }
 `;
 
 export const CardText = styled.p<{ $isDark: boolean }>`
@@ -100,6 +119,11 @@ export const CardText = styled.p<{ $isDark: boolean }>`
     hyphens: auto;
     color: ${({ $isDark, theme }) =>
         $isDark ? 'rgba(250, 248, 244, 0.75)' : theme.colors.ink70};
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
 `;
 
 export const CardDelivery = styled.div`
@@ -107,6 +131,10 @@ export const CardDelivery = styled.div`
     flex-direction: column;
     gap: 0.4rem;
     margin-top: 0.75rem;
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        margin-top: 0.25rem;
+    }
 `;
 
 export const CardDeliveryLabel = styled.span`
@@ -116,6 +144,10 @@ export const CardDeliveryLabel = styled.span`
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.gold};
     opacity: 0.85;
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        font-size: 0.6rem;
+    }
 `;
 
 export const CardDeliveryText = styled.span<{ $isDark: boolean }>`
@@ -124,4 +156,9 @@ export const CardDeliveryText = styled.span<{ $isDark: boolean }>`
     font-style: italic;
     color: ${({ $isDark }) =>
         $isDark ? 'rgba(250, 248, 244, 0.55)' : 'rgba(22, 34, 58, 0.55)'};
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        font-size: 0.72rem;
+        line-height: 1.4;
+    }
 `;
