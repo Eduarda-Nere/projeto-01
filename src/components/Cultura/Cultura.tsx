@@ -157,16 +157,30 @@ function Cultura() {
 
         const prevHtmlOverflow = html.style.overflow;
         const prevBodyOverflow = body.style.overflow;
-        const prevBodyPadding = body.style.paddingRight;
         const prevBodyTouchAction = body.style.touchAction;
 
         html.style.overflow = 'hidden';
         body.style.overflow = 'hidden';
-        body.style.paddingRight = `${scrollbarWidth}px`;
         body.style.touchAction = 'none';
 
-        window.__lenis?.stop();
+        const header = document.querySelector('header');
+        const burger = document.querySelector(
+            'button[aria-controls="mobile-menu"]'
+        ) as HTMLElement | null;
 
+        const prevHeaderPadding =
+            header instanceof HTMLElement ? header.style.paddingRight : '';
+        const prevBurgerRight = burger ? burger.style.right : '';
+
+        if (header instanceof HTMLElement && scrollbarWidth > 0) {
+            header.style.paddingRight = `${scrollbarWidth}px`;
+        }
+
+        if (burger && scrollbarWidth > 0) {
+            burger.style.right = `calc(clamp(1.5rem, 4vw, 3rem) + ${scrollbarWidth}px)`;
+        }
+
+        window.__lenis?.stop();
         document.addEventListener('keydown', handleKeyDown);
 
         return () => {
@@ -174,8 +188,15 @@ function Cultura() {
 
             html.style.overflow = prevHtmlOverflow;
             body.style.overflow = prevBodyOverflow;
-            body.style.paddingRight = prevBodyPadding;
             body.style.touchAction = prevBodyTouchAction;
+
+            if (header instanceof HTMLElement) {
+                header.style.paddingRight = prevHeaderPadding;
+            }
+
+            if (burger) {
+                burger.style.right = prevBurgerRight;
+            }
 
             window.__lenis?.start();
         };
