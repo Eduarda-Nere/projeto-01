@@ -50,12 +50,10 @@ export function Logo({ scrolled = false, className }: LogoProps) {
                 LOPEZ
             </text>
 
-            <rect className="linha" x="89.25" y="62" width="2" height="16" rx="0.75" />
+            <rect className="linha" x="0" y="75" width="76" height="2" rx="0.75" />
+            <rect className="linha" x="104" y="75" width="76" height="2" rx="0.75" />
 
-            <rect className="linha" x="0" y="78" width="76" height="2" rx="0.75" />
-            <rect className="linha" x="104" y="78" width="76" height="2" rx="0.75" />
-
-            <circle className="linha" cx="90" cy="88" r="2.5" />
+            <circle className="linha" cx="90" cy="76" r="2.5" />
 
             <text
                 className="engenharia-text"
