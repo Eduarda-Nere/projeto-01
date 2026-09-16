@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import {
     ProcessoWrapper,
     ProcessoHeader,
@@ -36,6 +37,17 @@ const STEPS = [
     },
 ];
 
+const EASE = [0.25, 0.1, 0.25, 1] as const;
+
+const contentVariants = {
+    hidden: { opacity: 0, x: -32 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 1.1, ease: EASE },
+    },
+};
+
 function Processo() {
     return (
         <ProcessoWrapper id="processo">
@@ -45,7 +57,7 @@ function Processo() {
 
             <CardsStack>
                 {STEPS.map((step, index) => {
-                    const isDark = index % 2 !== 0;
+                    const isDark = index % 2 === 0;
                     const bgType = isDark ? 'dark' : 'light';
 
                     return (
@@ -56,12 +68,22 @@ function Processo() {
                         >
                             <GridBackground $isDark={isDark} />
 
-                            <CardContent>
-                                <CardTitle>{step.title}</CardTitle>
+                            <CardContent
+                                as={motion.div}
+                                variants={contentVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, amount: 0.3 }}
+                            >
+                                <CardTitle $isDark={isDark}>
+                                    {step.title}
+                                </CardTitle>
                                 <CardText $isDark={isDark}>{step.text}</CardText>
 
                                 <CardDelivery>
-                                    <CardDeliveryLabel>Entrega</CardDeliveryLabel>
+                                    <CardDeliveryLabel $isDark={isDark}>
+                                        Entrega
+                                    </CardDeliveryLabel>
                                     <CardDeliveryText $isDark={isDark}>
                                         {step.delivery}
                                     </CardDeliveryText>

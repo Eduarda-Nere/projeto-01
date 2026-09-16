@@ -38,8 +38,16 @@ export const CardsStack = styled.div`
     padding: 0 clamp(1.5rem, 4vw, 3rem);
 
     @media (orientation: landscape) and (max-height: 560px) {
-        gap: 1rem;
+        gap: 0;
         padding: 0 1rem;
+    }
+
+    @media (max-width: 768px) {
+        gap: 0;
+    }
+
+    @media (max-width: 480px) {
+        gap: 0;
     }
 `;
 
@@ -48,7 +56,7 @@ export const StickyCard = styled.article<{
     $index: number;
 }>`
     position: sticky;
-    top: calc(180px + ${({ $index }) => $index * 2.5}rem);
+    top: 180px;
     width: 100%;
     min-height: 420px;
     display: flex;
@@ -58,17 +66,42 @@ export const StickyCard = styled.article<{
     border-radius: 4px;
     overflow: hidden;
     background: ${({ $bg, theme }) =>
-        $bg === 'dark' ? theme.colors.navy : '#ffffff'};
+        $bg === 'dark'
+            ? `linear-gradient(135deg, ${theme.colors.navyDeep} 0%, ${theme.colors.navy} 50%, ${theme.colors.navyDeep} 100%)`
+            : `linear-gradient(135deg, #fbfcfe 0%, #ffffff 50%, #fbfcfe 100%)`};
     color: ${({ $bg, theme }) =>
         $bg === 'dark' ? theme.colors.cream : theme.colors.navy};
-    border: 1px solid
-        ${({ $bg, theme }) =>
-            $bg === 'dark' ? 'rgba(210, 170, 78, 0.25)' : theme.colors.lineOnCream};
+    box-shadow: ${({ $bg }) =>
+        $bg === 'dark'
+            ? '0 1px 0 rgba(210, 170, 78, 0.15) inset, 0 2px 6px rgba(0, 0, 0, 0.12)'
+            : '0 1px 0 rgba(255, 255, 255, 1) inset, 0 2px 6px rgba(15, 30, 56, 0.08)'};
+
+    @media (max-width: 1024px) {
+        width: 88%;
+        max-width: 640px;
+    }
+
+    @media (max-width: 768px) {
+        top: 140px;
+        width: 90%;
+        max-width: 520px;
+        margin-top: ${({ $index }) => ($index === 0 ? '0' : '5.6rem')};
+    }
+
+    @media (max-width: 480px) {
+        top: 136px;
+        width: 100%;
+        max-width: none;
+        margin-top: ${({ $index }) => ($index === 0 ? '0' : '7rem')};
+    }
 
     @media (orientation: landscape) and (max-height: 560px) {
-        top: calc(120px + ${({ $index }) => $index * 1.5}rem);
-        min-height: auto;
+        top: 110px;
+        width: 85%;
+        max-width: 520px;
+        min-height: calc(100dvh - 140px);
         padding: 1rem 1.25rem;
+        margin-top: ${({ $index }) => ($index === 0 ? '0' : '1.5rem')};
     }
 `;
 
@@ -96,13 +129,14 @@ export const CardContent = styled.div`
     }
 `;
 
-export const CardTitle = styled.h3`
+export const CardTitle = styled.h3<{ $isDark: boolean }>`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(1.35rem, 2vw, 1.75rem);
     line-height: 1.2;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.colors.gold};
+    color: ${({ $isDark, theme }) =>
+        $isDark ? theme.colors.gold : theme.colors.navyDeep};
     margin: 0;
 
     @media (orientation: landscape) and (max-height: 560px) {
@@ -117,8 +151,8 @@ export const CardText = styled.p<{ $isDark: boolean }>`
     max-width: 62ch;
     text-align: justify;
     hyphens: auto;
-    color: ${({ $isDark, theme }) =>
-        $isDark ? 'rgba(250, 248, 244, 0.75)' : theme.colors.ink70};
+    color: ${({ $isDark }) =>
+        $isDark ? 'rgba(250, 248, 244, 0.85)' : 'rgba(15, 30, 56, 0.85)'};
 
     @media (orientation: landscape) and (max-height: 560px) {
         font-size: 0.78rem;
@@ -137,13 +171,14 @@ export const CardDelivery = styled.div`
     }
 `;
 
-export const CardDeliveryLabel = styled.span`
+export const CardDeliveryLabel = styled.span<{ $isDark: boolean }>`
     font-size: 0.7rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.gold};
-    opacity: 0.85;
+    color: ${({ $isDark, theme }) =>
+        $isDark ? theme.colors.gold : theme.colors.navy};
+    opacity: 1;
 
     @media (orientation: landscape) and (max-height: 560px) {
         font-size: 0.6rem;
@@ -155,7 +190,7 @@ export const CardDeliveryText = styled.span<{ $isDark: boolean }>`
     line-height: 1.6;
     font-style: italic;
     color: ${({ $isDark }) =>
-        $isDark ? 'rgba(250, 248, 244, 0.55)' : 'rgba(22, 34, 58, 0.55)'};
+        $isDark ? 'rgba(250, 248, 244, 0.75)' : 'rgba(15, 30, 56, 0.85)'};
 
     @media (orientation: landscape) and (max-height: 560px) {
         font-size: 0.72rem;
