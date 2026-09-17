@@ -1,9 +1,4 @@
-import styled, { keyframes } from 'styled-components';
-
-const gridMove = keyframes`
-    0% { background-position: 0 0; }
-    100% { background-position: 54px 54px; }
-`;
+import styled from 'styled-components';
 
 export const ProcessoWrapper = styled.section`
     position: relative;
@@ -65,9 +60,9 @@ export const StickyCard = styled.article<{
     padding: clamp(2rem, 4vw, 3.5rem);
     border-radius: 4px;
     overflow: hidden;
-    background: ${({ $bg, theme }) =>
+    background: ${({ $bg }) =>
         $bg === 'dark'
-            ? `linear-gradient(135deg, ${theme.colors.navyDeep} 0%, ${theme.colors.navy} 50%, ${theme.colors.navyDeep} 100%)`
+            ? '#0f1e38'
             : `linear-gradient(135deg, #fbfcfe 0%, #ffffff 50%, #fbfcfe 100%)`};
     color: ${({ $bg, theme }) =>
         $bg === 'dark' ? theme.colors.cream : theme.colors.navy};
@@ -113,7 +108,6 @@ export const GridBackground = styled.div<{ $isDark: boolean }>`
         linear-gradient(to right, ${({ $isDark }) => $isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'} 1px, transparent 1px),
         linear-gradient(to bottom, ${({ $isDark }) => $isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'} 1px, transparent 1px);
     background-size: 54px 54px;
-    animation: ${gridMove} 20s linear infinite;
 `;
 
 export const CardContent = styled.div`
