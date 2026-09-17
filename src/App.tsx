@@ -11,6 +11,7 @@ import Projects from './components/Projects/Projects';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import NotFound from './components/NotFound/NotFound';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
+import { hideInitialLoader } from './utils/initialLoader';
 
 function App() {
     useSmoothScroll();
@@ -20,14 +21,7 @@ function App() {
         const isNotFound = location.pathname !== '/';
 
         if (isNotFound) {
-            const loader = document.getElementById('initial-loader');
-            if (loader && loader.parentNode) {
-                loader.style.opacity = '0';
-                loader.style.transition = 'opacity 0.5s ease';
-                setTimeout(() => {
-                    loader.remove();
-                }, 500);
-            }
+            hideInitialLoader(500, 500);
         }
     }, [location]);
 

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { HardHat } from 'lucide-react';
+import { FlowButton } from '../ui';
 import {
     NotFoundSection,
     NotFoundContent,
@@ -8,7 +10,6 @@ import {
     NotFoundDescription,
     NotFoundIcon,
     ButtonWrapper,
-    StyledNotFoundButton,
 } from './NotFound.styles';
 
 function NotFound() {
@@ -29,7 +30,7 @@ function NotFound() {
         <NotFoundSection>
             <NotFoundContent>
                 <NotFoundIcon aria-hidden="true">
-                    <i className="fas fa-hard-hat"></i>
+                    <HardHat size={56} strokeWidth={1.5} />
                 </NotFoundIcon>
 
                 <NotFoundCode>404</NotFoundCode>
@@ -44,10 +45,7 @@ function NotFound() {
                 </NotFoundDescription>
 
                 <ButtonWrapper>
-                    <StyledNotFoundButton onClick={handleGoHome}>
-                        <span className="btn-text">Voltar para o início</span>
-                        <span className="btn-circle" />
-                    </StyledNotFoundButton>
+                    <FlowButton text="Voltar para o início" scrolled onClick={handleGoHome} />
                 </ButtonWrapper>
             </NotFoundContent>
         </NotFoundSection>

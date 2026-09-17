@@ -35,11 +35,11 @@ export const ScrollButton = styled.button<{ $visible: boolean }>`
     outline-offset: 2px;
   }
 
-  i {
-    font-size: 1rem;
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
   }
 
-  /* Tablets e telas médias (768px - 1024px) */
   @media (max-width: 1024px) and (min-width: 769px) {
     width: 3rem;
     height: 3rem;
@@ -47,12 +47,12 @@ export const ScrollButton = styled.button<{ $visible: boolean }>`
     right: 2rem;
     font-size: 1.1rem;
 
-    i {
-      font-size: 1.1rem;
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
     }
   }
 
-  /* Smartphones (até 768px) */
   @media (max-width: 768px) {
     width: 3rem;
     height: 3rem;
@@ -60,12 +60,12 @@ export const ScrollButton = styled.button<{ $visible: boolean }>`
     right: 1.5rem;
     font-size: 1rem;
 
-    i {
-      font-size: 1rem;
+    svg {
+      width: 1.1rem;
+      height: 1.1rem;
     }
   }
 
-  /* Smartphones muito pequenos (até 480px) */
   @media (max-width: 480px) {
     width: 2.8rem;
     height: 2.8rem;
@@ -73,8 +73,9 @@ export const ScrollButton = styled.button<{ $visible: boolean }>`
     right: 1.25rem;
     font-size: 0.9rem;
 
-    i {
-      font-size: 0.9rem;
+    svg {
+      width: 1rem;
+      height: 1rem;
     }
   }
 `;

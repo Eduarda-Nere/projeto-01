@@ -1,11 +1,10 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { SectionWrap } from '../ui';
+import { AnimatePresence, motion } from 'framer-motion';
+import { SectionWrap, SectionTitle } from '../ui';
 import projetosImg from '../../assets/img/projetos.jpg';
 import {
     ProjectsSection,
     ProjectsHeader,
-    ProjectsTitle,
     ProjectsTabs,
     ProjectsTab,
     ProjectsTabKicker,
@@ -372,10 +371,10 @@ function Projects() {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.4 }}
                 >
-                    <ProjectsTitle variants={headerItem}>
+                    <SectionTitle as={motion.h2} $maxWidth="28ch" variants={headerItem}>
                         Cada obra começou num terreno real. Aqui está o que
                         estava em jogo, a decisão tomada e o resultado.
-                    </ProjectsTitle>
+                    </SectionTitle>
                 </ProjectsHeader>
 
                 <ProjectsTabs
@@ -471,6 +470,7 @@ function Projects() {
                             <img
                                 src={projetosImg}
                                 alt="Planta do projeto"
+                                decoding="async"
                             />
                         </ProjectsImage>
                     </ProjectsImageColumn>

@@ -1,14 +1,53 @@
 # Lopez Engenharia
 
-> Engenharia civil com foco em projetos residenciais e comerciais, oferecendo soluções em construção, reforma e gerenciamento de obras.
+> Construtora de escopo completo: projeto, aprovação, execução e entrega da chave sob contrato único. Obras residenciais, comerciais e industriais em Piracicaba, Capivari e região.
 
-## Páginas Principais
-- [Início](https://felipelopez.vercel.app/): Página inicial com a visão geral da empresa.
-- [Sobre Nós](https://felipelopez.vercel.app/#sobre): História, missão e valores da Lopez Engenharia.
-- [Cultura](https://felipelopez.vercel.app/#cultura): Valores e princípios que guiam a atuação da empresa.
-- [Processo](https://felipelopez.vercel.app/#processo): Etapas do fluxo de trabalho, do projeto à entrega da chave.
-- [Projetos](https://felipelopez.vercel.app/#projetos): Portfólio com os principais projetos realizados.
-- [Perguntas Frequentes](https://felipelopez.vercel.app/#faq): Dúvidas comuns sobre os serviços e processo de orçamento.
+A Lopez Engenharia constrói de ponta a ponta. Em vez de entregar um projeto e desejar boa sorte, assume o ciclo completo - estudo de viabilidade, projeto integrado, aprovação nos órgãos, execução e entrega da chave. Um contrato, um cronograma, um interlocutor.
+
+Esse modelo existe porque a maior parte do que dá errado numa obra não acontece na obra: acontece na fronteira entre quem projetou, quem aprovou e quem executou. Quando essas três mãos são a mesma, o erro não tem para onde ser empurrado.
+
+## Mercados atendidos
+
+- **Residencial** — Casas, sobrados, reformas e condomínios.
+- **Comercial** — Lojas, salões, escritórios, retrofit de fachada e adequação de espaços.
+- **Industrial** — Galpões, barracões, áreas de produção e infraestrutura de apoio.
+
+## Páginas
+
+- [Início](https://felipelopez.vercel.app/): Um contrato. Um responsável. Uma data. A Lopez Engenharia assume a obra inteira - viabilidade, projeto, aprovação, execução e entrega - em empreendimentos residenciais, comerciais e industriais.
+- [Sobre Nós](https://felipelopez.vercel.app/#sobre): Como a empresa constrói de ponta a ponta, por que esse modelo reduz erro e quais são os três compromissos para quem contrata.
+- [Cultura](https://felipelopez.vercel.app/#cultura): Os princípios que definem o que a empresa aceita e recusa em cada obra — Método, Pessoas e Compromisso.
+- [Processo](https://felipelopez.vercel.app/#processo): As quatro etapas do fluxo de trabalho, do estudo de viabilidade à entrega da chave, com o que cada uma entrega.
+- [Projetos](https://felipelopez.vercel.app/#projetos): Casos reais de obra — o que estava em jogo, a decisão tomada e o resultado de cada projeto.
+- [Perguntas Frequentes](https://felipelopez.vercel.app/#faq): Serviços oferecidos, orçamento, custo, prazos, região de atuação e o que muda contratando projeto e obra na mesma empresa.
+- [Contato](https://felipelopez.vercel.app/#contato): WhatsApp, e-mail e endereço para falar com a equipe e solicitar um orçamento sem custo.
+
+## Processo
+
+1. **Viabilidade** — Visita ao local, leitura do zoneamento, checagem de recuos, taxa de ocupação e uso permitido, e confronto com o orçamento-alvo. Entrega: estudo de viabilidade + orçamento preliminar.
+2. **Projeto integrado** — Arquitetura, estrutura e instalações desenhadas e compatibilizadas entre si antes de a obra começar. Entrega: pranchas executivas + memorial + orçamento fechado.
+3. **Aprovação e preparação** — Protocolo na prefeitura e demais órgãos, cronograma físico-financeiro fechado, plano de segurança e fornecedores contratados. Entrega: alvará + cronograma + plano de segurança.
+4. **Execução e entrega** — Obra conduzida contra o cronograma, com medição e relatório periódicos de avanço, custo acumulado e desvios. Entrega: relatórios de obra + documentação de encerramento + chave.
+
+## Cultura
+
+**Método** — Como pensamos a obra:
+- **Simplificação** — Complexidade é problema mal decomposto. Quebramos a obra até cada parte ser executável sem improviso.
+- **Organização e Planejamento** — Compatibilizar, sequenciar, dimensionar e travar fornecedor é mais barato na mesa do que na obra parada.
+
+**Pessoas** — Como trabalhamos juntos:
+- **Delegação com autoridade** — Quem está na frente de serviço vê antes e decide antes.
+- **Evolução a cada obra** — Erro sem aprendizado registrado volta mais caro na obra seguinte.
+- **Servir é resolver** — Atender bem é devolver o problema resolvido, não responder rápido.
+
+**Compromisso** — O que garantimos:
+- **Transparência** — O cliente enxerga o mesmo que nós enxergamos: o avanço real, o custo acumulado e o desvio, quando existe.
+- **Previsibilidade** — Prazo e custo são compromisso, não estimativa otimista. Só assumimos prazo depois do projeto executivo.
+- **Segurança** — É a condição para a obra existir. Qualquer pessoa no canteiro pode parar um serviço inseguro.
 
 ## Contato
-- [Contato](https://felipelopez.vercel.app/#contato): Informações para entrar em contato com a equipe.
+
+- WhatsApp: [(19) 99431-8392](https://wa.me/5519994318392)
+- E-mail: lopezengenharia@hotmail.com
+- Localização: Piracicaba – SP
+- Região de atuação: Piracicaba, Capivari e região

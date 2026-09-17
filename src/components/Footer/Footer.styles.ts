@@ -81,7 +81,7 @@ export const WhatsAppButton = styled.a`
     border-radius: 6px;
     border: 1.5px solid rgba(250, 248, 244, 0.75);
     background: transparent;
-    padding: 0.7rem 1.6rem 0.7rem 2.5rem;
+    padding: 0.7rem 1.6rem 0.7rem 2.75rem;
     font-family: ${({ theme }) => theme.fonts.body};
     font-size: 0.76rem;
     font-weight: 600;
@@ -103,16 +103,14 @@ export const WhatsAppButton = styled.a`
         transition: color ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easeOut};
     }
 
-    .fa-whatsapp,
-    .fa-arrow-right {
+    .icon-whatsapp,
+    .icon-arrow {
         position: absolute;
         top: 50%;
         left: 1rem;
         transform: translateY(-50%);
-        font-size: 1rem;
-        line-height: 1;
-        width: 1rem;
-        height: 1rem;
+        width: 1.25rem;
+        height: 1.25rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -121,9 +119,27 @@ export const WhatsAppButton = styled.a`
         transition: left ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easeOut},
                     opacity ${({ theme }) => theme.duration.base} ${({ theme }) => theme.easeOut},
                     color ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easeOut};
+
+        > svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            overflow: visible;
+        }
     }
 
-    .fa-arrow-right {
+    .icon-arrow > svg,
+    .icon-arrow > svg * {
+        stroke-width: 2.5;
+    }
+
+    .icon-whatsapp > svg *[fill]:not([fill='none']) {
+        stroke: currentColor;
+        stroke-width: 1;
+        stroke-linejoin: round;
+    }
+
+    .icon-arrow {
         opacity: 0;
     }
 
@@ -143,7 +159,7 @@ export const WhatsAppButton = styled.a`
 
     &:hover,
     &:focus-visible {
-        padding: 0.7rem 2.5rem 0.7rem 1.6rem;
+        padding: 0.7rem 2.75rem 0.7rem 1.6rem;
         border-color: ${({ theme }) => theme.colors.gold};
         color: ${({ theme }) => theme.colors.paper};
 
@@ -151,17 +167,17 @@ export const WhatsAppButton = styled.a`
             color: ${({ theme }) => theme.colors.paper};
         }
 
-        .fa-whatsapp,
-        .fa-arrow-right {
-            left: calc(100% - 1rem - 1rem);
+        .icon-whatsapp,
+        .icon-arrow {
+            left: calc(100% - 1.25rem - 1rem);
             color: ${({ theme }) => theme.colors.paper};
         }
 
-        .fa-whatsapp {
+        .icon-whatsapp {
             opacity: 0;
         }
 
-        .fa-arrow-right {
+        .icon-arrow {
             opacity: 1;
         }
 
@@ -282,16 +298,15 @@ export const FooterContactList = styled.div`
 const contactRowStyles = css`
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.75rem;
     padding: 0.5rem 0.75rem;
     font-size: clamp(0.85rem, 0.9vw, 0.95rem);
     line-height: 1.4;
     text-decoration: none;
 
-    i {
-        font-size: 0.95rem;
-        width: 18px;
-        text-align: center;
+    svg {
+        width: 20px;
+        height: 20px;
         flex-shrink: 0;
         color: ${({ theme }) => theme.colors.gold};
     }

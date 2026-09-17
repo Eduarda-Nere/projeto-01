@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { SectionSubtitle } from '../ui';
 
 export const CulturaSection = styled.section`
     position: relative;
@@ -12,22 +13,8 @@ export const Header = styled(motion.div)`
     margin-bottom: clamp(2.5rem, 6vw, 4rem);
 `;
 
-export const Title = styled(motion.h2)`
-    font-size: clamp(1.75rem, 4.5vw, 3.25rem);
-    line-height: 1.05;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    color: ${({ theme }) => theme.colors.navy};
-    margin: 0 0 1rem;
-    max-width: 20ch;
-`;
-
-export const Subtitle = styled(motion.p)`
-    font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-    line-height: 1.7;
-    max-width: 56ch;
-    color: ${({ theme }) => theme.colors.ink70};
-    margin: 0;
+export const Subtitle = styled(SectionSubtitle)`
+    margin: 1rem 0 0;
 `;
 
 export const PillarList = styled(motion.div)`

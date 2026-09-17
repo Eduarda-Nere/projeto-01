@@ -17,32 +17,24 @@ import {
     FooterBottomInner,
 } from './Footer.styles';
 import { Logo } from '../Logo/Logo';
+import { WhatsAppIcon } from '../ui';
+import { Mail, MapPin, ArrowRight } from 'lucide-react';
 import { FOOTER_NAV_LINKS } from '../../constants/nav';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
 
-const HEADER_HEIGHT = 96;
+const WHATSAPP_LINK =
+    'https://wa.me/5519994318392?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20um%20projeto.';
 
 function Footer() {
     const currentYear = new Date().getFullYear();
+    const { goToSection } = useScrollToSection();
 
-        const handleNavClick = (
+    const handleNavClick = (
         e: React.MouseEvent<HTMLAnchorElement>,
         href: string
     ) => {
         e.preventDefault();
-
-        const element = document.querySelector(href) as HTMLElement | null;
-        if (!element) return;
-
-        const lenis = window.__lenis;
-        if (lenis) {
-            lenis.start();
-            lenis.scrollTo(element, {
-                offset: HEADER_HEIGHT,
-                duration: 1.4,
-            });
-        } else {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        goToSection(href);
     };
 
     return (
@@ -59,14 +51,18 @@ function Footer() {
                     </FooterTagline>
 
                     <WhatsAppButton
-                        href="https://wa.me/5519994318392?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+                        href={WHATSAPP_LINK}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Entrar em contato pelo WhatsApp"
                     >
                         <span className="btn-circle" aria-hidden="true" />
-                        <i className="fab fa-whatsapp" aria-hidden="true" />
-                        <i className="fas fa-arrow-right" aria-hidden="true" />
+                        <WhatsAppIcon className="icon-whatsapp" aria-hidden="true" />
+                        <ArrowRight
+                            className="icon-arrow"
+                            aria-hidden="true"
+                            strokeWidth={2.25}
+                        />
                         <span className="btn-text">Entre em contato</span>
                     </WhatsAppButton>
                 </FooterBrand>
@@ -92,7 +88,7 @@ function Footer() {
 
                     <FooterContactList>
                         <FooterContactStatic>
-                            <i className="fas fa-map-marker-alt" aria-hidden="true" />
+                            <MapPin aria-hidden="true" />
                             <span>Piracicaba – SP</span>
                         </FooterContactStatic>
 
@@ -100,17 +96,17 @@ function Footer() {
                             href="mailto:lopezengenharia@hotmail.com"
                             aria-label="Enviar e-mail para lopezengenharia@hotmail.com"
                         >
-                            <i className="fas fa-envelope" aria-hidden="true" />
+                            <Mail aria-hidden="true" />
                             <span>lopezengenharia@hotmail.com</span>
                         </FooterContactLink>
 
                         <FooterContactLink
-                            href="https://wa.me/5519994318392?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+                            href={WHATSAPP_LINK}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Conversar no WhatsApp: (19) 99431-8392"
                         >
-                            <i className="fab fa-whatsapp" aria-hidden="true" />
+                            <WhatsAppIcon aria-hidden="true" />
                             <span>(19) 99431-8392</span>
                         </FooterContactLink>
                     </FooterContactList>

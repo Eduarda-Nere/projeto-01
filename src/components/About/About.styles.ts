@@ -52,15 +52,6 @@ export const AboutCopy = styled.div<{ $visible: boolean }>`
     }
 `;
 
-export const Title = styled.h2`
-    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
-    line-height: 1.08;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.colors.navy};
-    margin: 0;
-`;
-
 export const Block = styled.div`
     display: flex;
     flex-direction: column;
@@ -215,10 +206,11 @@ export const MarketHead = styled.div`
     gap: 0.65rem;
 `;
 
-export const MarketIcon = styled.i`
+export const MarketIcon = styled.svg`
     color: ${({ theme }) => theme.colors.gold};
-    font-size: 0.9rem;
-    line-height: 1;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
 `;
 
 export const MarketTitle = styled.h3`

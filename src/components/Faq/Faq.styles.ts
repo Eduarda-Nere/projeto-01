@@ -49,12 +49,24 @@ export const FaqQuestion = styled.button`
 `;
 
 export const FaqIcon = styled.span<{ $open: boolean }>`
-  flex: 0 0 24px;
-  font-size: 1.2rem;
-  text-align: center;
+  flex: 0 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
   color: ${({ theme }) => theme.colors.gold};
   transform: rotate(${({ $open }) => ($open ? '45deg' : '0deg')});
   transition: transform .4s ${({ theme }) => theme.ease};
+
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    fill: none;
+    stroke-linecap: round;
+  }
 `;
 
 export const FaqAnswer = styled.div<{ $open: boolean }>`

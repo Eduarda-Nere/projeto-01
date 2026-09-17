@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, useReducedMotion } from 'framer-motion';
-import { SectionWrap } from '../ui';
+import { SectionWrap, SectionTitle } from '../ui';
 import {
     CulturaSection,
     Header,
-    Title,
     Subtitle,
     PillarList,
     PillarRow,
@@ -215,8 +214,8 @@ function Cultura() {
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.8, ease: EASE }}
                     >
-                        <Title>Cultura Lopez</Title>
-                        <Subtitle>
+                        <SectionTitle $maxWidth="20ch">Cultura Lopez</SectionTitle>
+                        <Subtitle $maxWidth="56ch">
                             A Cultura Lopez define o que aceitamos e recusamos
                             em cada obra: imprevisto é falha de método, e
                             resultado vem de quem entende o porquê.

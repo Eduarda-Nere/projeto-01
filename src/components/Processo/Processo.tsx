@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
+import { SectionTitle } from '../ui';
 import {
     ProcessoWrapper,
     ProcessoHeader,
-    ProcessoTitle,
     CardsStack,
     StickyCard,
     GridBackground,
@@ -52,7 +52,9 @@ function Processo() {
     return (
         <ProcessoWrapper id="processo">
             <ProcessoHeader>
-                <ProcessoTitle>Do simples ao complexo, bem feito.</ProcessoTitle>
+                <SectionTitle $maxWidth="20ch" $center>
+                    Do simples ao complexo, bem feito.
+                </SectionTitle>
             </ProcessoHeader>
 
             <CardsStack>

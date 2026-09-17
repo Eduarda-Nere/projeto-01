@@ -15,16 +15,6 @@ export const ProjectsHeader = styled(motion.div)`
     margin-bottom: clamp(2rem, 4vw, 3rem);
 `;
 
-export const ProjectsTitle = styled(motion.h2)`
-    font-size: clamp(1.6rem, 3.8vw, 2.75rem);
-    line-height: 1.1;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    color: ${({ theme }) => theme.colors.navy};
-    margin: 0;
-    max-width: 28ch;
-`;
-
 export const ProjectsTabs = styled(motion.div)`
     display: flex;
     justify-content: center;

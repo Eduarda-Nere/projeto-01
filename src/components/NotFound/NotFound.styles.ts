@@ -18,7 +18,8 @@ export const NotFoundContent = styled.div`
 `;
 
 export const NotFoundIcon = styled.div`
-  font-size: 3.5rem;
+  display: flex;
+  justify-content: center;
   color: ${({ theme }) => theme.colors.gold};
   margin-bottom: 1.5rem;
   opacity: 0.6;
@@ -55,66 +56,4 @@ export const NotFoundDescription = styled.p`
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-export const StyledNotFoundButton = styled.button`
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 6px;
-  border: 1.5px solid ${({ theme }) => theme.colors.navy};
-  background: transparent;
-  padding: 0.9rem 1.5rem;
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.navy};
-  cursor: pointer;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  font-family: ${({ theme }) => theme.fonts.body};
-  line-height: 1;
-  white-space: nowrap;
-
-  .btn-text {
-    position: relative;
-    z-index: 1;
-    transition: color 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  .btn-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 16px;
-    height: 16px;
-    background: ${({ theme }) => theme.colors.navy};
-    border-radius: 50%;
-    opacity: 0;
-    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-    pointer-events: none;
-  }
-
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.navy};
-    color: ${({ theme }) => theme.colors.paper};
-
-    .btn-text {
-      color: ${({ theme }) => theme.colors.paper};
-    }
-
-    .btn-circle {
-      width: 220px;
-      height: 220px;
-      opacity: 1;
-      background: ${({ theme }) => theme.colors.navy};
-    }
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
 `;

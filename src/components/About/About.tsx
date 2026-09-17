@@ -1,11 +1,13 @@
+import { Home, Store, Factory } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useInViewOnce } from '../../hooks/useInViewOnce';
+import { SectionTitle } from '../ui';
 import {
     AboutSection,
     AboutGrid,
     AboutCopy,
     AboutMediaWrapper,
     AboutMedia,
-    Title,
     Block,
     Paragraph,
     MarketsStrip,
@@ -18,19 +20,19 @@ import {
 } from './About.styles';
 import projetosImg from '../../assets/img/projetos.jpg';
 
-const MARKETS = [
+const MARKETS: { icon: LucideIcon; title: string; description: string }[] = [
     {
-        icon: 'fas fa-home',
+        icon: Home,
         title: 'Residencial',
         description: 'Casas, sobrados, reformas e condomínios.',
     },
     {
-        icon: 'fas fa-store',
+        icon: Store,
         title: 'Comercial',
         description: 'Lojas, salões, escritórios, retrofit de fachada e adequação de espaços.',
     },
     {
-        icon: 'fas fa-industry',
+        icon: Factory,
         title: 'Industrial',
         description: 'Galpões, barracões, áreas de produção e infraestrutura de apoio.',
     },
@@ -45,7 +47,7 @@ function About() {
         <AboutSection id="sobre">
             <AboutGrid>
                 <AboutCopy ref={copyRef} $visible={copyInView}>
-                    <Title>Sobre Nós</Title>
+                    <SectionTitle>Sobre Nós</SectionTitle>
 
                     <Block>
                         <Paragraph>
@@ -82,7 +84,11 @@ function About() {
 
                 <AboutMediaWrapper ref={mediaRef} $visible={mediaInView}>
                     <AboutMedia>
-                        <img src={projetosImg} alt="Obra da Lopez Engenharia" />
+                        <img
+                            src={projetosImg}
+                            alt="Obra da Lopez Engenharia"
+                            decoding="async"
+                        />
                     </AboutMedia>
                 </AboutMediaWrapper>
             </AboutGrid>
@@ -96,7 +102,7 @@ function About() {
                             $delay={0.1 + index * 0.15}
                         >
                             <MarketHead>
-                                <MarketIcon className={market.icon} aria-hidden="true" />
+                                <MarketIcon as={market.icon} aria-hidden="true" />
                                 <MarketTitle>{market.title}</MarketTitle>
                             </MarketHead>
                             <MarketDescription>{market.description}</MarketDescription>

@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
+import { useScrollThreshold } from '../../hooks/useScrollThreshold';
 import {
     StyledHeader,
     HeaderRow,
@@ -24,10 +26,8 @@ import { NAV_LINKS, MOBILE_NAV_LINKS } from '../../constants/nav';
 const FOCUSABLE_SELECTOR =
     'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-const HEADER_HEIGHT = 96;
-
 function Header() {
-    const [scrolled, setScrolled] = useState(false);
+    const scrolled = useScrollThreshold(60);
     const [menuOpen, setMenuOpen] = useState(false);
     const [indicatorStyle, setIndicatorStyle] = useState({
         width: '0px',
@@ -35,9 +35,8 @@ function Header() {
         opacity: 0,
     });
 
-    const location = useLocation();
+    const { isNotFound, goToSection } = useScrollToSection();
     const navigate = useNavigate();
-    const isNotFound = location.pathname !== '/';
 
     const navRef = useRef<HTMLElement>(null);
     const indicatorRef = useRef<HTMLSpanElement>(null);
@@ -45,13 +44,6 @@ function Header() {
     const burgerRef = useRef<HTMLButtonElement>(null);
     const previouslyFocusedRef = useRef<HTMLElement | null>(null);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 60);
-        window.addEventListener('scroll', onScroll);
-        onScroll();
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
 
     useEffect(() => {
         document.body.classList.toggle('no-scroll', menuOpen);
@@ -169,32 +161,10 @@ function Header() {
         }, 150);
     };
 
-    const scrollToSection = useCallback((href: string) => {
-        const element = document.querySelector(href) as HTMLElement | null;
-        if (!element) return;
-
-        const lenis = window.__lenis;
-        if (lenis) {
-            lenis.start();
-            lenis.scrollTo(element, {
-                offset: HEADER_HEIGHT,
-                duration: 1.4,
-            });
-        } else {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, []);
-
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
         closeMenu();
-
-        if (isNotFound) {
-            navigate('/');
-            setTimeout(() => scrollToSection(href), 100);
-        } else {
-            scrollToSection(href);
-        }
+        goToSection(href);
     };
 
     const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -219,13 +189,7 @@ function Header() {
     ) => {
         e.preventDefault();
         closeMenu();
-
-        if (isNotFound) {
-            navigate('/');
-            setTimeout(() => scrollToSection('#contato'), 100);
-        } else {
-            scrollToSection('#contato');
-        }
+        goToSection('#contato');
     };
 
     useEffect(() => {
@@ -246,13 +210,7 @@ function Header() {
 
     const handleMobileNavClick = (href: string) => {
         closeMenu();
-
-        if (isNotFound) {
-            navigate('/');
-            setTimeout(() => scrollToSection(href), 100);
-        } else {
-            scrollToSection(href);
-        }
+        goToSection(href);
     };
 
     return (

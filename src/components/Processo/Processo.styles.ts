@@ -13,16 +13,6 @@ export const ProcessoHeader = styled.div`
     padding: 0 clamp(1.5rem, 4vw, 3rem);
 `;
 
-export const ProcessoTitle = styled.h2`
-    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
-    line-height: 1.08;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.colors.navy};
-    margin: 0 auto;
-    max-width: 20ch;
-`;
-
 export const CardsStack = styled.div`
     display: flex;
     flex-direction: column;
