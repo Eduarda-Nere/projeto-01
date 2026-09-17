@@ -4,119 +4,66 @@ export const AboutSection = styled.section`
     background: ${({ theme }) => theme.colors.paper};
     padding: clamp(3rem, 6vw, 5rem) 0;
     scroll-margin-top: 80px;
+
+    @media (min-width: 1025px) {
+        padding: 0;
+    }
+
+    @media (max-width: 1024px) {
+        padding: 0;
+    }
 `;
 
 export const AboutGrid = styled.div`
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(2.5rem, 6vw, 5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(1.25rem, 2.5vw, 2.5rem);
     align-items: stretch;
 
     @media (max-width: 1024px) {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
+        column-gap: 0;
         align-items: start;
     }
 `;
 
-export const AboutMediaWrapper = styled.div`
-    width: 100%;
-    display: flex;
-
-    @media (max-width: 1024px) {
-        order: 3;
-        display: block;
-        margin-top: clamp(1.5rem, 4vw, 2.5rem);
-    }
-`;
-
-export const AboutMedia = styled.div<{ $visible: boolean }>`
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 400px;
-    overflow: hidden;
-    border-radius: 4px;
-    background: ${({ theme }) => theme.colors.cream};
-    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateX(${({ $visible }) => ($visible ? '0' : '-56px')});
-    transition: opacity ${({ theme }) => theme.duration.slowest} ${({ theme }) => theme.ease},
-                transform ${({ theme }) => theme.duration.slowest} ${({ theme }) => theme.ease};
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 12px;
-        border: 1px solid ${({ theme }) => theme.colors.gold};
-        opacity: 0.45;
-        pointer-events: none;
-    }
-
-    @media (max-width: 1024px) {
-        aspect-ratio: 4 / 5;
-        height: auto;
-        min-height: 0;
-        max-width: 420px;
-        margin: 0 auto;
-        transform: none;
-    }
-
-    @media (max-width: 640px) {
-        max-width: 340px;
-    }
-
-    @media (max-width: 420px) {
-        max-width: 280px;
-    }
-`;
-
-export const AboutCopy = styled.div`
+export const AboutCopy = styled.div<{ $visible: boolean }>`
     display: flex;
     flex-direction: column;
     gap: clamp(1.5rem, 2.5vw, 2rem);
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+    padding-left: max(
+        clamp(1.5rem, 4vw, 3rem),
+        calc((100vw - 1220px) / 2 + clamp(1.5rem, 4vw, 3rem))
+    );
+    justify-content: center;
+    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+    transform: translateX(${({ $visible }) => ($visible ? '0' : '-64px')});
+    transition:
+        opacity 1s ${({ theme }) => theme.ease},
+        transform 1s ${({ theme }) => theme.ease};
 
     @media (max-width: 1024px) {
         order: 1;
+        padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+        padding-bottom: clamp(1.25rem, 3vw, 2rem);
+        transform: none;
+        opacity: 1;
     }
 `;
 
-export const Title = styled.h2<{ $visible: boolean }>`
+export const Title = styled.h2`
     font-size: clamp(1.9rem, 3.4vw, 2.5rem);
     line-height: 1.08;
     font-weight: 400;
     letter-spacing: -0.01em;
     color: ${({ theme }) => theme.colors.navy};
-    margin: 0 0 0.5rem;
-    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateX(${({ $visible }) => ($visible ? '0' : '56px')});
-    transition: opacity ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease},
-                transform ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease};
-
-    @media (max-width: 1024px) {
-        transform: none;
-        opacity: 1;
-    }
+    margin: 0;
 `;
 
-export const Block = styled.div<{ $visible: boolean }>`
+export const Block = styled.div`
     display: flex;
     flex-direction: column;
-    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateX(${({ $visible }) => ($visible ? '0' : '56px')});
-    transition: opacity ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease},
-                transform ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease};
-
-    @media (max-width: 1024px) {
-        transform: none;
-        opacity: 1;
-    }
 `;
 
 export const Paragraph = styled.p`
@@ -138,20 +85,73 @@ export const Paragraph = styled.p`
     }
 `;
 
-export const MarketsStrip = styled.div<{ $visible: boolean }>`
-    grid-column: 1 / -1;
-    margin-top: clamp(2rem, 4vw, 3rem);
+export const AboutMediaWrapper = styled.div<{ $visible: boolean }>`
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    padding: clamp(3rem, 6vw, 5rem) 0;
     opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateY(${({ $visible }) => ($visible ? '0' : '48px')});
-    transition: opacity ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease},
-                transform ${({ theme }) => theme.duration.slower} ${({ theme }) => theme.ease};
+    transform: translateX(${({ $visible }) => ($visible ? '0' : '64px')});
+    transition:
+        opacity 1s ${({ theme }) => theme.ease} 0.15s,
+        transform 1s ${({ theme }) => theme.ease} 0.15s;
 
     @media (max-width: 1024px) {
-        grid-column: auto;
         order: 2;
+        width: 100%;
+        padding: 0;
         margin-top: 0;
         transform: none;
         opacity: 1;
+    }
+`;
+
+export const AboutMedia = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px 0 0 12px;
+    background: ${({ theme }) => theme.colors.cream};
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+    @media (max-width: 1024px) {
+        width: 100%;
+        height: 320px;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    @media (max-width: 768px) {
+        height: 260px;
+    }
+
+    @media (max-width: 480px) {
+        height: 220px;
+    }
+`;
+
+export const MarketsStrip = styled.div`
+    padding: clamp(3rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    padding-left: max(
+        clamp(1.5rem, 4vw, 3rem),
+        calc((100vw - 1220px) / 2 + clamp(1.5rem, 4vw, 3rem))
+    );
+    padding-right: max(
+        clamp(1.5rem, 4vw, 3rem),
+        calc((100vw - 1220px) / 2 + clamp(1.5rem, 4vw, 3rem))
+    );
+
+    @media (max-width: 1024px) {
+        padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem);
     }
 `;
 
@@ -172,9 +172,10 @@ export const MarketItem = styled.div<{ $visible: boolean; $delay: number }>`
     flex-direction: column;
     gap: 0.6rem;
     opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    transform: translateY(${({ $visible }) => ($visible ? '0' : '24px')});
-    transition: opacity ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
-                transform ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s;
+    transform: translateY(${({ $visible }) => ($visible ? '0' : '40px')});
+    transition:
+        opacity 0.9s ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s,
+        transform 0.9s ${({ theme }) => theme.ease} ${({ $delay }) => $delay}s;
 
     &:first-child {
         padding-left: 0;
