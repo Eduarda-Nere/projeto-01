@@ -52,7 +52,7 @@ export const ProjectsTab = styled(motion.button)<{ $active: boolean }>`
     background: ${({ $active, theme }) =>
         $active ? theme.colors.navy : 'transparent'};
     color: ${({ $active, theme }) =>
-        $active ? theme.colors.cream : theme.colors.navy};
+        $active ? theme.colors.paper : theme.colors.navy};
     cursor: pointer;
     font: inherit;
     white-space: nowrap;
@@ -79,7 +79,7 @@ export const ProjectsTabKicker = styled.span<{ $active: boolean }>`
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: ${({ $active, theme }) =>
-        $active ? theme.colors.cream : theme.colors.navy};
+        $active ? theme.colors.paper : theme.colors.navy};
     transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 `;
 
@@ -186,7 +186,7 @@ export const ProjectsDropdownOption = styled.li<{ $active: boolean }>`
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: ${({ $active, theme }) =>
-        $active ? theme.colors.cream : theme.colors.navy};
+        $active ? theme.colors.paper : theme.colors.navy};
     background: ${({ $active, theme }) =>
         $active ? theme.colors.navy : 'transparent'};
     cursor: pointer;

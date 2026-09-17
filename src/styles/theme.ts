@@ -4,7 +4,6 @@ export const theme = {
         navyDeep: '#0a1526',
         gold: '#d2aa4e',
         goldSoft: '#e8cf99',
-        cream: '#f6f2e9',
         paper: '#ffffff',
         ink: '#16223a',
         ink70: 'rgba(22, 34, 58, .7)',

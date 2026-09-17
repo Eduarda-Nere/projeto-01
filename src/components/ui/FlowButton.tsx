@@ -18,7 +18,7 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
     overflow: hidden;
     border-radius: 6px;
     border: 1.5px solid ${({ $scrolled, theme }) =>
-        $scrolled ? theme.colors.navy : theme.colors.cream};
+        $scrolled ? theme.colors.navy : theme.colors.paper};
     background: transparent;
     padding: 0.5rem 1.5rem;
     font-size: 0.76rem;
@@ -26,7 +26,7 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: ${({ $scrolled, theme }) =>
-        $scrolled ? theme.colors.navy : theme.colors.cream};
+        $scrolled ? theme.colors.navy : theme.colors.paper};
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     flex-shrink: 0;
@@ -37,7 +37,7 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
         border-color: ${({ $scrolled, theme }) =>
             $scrolled ? theme.colors.navy : theme.colors.gold};
         border-radius: 6px;
-        color: ${({ theme }) => theme.colors.cream};
+        color: ${({ theme }) => theme.colors.paper};
         background: transparent;
     }
 
@@ -68,7 +68,7 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
 
     &:hover {
         .btn-text {
-            color: ${({ theme }) => theme.colors.cream};
+            color: ${({ theme }) => theme.colors.paper};
         }
 
         .btn-circle {

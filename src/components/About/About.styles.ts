@@ -112,7 +112,7 @@ export const AboutMedia = styled.div`
     height: 100%;
     overflow: hidden;
     border-radius: 12px 0 0 12px;
-    background: ${({ theme }) => theme.colors.cream};
+    background: ${({ theme }) => theme.colors.paper};
 
     img {
         width: 100%;

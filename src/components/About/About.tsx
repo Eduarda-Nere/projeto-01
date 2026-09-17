@@ -22,7 +22,7 @@ const MARKETS = [
     {
         icon: 'fas fa-home',
         title: 'Residencial',
-        description: 'Casas, sobrados, edículas, reformas e condomínios.',
+        description: 'Casas, sobrados, reformas e condomínios.',
     },
     {
         icon: 'fas fa-store',

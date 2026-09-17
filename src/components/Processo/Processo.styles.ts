@@ -65,7 +65,7 @@ export const StickyCard = styled.article<{
             ? '#0f1e38'
             : `linear-gradient(135deg, #fbfcfe 0%, #ffffff 50%, #fbfcfe 100%)`};
     color: ${({ $bg, theme }) =>
-        $bg === 'dark' ? theme.colors.cream : theme.colors.navy};
+        $bg === 'dark' ? theme.colors.paper : theme.colors.navy};
     box-shadow: ${({ $bg }) =>
         $bg === 'dark'
             ? '0 1px 0 rgba(210, 170, 78, 0.15) inset, 0 2px 6px rgba(0, 0, 0, 0.12)'

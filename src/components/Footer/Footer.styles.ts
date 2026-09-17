@@ -145,16 +145,16 @@ export const WhatsAppButton = styled.a`
     &:focus-visible {
         padding: 0.7rem 2.5rem 0.7rem 1.6rem;
         border-color: ${({ theme }) => theme.colors.gold};
-        color: ${({ theme }) => theme.colors.cream};
+        color: ${({ theme }) => theme.colors.paper};
 
         .btn-text {
-            color: ${({ theme }) => theme.colors.cream};
+            color: ${({ theme }) => theme.colors.paper};
         }
 
         .fa-whatsapp,
         .fa-arrow-right {
             left: calc(100% - 1rem - 1rem);
-            color: ${({ theme }) => theme.colors.cream};
+            color: ${({ theme }) => theme.colors.paper};
         }
 
         .fa-whatsapp {
@@ -243,7 +243,7 @@ export const FooterNavLink = styled.a`
 
     &:hover,
     &:focus-visible {
-        color: ${({ theme }) => theme.colors.cream};
+        color: ${({ theme }) => theme.colors.paper};
 
         &::before {
             opacity: 1;
@@ -313,7 +313,7 @@ export const FooterContactLink = styled.a`
 
     &:hover,
     &:focus-visible {
-        color: ${({ theme }) => theme.colors.cream};
+        color: ${({ theme }) => theme.colors.paper};
     }
 
     &:focus-visible {

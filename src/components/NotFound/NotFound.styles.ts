@@ -100,10 +100,10 @@ export const StyledNotFoundButton = styled.button`
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.navy};
-    color: ${({ theme }) => theme.colors.cream};
+    color: ${({ theme }) => theme.colors.paper};
 
     .btn-text {
-      color: ${({ theme }) => theme.colors.cream};
+      color: ${({ theme }) => theme.colors.paper};
     }
 
     .btn-circle {

@@ -263,7 +263,7 @@ export const MobileMenuLink = styled.a`
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.cream};
+    color: ${({ theme }) => theme.colors.paper};
     transition: color 0.3s ${({ theme }) => theme.ease};
 
     &:hover {
