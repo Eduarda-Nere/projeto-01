@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const HEADER_HEIGHT = 96;
-const NAVIGATE_BACK_DELAY = 100;
+const NAVIGATE_BACK_DELAY = 700;
 
 export function useScrollToSection() {
     const location = useLocation();
@@ -26,7 +26,9 @@ export function useScrollToSection() {
         (href: string) => {
             if (isNotFound) {
                 navigate('/');
-                setTimeout(() => scrollToSection(href), NAVIGATE_BACK_DELAY);
+                requestAnimationFrame(() => {
+                    setTimeout(() => scrollToSection(href), NAVIGATE_BACK_DELAY);
+                });
             } else {
                 scrollToSection(href);
             }
