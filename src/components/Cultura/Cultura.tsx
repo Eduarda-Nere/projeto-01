@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, useReducedMotion } from 'framer-motion';
-import { SectionWrap, SectionTitle } from '../ui';
+import { SectionWrap, SectionTitle, Highlight } from '../ui';
+import { useInViewOnce } from '../../hooks/useInViewOnce';
 import {
     CulturaSection,
     Header,
@@ -141,6 +142,9 @@ function Cultura() {
     const [activeId, setActiveId] = useState<string | null>(null);
     const activePillar = PILLARS.find((pillar) => pillar.id === activeId) ?? null;
     const prefersReducedMotion = useReducedMotion();
+
+    const { ref: footerRef, inView: footerInView } =
+        useInViewOnce<HTMLParagraphElement>();
 
     useEffect(() => {
         if (activeId === null) return;
@@ -302,16 +306,19 @@ function Cultura() {
                     </PillarList>
 
                     <FooterNote
+                        ref={footerRef}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.6 }}
-                        transition={{ duration: 0.8, ease: EASE }}
+                        viewport={{ once: true, amount: 0.4 }}
+                        transition={{ duration: 0.6, ease: EASE }}
                     >
-                        <strong>Confiabilidade</strong> não está nesta lista
-                        porque não é um princípio: é o que sobra quando todos os
-                        outros foram cumpridos até o fim. Nenhuma empresa
-                        consegue declarar confiabilidade - só consegue ser
-                        encontrada tendo-a.
+                        <Highlight $active={footerInView} $delay={0.3}>
+                            <strong>Confiabilidade</strong>
+                        </Highlight>{' '}
+                        não está nesta lista porque não é um princípio: é o que
+                        sobra quando todos os outros foram cumpridos até o fim.
+                        Nenhuma empresa consegue declarar confiabilidade - só
+                        consegue ser encontrada tendo-a.
                     </FooterNote>
                 </SectionWrap>
             </CulturaSection>

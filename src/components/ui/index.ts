@@ -6,3 +6,4 @@ export { FlowButton } from './FlowButton';
 export { WhatsAppIcon } from './WhatsAppIcon';
 export { GoldList, GoldListItem } from './List';
 export { TextRoll } from './TextRoll';
+export { Highlight } from './Highlight';
