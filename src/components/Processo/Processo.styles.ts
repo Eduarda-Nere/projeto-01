@@ -50,10 +50,10 @@ export const StickyCard = styled.article<{
     padding: clamp(2rem, 4vw, 3.5rem);
     border-radius: 4px;
     overflow: hidden;
-    background: ${({ $bg }) =>
+    background: ${({ $bg, theme }) =>
         $bg === 'dark'
-            ? '#0f1e38'
-            : `linear-gradient(135deg, #fbfcfe 0%, #ffffff 50%, #fbfcfe 100%)`};
+            ? theme.colors.navy
+            : `linear-gradient(135deg, ${theme.colors.paper} 0%, #ffffff 50%, ${theme.colors.paper} 100%)`};
     color: ${({ $bg, theme }) =>
         $bg === 'dark' ? theme.colors.paper : theme.colors.navy};
     box-shadow: ${({ $bg }) =>
@@ -116,8 +116,8 @@ export const CardContent = styled.div`
 export const CardTitle = styled.h3<{ $isDark: boolean }>`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(1.35rem, 2vw, 1.75rem);
-    line-height: 1.2;
-    font-weight: 600;
+    line-height: 1.25;
+    font-weight: 400;
     letter-spacing: -0.01em;
     color: ${({ $isDark, theme }) =>
         $isDark ? theme.colors.gold : theme.colors.navyDeep};
@@ -129,6 +129,7 @@ export const CardTitle = styled.h3<{ $isDark: boolean }>`
 `;
 
 export const CardText = styled.p<{ $isDark: boolean }>`
+    font-family: ${({ theme }) => theme.fonts.body};
     font-size: 0.95rem;
     line-height: 1.75;
     margin: 0;
@@ -156,8 +157,9 @@ export const CardDelivery = styled.div`
 `;
 
 export const CardDeliveryLabel = styled.span<{ $isDark: boolean }>`
-    font-size: 0.7rem;
-    font-weight: 700;
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: 0.72rem;
+    font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: ${({ $isDark, theme }) =>

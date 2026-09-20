@@ -1,34 +1,28 @@
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SectionWrap, SectionTitle } from '../ui';
-import projetosImg from '../../assets/img/projetos.jpg';
+import { SectionWrap, SectionTitle, GoldList, GoldListItem } from '../ui';
 import {
     ProjectsSection,
     ProjectsHeader,
+    ProjectsSubtitle,
     ProjectsTabs,
     ProjectsTab,
     ProjectsTabKicker,
-    ProjectsDropdown,
     ProjectsDropdownWrapper,
     ProjectsDropdownTrigger,
     ProjectsDropdownChevron,
     ProjectsDropdownMenu,
     ProjectsDropdownOption,
     ProjectsStage,
-    ProjectsImageColumn,
-    ProjectsImage,
-    ProjectsContentPanel,
-    ProjectsPanelSizer,
-    ProjectsPanelInner,
-    ProjectsPanelSubtitle,
-    ProjectsStatsRow,
-    ProjectsStat,
-    ProjectsStatValue,
-    ProjectsStatLabel,
-    ProjectsPanelDescription,
-    ProjectsPanelParagraph,
-    ProjectsPanelList,
-    ProjectsPanelListItem,
+    ProjectsCard,
+    ProjectsCardMain,
+    ProjectsCardSubtitle,
+    ProjectsCardDescription,
+    ProjectsCardParagraph,
+    ProjectsCardStats,
+    ProjectsCardStat,
+    ProjectsCardStatValue,
+    ProjectsCardStatLabel,
 } from './Projects.styles';
 
 type ProjectStat = {
@@ -40,7 +34,7 @@ type ProjectBlock =
     | { type: 'paragraph'; content: React.ReactNode }
     | { type: 'list'; items: React.ReactNode[] };
 
-type ProjectPillar = {
+type Project = {
     id: string;
     kicker: string;
     short: string;
@@ -49,7 +43,7 @@ type ProjectPillar = {
     stats: ProjectStat[];
 };
 
-const PROJECT_PILLARS: ProjectPillar[] = [
+const PROJECTS: Project[] = [
     {
         id: 'renan',
         kicker: 'RESIDENCIAL - CASA RENAN',
@@ -60,35 +54,29 @@ const PROJECT_PILLARS: ProjectPillar[] = [
                 type: 'paragraph',
                 content: (
                     <>
-                        Lote de{' '}
-                        <strong>8 m de testada por 20 m de profundidade</strong>{' '}
-                        — 160 m² —, com garagem, loja e edícula disputando a
-                        mesma faixa de acesso.
+                        Lote de 8 m de testada por 20 m de profundidade (160
+                        m²), com garagem, loja e edícula disputando a mesma
+                        faixa de acesso.
                     </>
                 ),
             },
             {
                 type: 'paragraph',
-                content: (
-                    <>
-                        A solução foi fazer essa faixa de{' '}
-                        <strong>2,90 m</strong> trabalhar duas vezes:
-                    </>
-                ),
+                content: <>A solução foi fazer essa faixa de 2,90 m trabalhar duas vezes:</>,
             },
             {
                 type: 'list',
                 items: [
                     <>
-                        O carro ocupa os primeiros <strong>5,50 m</strong> e
-                        sobra <strong>1,05 m</strong> de passagem livre ao lado
+                        O carro ocupa os primeiros 5,50 m e
+                        sobra 1,05 m de passagem livre ao lado
                         dele;
                     </>,
                     <>
                         Na chegada à edícula, a faixa estreita para{' '}
-                        <strong>2,00 m</strong>, onde a escada de{' '}
-                        <strong>1,00 m</strong> ainda deixa{' '}
-                        <strong>1,00 m</strong> de circulação.
+                        2,00 m, onde a escada de{' '}
+                        1,00 m ainda deixa{' '}
+                        1,00 m de circulação.
                     </>,
                 ],
             },
@@ -96,10 +84,9 @@ const PROJECT_PILLARS: ProjectPillar[] = [
                 type: 'paragraph',
                 content: (
                     <>
-                        A loja de <strong>42,84 m²</strong> ficou desenhada como
-                        reserva de área para uma segunda etapa, sem travar a
-                        primeira. Taxa de ocupação final:{' '}
-                        <strong>67,12%</strong>, com o limite municipal em 70%.
+                        A loja de 42,84 m² ficou desenhada como reserva de área
+                        para uma segunda etapa, sem travar a primeira. Taxa de
+                        ocupação final: 67,12%, com o limite municipal em 70%.
                     </>
                 ),
             },
@@ -121,9 +108,9 @@ const PROJECT_PILLARS: ProjectPillar[] = [
                 type: 'paragraph',
                 content: (
                     <>
-                        Terreno de <strong>8 × 25 metros</strong> no Loteamento
-                        Parque Residencial Santa Rita, em Capivari — proporção em
-                        que o corredor de circulação costuma comer a área útil.
+                        Terreno de 8 × 25 metros no Loteamento Parque
+                        Residencial Santa Rita, em Capivari — proporção em que o
+                        corredor de circulação costuma comer a área útil.
                     </>
                 ),
             },
@@ -131,8 +118,8 @@ const PROJECT_PILLARS: ProjectPillar[] = [
                 type: 'paragraph',
                 content: (
                     <>
-                        A planta <strong>dispensa o corredor</strong> e organiza
-                        o programa inteiro em profundidade:
+                        A planta dispensa o corredor e organiza o programa
+                        inteiro em profundidade:
                     </>
                 ),
             },
@@ -155,10 +142,9 @@ const PROJECT_PILLARS: ProjectPillar[] = [
                 type: 'paragraph',
                 content: (
                     <>
-                        O resultado é um programa completo em{' '}
-                        <strong>pavimento único</strong>, com{' '}
-                        <strong>3,00 m de área livre</strong> preservados nos
-                        fundos em vez de um quintal espremido.
+                        O resultado é um programa completo em pavimento único,
+                        com 3,00 m de área livre preservados nos fundos em vez
+                        de um quintal espremido.
                     </>
                 ),
             },
@@ -251,22 +237,39 @@ const tabItem = {
 const panelVariants = {
     enter: (dir: number) => ({
         opacity: 0,
-        y: dir > 0 ? 24 : -24,
-        filter: 'blur(6px)',
+        y: dir > 0 ? 20 : -20,
     }),
     center: {
         opacity: 1,
         y: 0,
-        filter: 'blur(0px)',
-        transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as const },
+        transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const },
     },
     exit: (dir: number) => ({
         opacity: 0,
-        y: dir > 0 ? -24 : 24,
-        filter: 'blur(6px)',
-        transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as const },
+        y: dir > 0 ? -20 : 20,
+        transition: { duration: 0.3, ease: [0.23, 1, 0.32, 1] as const },
     }),
 };
+
+function ProjectBlocks({ blocks }: { blocks: ProjectBlock[] }) {
+    return (
+        <ProjectsCardDescription>
+            {blocks.map((block, i) =>
+                block.type === 'paragraph' ? (
+                    <ProjectsCardParagraph key={i}>
+                        {block.content}
+                    </ProjectsCardParagraph>
+                ) : (
+                    <GoldList key={i}>
+                        {block.items.map((item, j) => (
+                            <GoldListItem key={j}>{item}</GoldListItem>
+                        ))}
+                    </GoldList>
+                )
+            )}
+        </ProjectsCardDescription>
+    );
+}
 
 function Projects() {
     const [active, setActive] = useState(0);
@@ -274,21 +277,13 @@ function Projects() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const heaviest = useMemo(
-        () =>
-            PROJECT_PILLARS.reduce(
-                (max, p) => (p.blocks.length > max.blocks.length ? p : max),
-                PROJECT_PILLARS[0]
-            ),
-        []
-    );
-
     const goTo = useCallback((next: number) => {
         setActive((prev) => {
             if (next === prev) return prev;
             setDirection(next > prev ? 1 : -1);
             return next;
         });
+        setDropdownOpen(false);
     }, []);
 
     useEffect(() => {
@@ -316,51 +311,7 @@ function Projects() {
         };
     }, [dropdownOpen]);
 
-    const handleOptionClick = (i: number) => {
-        goTo(i);
-        setDropdownOpen(false);
-    };
-
-    const current = PROJECT_PILLARS[active];
-
-    const renderPanelContent = (pillar: ProjectPillar) => (
-        <>
-            <ProjectsPanelSubtitle>
-                {pillar.subtitle}
-            </ProjectsPanelSubtitle>
-
-            <ProjectsStatsRow>
-                {pillar.stats.map((stat) => (
-                    <ProjectsStat key={stat.label}>
-                        <ProjectsStatValue>
-                            {stat.value}
-                        </ProjectsStatValue>
-                        <ProjectsStatLabel>
-                            {stat.label}
-                        </ProjectsStatLabel>
-                    </ProjectsStat>
-                ))}
-            </ProjectsStatsRow>
-
-            <ProjectsPanelDescription>
-                {pillar.blocks.map((block, i) =>
-                    block.type === 'paragraph' ? (
-                        <ProjectsPanelParagraph key={i}>
-                            {block.content}
-                        </ProjectsPanelParagraph>
-                    ) : (
-                        <ProjectsPanelList key={i}>
-                            {block.items.map((item, j) => (
-                                <ProjectsPanelListItem key={j}>
-                                    {item}
-                                </ProjectsPanelListItem>
-                            ))}
-                        </ProjectsPanelList>
-                    )
-                )}
-            </ProjectsPanelDescription>
-        </>
-    );
+    const current = PROJECTS[active];
 
     return (
         <ProjectsSection id="projetos">
@@ -371,10 +322,18 @@ function Projects() {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.4 }}
                 >
-                    <SectionTitle as={motion.h2} $maxWidth="28ch" variants={headerItem}>
+                    <SectionTitle
+                        as={motion.h2}
+                        $maxWidth="28ch"
+                        $center
+                        variants={headerItem}
+                    >
+                        Projetos Entregues
+                    </SectionTitle>
+                    <ProjectsSubtitle variants={headerItem}>
                         Cada obra começou num terreno real. Aqui está o que
                         estava em jogo, a decisão tomada e o resultado.
-                    </SectionTitle>
+                    </ProjectsSubtitle>
                 </ProjectsHeader>
 
                 <ProjectsTabs
@@ -383,120 +342,114 @@ function Projects() {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
                 >
-                    {PROJECT_PILLARS.map((pillar, i) => {
+                    {PROJECTS.map((project, i) => {
                         const isActive = i === active;
 
                         return (
                             <ProjectsTab
-                                key={pillar.id}
+                                key={project.id}
                                 type="button"
                                 $active={isActive}
                                 variants={tabItem}
                                 onClick={() => goTo(i)}
                                 aria-pressed={isActive}
-                                aria-label={pillar.kicker}
+                                aria-label={project.kicker}
                                 whileTap={{ scale: 0.97 }}
                             >
                                 <ProjectsTabKicker $active={isActive}>
-                                    {pillar.kicker}
+                                    {project.kicker}
                                 </ProjectsTabKicker>
                             </ProjectsTab>
                         );
                     })}
                 </ProjectsTabs>
 
-                <ProjectsDropdown
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.4 }}
-                    transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                >
-                    <ProjectsDropdownWrapper ref={dropdownRef}>
-                        <ProjectsDropdownTrigger
-                            type="button"
-                            onClick={() => setDropdownOpen((v) => !v)}
-                            aria-haspopup="listbox"
-                            aria-expanded={dropdownOpen}
+                <ProjectsDropdownWrapper ref={dropdownRef}>
+                    <ProjectsDropdownTrigger
+                        type="button"
+                        onClick={() => setDropdownOpen((v) => !v)}
+                        aria-haspopup="listbox"
+                        aria-expanded={dropdownOpen}
+                    >
+                        <span>{current.kicker}</span>
+                        <ProjectsDropdownChevron
+                            $open={dropdownOpen}
+                            aria-hidden="true"
                         >
-                            <span>{current.kicker}</span>
-                            <ProjectsDropdownChevron
-                                $open={dropdownOpen}
-                                aria-hidden="true"
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </ProjectsDropdownChevron>
+                    </ProjectsDropdownTrigger>
+
+                    <AnimatePresence>
+                        {dropdownOpen && (
+                            <ProjectsDropdownMenu
+                                role="listbox"
+                                initial={{ opacity: 0, y: -8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -8 }}
+                                transition={{
+                                    duration: 0.2,
+                                    ease: [0.23, 1, 0.32, 1],
+                                }}
                             >
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M6 9l6 6 6-6" />
-                                </svg>
-                            </ProjectsDropdownChevron>
-                        </ProjectsDropdownTrigger>
+                                {PROJECTS.map((project, i) => {
+                                    const isActive = i === active;
 
-                        <AnimatePresence>
-                            {dropdownOpen && (
-                                <ProjectsDropdownMenu
-                                    role="listbox"
-                                    initial={{ opacity: 0, y: -8 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -8 }}
-                                    transition={{
-                                        duration: 0.2,
-                                        ease: [0.23, 1, 0.32, 1],
-                                    }}
-                                >
-                                    {PROJECT_PILLARS.map((pillar, i) => {
-                                        const isActive = i === active;
-
-                                        return (
-                                            <ProjectsDropdownOption
-                                                key={pillar.id}
-                                                role="option"
-                                                aria-selected={isActive}
-                                                $active={isActive}
-                                                onClick={() =>
-                                                    handleOptionClick(i)
-                                                }
-                                            >
-                                                {pillar.kicker}
-                                            </ProjectsDropdownOption>
-                                        );
-                                    })}
-                                </ProjectsDropdownMenu>
-                            )}
-                        </AnimatePresence>
-                    </ProjectsDropdownWrapper>
-                </ProjectsDropdown>
+                                    return (
+                                        <ProjectsDropdownOption
+                                            key={project.id}
+                                            role="option"
+                                            aria-selected={isActive}
+                                            $active={isActive}
+                                            onClick={() => goTo(i)}
+                                        >
+                                            {project.kicker}
+                                        </ProjectsDropdownOption>
+                                    );
+                                })}
+                            </ProjectsDropdownMenu>
+                        )}
+                    </AnimatePresence>
+                </ProjectsDropdownWrapper>
 
                 <ProjectsStage>
-                    <ProjectsImageColumn>
-                        <ProjectsImage>
-                            <img
-                                src={projetosImg}
-                                alt="Planta do projeto"
-                                decoding="async"
-                            />
-                        </ProjectsImage>
-                    </ProjectsImageColumn>
-
-                    <ProjectsContentPanel>
-                        <ProjectsPanelSizer aria-hidden="true">
-                            {renderPanelContent(heaviest)}
-                        </ProjectsPanelSizer>
-
-                        <AnimatePresence
-                            mode="wait"
+                    <AnimatePresence
+                        mode="wait"
+                        custom={direction}
+                        initial={false}
+                    >
+                        <ProjectsCard
+                            key={current.id}
                             custom={direction}
-                            initial={false}
+                            variants={panelVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
                         >
-                            <ProjectsPanelInner
-                                key={current.id}
-                                custom={direction}
-                                variants={panelVariants}
-                                initial="enter"
-                                animate="center"
-                                exit="exit"
-                            >
-                                {renderPanelContent(current)}
-                            </ProjectsPanelInner>
-                        </AnimatePresence>
-                    </ProjectsContentPanel>
+                            <ProjectsCardMain>
+                                <ProjectsCardSubtitle>
+                                    {current.subtitle}
+                                </ProjectsCardSubtitle>
+
+                                <ProjectBlocks blocks={current.blocks} />
+                            </ProjectsCardMain>
+
+                            <ProjectsCardStats>
+                                {current.stats.map((stat) => (
+                                    <ProjectsCardStat key={stat.label}>
+                                        <ProjectsCardStatValue>
+                                            {stat.value}
+                                        </ProjectsCardStatValue>
+                                        <ProjectsCardStatLabel>
+                                            {stat.label}
+                                        </ProjectsCardStatLabel>
+                                    </ProjectsCardStat>
+                                ))}
+                            </ProjectsCardStats>
+                        </ProjectsCard>
+                    </AnimatePresence>
                 </ProjectsStage>
             </SectionWrap>
         </ProjectsSection>

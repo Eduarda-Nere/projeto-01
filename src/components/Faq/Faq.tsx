@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useInViewOnce } from '../../hooks/useInViewOnce';
-import { SectionWrap, SectionHead, SectionTitle } from '../ui';
+import { SectionWrap, SectionHead, SectionTitle, GoldList, GoldListItem } from '../ui';
 import {
     FaqSection,
     FaqList,
@@ -10,8 +10,6 @@ import {
     FaqAnswer,
     FaqAnswerContent,
     FaqAnswerText,
-    FaqListPoint,
-    FaqListItem,
 } from './Faq.styles';
 
 type FaqBlock =
@@ -108,11 +106,11 @@ function Faq() {
     const renderBlock = (block: FaqBlock, blockIndex: number) => {
         if (block.type === 'list') {
             return (
-                <FaqListPoint key={blockIndex}>
+                <GoldList key={blockIndex}>
                     {block.items.map((item, itemIndex) => (
-                        <FaqListItem key={itemIndex}>{item}</FaqListItem>
+                        <GoldListItem key={itemIndex}>{item}</GoldListItem>
                     ))}
-                </FaqListPoint>
+                </GoldList>
             );
         }
 

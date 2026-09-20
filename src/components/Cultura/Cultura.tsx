@@ -17,13 +17,14 @@ import {
     FooterNote,
     ModalOverlay,
     ModalPanel,
+    ModalHeader,
     ModalClose,
-    ModalKicker,
     ModalTitle,
-    TopicList,
-    TopicItem,
-    TopicTitle,
-    TopicParagraph,
+    ModalTopicList,
+    CulturaTopic,
+    CulturaTopicTitle,
+    CulturaTopicDescription,
+    CulturaTopicParagraph,
 } from './Cultura.styles';
 
 type Topic = {
@@ -337,41 +338,41 @@ function Cultura() {
                                 exit={{ opacity: 0, y: 10, scale: 0.98 }}
                                 transition={{ duration: 0.4, ease: EASE }}
                             >
-                                <ModalClose
-                                    onClick={() => setActiveId(null)}
-                                    aria-label="Voltar para a lista de pilares"
-                                >
-                                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M19 12H5M12 19l-7-7 7-7" />
-                                    </svg>
-                                    Voltar
-                                </ModalClose>
+                                <ModalHeader>
+                                    <ModalTitle>
+                                        {activePillar.title}
+                                    </ModalTitle>
+                                    <ModalClose
+                                        onClick={() => setActiveId(null)}
+                                        aria-label="Voltar para a lista de pilares"
+                                    >
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                                        </svg>
+                                        Voltar
+                                    </ModalClose>
+                                </ModalHeader>
 
-                                <ModalKicker>
-                                    {activePillar.kicker}
-                                </ModalKicker>
-                                <ModalTitle>
-                                    {activePillar.title}
-                                </ModalTitle>
-
-                                <TopicList>
+                                <ModalTopicList>
                                     {activePillar.topics.map((topic) => (
-                                        <TopicItem key={topic.title}>
-                                            <TopicTitle>
+                                        <CulturaTopic key={topic.title}>
+                                            <CulturaTopicTitle>
                                                 {topic.title}
-                                            </TopicTitle>
-                                            <TopicParagraph>
-                                                {topic.paragraph}
-                                            </TopicParagraph>
-                                            <TopicParagraph>
-                                                <strong>
-                                                    Na prática:
-                                                </strong>{' '}
-                                                {topic.practice}
-                                            </TopicParagraph>
-                                        </TopicItem>
+                                            </CulturaTopicTitle>
+                                            <CulturaTopicDescription>
+                                                <CulturaTopicParagraph>
+                                                    {topic.paragraph}
+                                                </CulturaTopicParagraph>
+                                                <CulturaTopicParagraph>
+                                                    <strong>
+                                                        Na prática:
+                                                    </strong>{' '}
+                                                    {topic.practice}
+                                                </CulturaTopicParagraph>
+                                            </CulturaTopicDescription>
+                                        </CulturaTopic>
                                     ))}
-                                </TopicList>
+                                </ModalTopicList>
                             </ModalPanel>
                         </ModalOverlay>
                     )}

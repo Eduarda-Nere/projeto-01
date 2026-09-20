@@ -211,12 +211,12 @@ export const FooterNav = styled.nav`
 
 export const FooterTitle = styled.h3`
     margin: 0;
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.gold};
     font-weight: 600;
-    font-family: ${({ theme }) => theme.fonts.body};
+    font-family: ${({ theme }) => theme.fonts.display};
 `;
 
 export const FooterNavList = styled.ul`
@@ -236,39 +236,22 @@ export const FooterNavList = styled.ul`
 export const FooterNavLink = styled.a`
     position: relative;
     display: inline-block;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    z-index: 1;
+    padding: 0.5rem 0;
     font-size: clamp(0.85rem, 0.9vw, 0.95rem);
     line-height: 1.4;
     color: rgba(250, 248, 244, 0.75);
     text-decoration: none;
     transition: color ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
 
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.12);
-        opacity: 0;
-        pointer-events: none;
-        z-index: -1;
-        transition: opacity ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
-    }
-
     &:hover,
     &:focus-visible {
         color: ${({ theme }) => theme.colors.paper};
-
-        &::before {
-            opacity: 1;
-        }
     }
 
     &:focus-visible {
         outline: 2px solid ${({ theme }) => theme.colors.gold};
         outline-offset: 3px;
+        border-radius: 4px;
     }
 `;
 
@@ -299,7 +282,7 @@ const contactRowStyles = css`
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0;
     font-size: clamp(0.85rem, 0.9vw, 0.95rem);
     line-height: 1.4;
     text-decoration: none;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const SectionSubtitle = styled.p<{ $light?: boolean; $maxWidth?: string }>`
     font-size: 1rem;
+    font-weight: 300;
     line-height: 1.7;
     max-width: ${({ $maxWidth }) => $maxWidth ?? '52ch'};
     margin: 1rem auto 0;

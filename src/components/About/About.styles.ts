@@ -16,8 +16,8 @@ export const AboutSection = styled.section`
 
 export const AboutGrid = styled.div`
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 4vw, 4rem);
     align-items: stretch;
 
     @media (max-width: 1024px) {
@@ -62,17 +62,13 @@ export const Paragraph = styled.p`
     line-height: 1.75;
     color: ${({ theme }) => theme.colors.ink70};
     margin: 0;
-    max-width: 62ch;
+    max-width: 100%;
     text-align: justify;
     hyphens: auto;
 
     strong {
         color: ${({ theme }) => theme.colors.navy};
         font-weight: 600;
-    }
-
-    @media (max-width: 1024px) {
-        max-width: 100%;
     }
 `;
 
@@ -90,7 +86,7 @@ export const AboutMediaWrapper = styled.div<{ $visible: boolean }>`
     @media (max-width: 1024px) {
         order: 2;
         width: 100%;
-        padding: 0;
+        padding: 0 clamp(1.5rem, 4vw, 3rem);
         margin-top: 0;
         transform: none;
         opacity: 1;
@@ -118,7 +114,7 @@ export const AboutMedia = styled.div`
         height: 320px;
         max-width: none;
         margin: 0;
-        border-radius: 0;
+        border-radius: 12px;
     }
 
     @media (max-width: 768px) {
@@ -158,10 +154,10 @@ export const MarketsGrid = styled.div`
 
 export const MarketItem = styled.div<{ $visible: boolean; $delay: number }>`
     position: relative;
-    padding: 0 clamp(1.25rem, 2.5vw, 2rem);
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    padding: 0 clamp(1.25rem, 3vw, 2.5rem);
     opacity: ${({ $visible }) => ($visible ? 1 : 0)};
     transform: translateY(${({ $visible }) => ($visible ? '0' : '40px')});
     transition:
@@ -179,7 +175,7 @@ export const MarketItem = styled.div<{ $visible: boolean; $delay: number }>`
     &:not(:first-child)::before {
         content: '';
         position: absolute;
-        left: 0;
+        left: calc(-1 * clamp(0.625rem, 1.5vw, 1.25rem));
         top: 4px;
         bottom: 4px;
         width: 1px;
@@ -197,6 +193,10 @@ export const MarketItem = styled.div<{ $visible: boolean; $delay: number }>`
         &:last-child {
             border-bottom: none;
         }
+
+        &::before {
+            display: none;
+        }
     }
 `;
 
@@ -211,6 +211,7 @@ export const MarketIcon = styled.svg`
     width: 1rem;
     height: 1rem;
     flex-shrink: 0;
+    transform: translateY(-2px);
 `;
 
 export const MarketTitle = styled.h3`

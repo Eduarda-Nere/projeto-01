@@ -64,7 +64,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h1, h2, h3, h4 {
-    font-family: ${({ theme }) => theme.fonts.display};
     letter-spacing: -0.01em;
   }
 

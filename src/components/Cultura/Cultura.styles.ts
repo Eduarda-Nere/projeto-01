@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { SectionSubtitle } from '../ui';
+import { SectionSubtitle, GoldList } from '../ui';
 
 export const CulturaSection = styled.section`
     position: relative;
@@ -56,7 +56,7 @@ export const RowMain = styled.span`
 export const RowKicker = styled(motion.span)`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(0.68rem, 1vw, 0.76rem);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.gold};
@@ -70,8 +70,9 @@ export const RowTitleGroup = styled.span`
 `;
 
 export const RowTitle = styled(motion.span)`
+    font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(1.6rem, 3.4vw, 2.4rem);
-    font-weight: 400;
+    font-weight: 300;
     letter-spacing: -0.01em;
     color: ${({ theme }) => theme.colors.navy};
 `;
@@ -132,7 +133,7 @@ export const ModalOverlay = styled(motion.div)`
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.35);
+    background: ${({ theme }) => theme.colors.overlayDark};
 `;
 
 export const ModalPanel = styled(motion.div)`
@@ -146,16 +147,25 @@ export const ModalPanel = styled(motion.div)`
     background: ${({ theme }) => theme.colors.paper};
     border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
     padding: clamp(2rem, 4vw, 3rem);
+`;
+
+export const ModalHeader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
 
     @media (max-width: 520px) {
-        padding-top: 3.5rem;
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
     }
 `;
 
 export const ModalClose = styled.button`
-    position: absolute;
-    top: clamp(2rem, 4vw, 3rem);
-    right: clamp(2rem, 4vw, 3rem);
+    flex-shrink: 0;
     border: none;
     background: none;
     padding: 0.25rem 0.5rem;
@@ -171,7 +181,6 @@ export const ModalClose = styled.button`
     align-items: center;
     gap: 0.5rem;
     transition: color 0.3s ease;
-    z-index: 3;
     line-height: 1;
 
     svg {
@@ -200,75 +209,95 @@ export const ModalClose = styled.button`
     }
 
     @media (max-width: 520px) {
-        top: 1rem;
-        right: 1rem;
-        padding: 0.5rem 0.75rem;
-        background: ${({ theme }) => theme.colors.paper};
+        align-self: flex-end;
+        padding: 0.5rem 0;
+        margin-bottom: 0.25rem;
     }
 `;
 
-export const ModalKicker = styled.span`
-    display: block;
-    font-family: ${({ theme }) => theme.fonts.display};
-    font-size: 0.76rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.gold};
-`;
-
 export const ModalTitle = styled.h3`
+    font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(1.6rem, 2.6vw, 2.1rem);
     font-weight: 400;
     color: ${({ theme }) => theme.colors.navy};
-    margin: 0.5rem 0 1.75rem;
+    margin: 0;
+
+    @media (max-width: 520px) {
+        align-self: flex-start;
+    }
 `;
 
-export const TopicList = styled.ul`
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
+export const ModalTopicList = styled(GoldList)`
     gap: 1.5rem;
 `;
 
-export const TopicItem = styled.li`
+export const CulturaTopic = styled.li`
     position: relative;
-    padding-left: 2rem;
-    margin-bottom: 0.25rem;
+    list-style: none;
+    padding-left: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: ${({ theme }) => theme.colors.ink70};
 
     &::before {
         content: '';
         position: absolute;
-        left: 8px;
-        top: 0.7rem;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+        left: 0;
+        top: calc(0.9em - 3px);
+        width: 6px;
+        height: 6px;
         background-color: ${({ theme }) => theme.colors.gold};
-        box-shadow: 0 0 0 4px rgba(200, 168, 100, 0.15);
+        transform-origin: center;
     }
 
-    &:last-child {
-        margin-bottom: 0;
+    @media (max-width: 640px) {
+        display: grid;
+        grid-template-columns: 6px 1fr;
+        column-gap: 0.75rem;
+        row-gap: 0.5rem;
+        padding-left: 0;
+
+        &::before {
+            position: static;
+            align-self: center;
+            justify-self: start;
+            grid-row: 1;
+        }
     }
 `;
 
-export const TopicTitle = styled.h4`
+export const CulturaTopicTitle = styled.h4`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
     font-weight: 600;
     color: ${({ theme }) => theme.colors.navy};
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.85rem;
     letter-spacing: -0.01em;
+
+    @media (max-width: 640px) {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: center;
+        margin: 0;
+    }
 `;
 
-export const TopicParagraph = styled.p`
+export const CulturaTopicDescription = styled.div`
+    display: contents;
+
+    @media (max-width: 640px) {
+        display: block;
+        grid-column: 1 / -1;
+    }
+`;
+
+export const CulturaTopicParagraph = styled.p`
     font-size: clamp(0.85rem, 1.2vw, 0.9rem);
     line-height: 1.65;
     color: ${({ theme }) => theme.colors.ink70};
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.85rem;
+    text-align: justify;
+    hyphens: auto;
 
     &:last-child {
         margin-bottom: 0;

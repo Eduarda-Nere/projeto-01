@@ -9,6 +9,14 @@ export const theme = {
         ink70: 'rgba(22, 34, 58, .7)',
         lineOnNavy: 'rgba(210, 170, 78, .28)',
         lineOnCream: 'rgba(15, 30, 56, .14)',
+        navySoft04: 'rgba(15, 30, 56, 0.04)',
+        navySoft06: 'rgba(15, 30, 56, 0.06)',
+        navySoft12: 'rgba(15, 30, 56, 0.12)',
+        goldSoft15: 'rgba(210, 170, 78, 0.15)',
+        overlayDark: 'rgba(0, 0, 0, 0.35)',
+        overlayDarkStrong: 'rgba(0, 0, 0, 0.55)',
+        paperSoft75: 'rgba(250, 248, 244, 0.75)',
+        paperSoft85: 'rgba(250, 248, 244, 0.85)',
     },
     fonts: {
         display: '"League Spartan", sans-serif',
@@ -17,6 +25,12 @@ export const theme = {
     layout: {
         container: '1220px',
         headerHeight: '96px',
+    },
+    shadows: {
+        soft: '0 2px 6px rgba(15, 30, 56, 0.08)',
+        medium: '0 12px 32px rgba(15, 30, 56, 0.12)',
+        focus: '0 0 0 3px rgba(15, 30, 56, 0.12)',
+        focusGold: '0 0 0 4px rgba(210, 170, 78, 0.15)',
     },
     ease: 'cubic-bezier(.22, .61, .36, 1)',
     easeOut: 'cubic-bezier(0.23, 1, 0.32, 1)',

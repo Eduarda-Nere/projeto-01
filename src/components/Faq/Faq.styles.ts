@@ -32,19 +32,21 @@ export const FaqQuestion = styled.button`
   border: none;
   cursor: pointer;
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 400;
   color: ${({ theme }) => theme.colors.navy};
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   text-align: left;
-  transition: color .3s ${({ theme }) => theme.ease};
+  transition: color .5s ${({ theme }) => theme.ease},
+              font-weight .5s ${({ theme }) => theme.ease};
   gap: 1.5rem;
-  line-height: 1.6;
+  line-height: 1.5;
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.gold};
+  &[aria-expanded="true"] {
+    color: ${({ theme }) => theme.colors.navy};
+    font-weight: 600;
   }
 `;
 
@@ -55,6 +57,7 @@ export const FaqIcon = styled.span<{ $open: boolean }>`
   justify-content: center;
   width: 22px;
   height: 22px;
+  margin-top: 0.15rem;
   color: ${({ theme }) => theme.colors.gold};
   transform: rotate(${({ $open }) => ($open ? '45deg' : '0deg')});
   transition: transform .4s ${({ theme }) => theme.ease};
@@ -77,7 +80,7 @@ export const FaqAnswer = styled.div<{ $open: boolean }>`
               padding .4s ${({ theme }) => theme.ease};
 `;
 
-const AnswerTextBase = styled.div`
+export const FaqAnswerContent = styled.div`
   color: ${({ theme }) => theme.colors.ink70};
   font-size: 0.95rem;
   line-height: 1.8;
@@ -85,47 +88,8 @@ const AnswerTextBase = styled.div`
   max-width: 100%;
 `;
 
-export const FaqAnswerContent = styled(AnswerTextBase)``;
-
-export const FaqAnswerText = styled(AnswerTextBase).attrs({ as: 'p' })`
+export const FaqAnswerText = styled.p`
   margin: 0 0 0.5rem 0;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-export const FaqListPoint = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 0 0;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-export const FaqListItem = styled.li`
-  color: ${({ theme }) => theme.colors.ink70};
-  font-size: 0.95rem;
-  line-height: 1.8;
-  padding-left: 2rem;
-  padding-right: 0;
-  position: relative;
-  margin-bottom: 0.25rem;
-  text-align: justify;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 0.7rem;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #d2aa4e;
-    box-shadow: 0 0 0 4px rgba(200, 168, 100, 0.15);
-  }
 
   &:last-child {
     margin-bottom: 0;

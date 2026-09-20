@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const SectionTitle = styled.h2<{ $light?: boolean; $maxWidth?: string; $center?: boolean }>`
+    font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(1.9rem, 3.4vw, 2.5rem);
     line-height: 1.08;
     font-weight: 400;
@@ -8,4 +9,5 @@ export const SectionTitle = styled.h2<{ $light?: boolean; $maxWidth?: string; $c
     margin: ${({ $center }) => ($center ? '0 auto' : '0')};
     letter-spacing: -0.01em;
     max-width: ${({ $maxWidth }) => $maxWidth ?? 'none'};
+    text-transform: uppercase;
 `;
