@@ -9,6 +9,7 @@ import {
     HeroTitle,
     HeroDesc,
 } from './Hero.styles';
+import { TextRoll } from '../ui';
 import { useParallax } from '../../hooks/useParallax';
 import { hideInitialLoader } from '../../utils/initialLoader';
 import heroVideo from '../../assets/video/video.mp4';
@@ -46,7 +47,25 @@ function Hero() {
                 <HeroInner>
                     <HeroContent $visible={visible}>
                         <HeroTitle $visible={visible}>
-                            Um contrato. Um responsável. Uma data.
+                            {visible && (
+                                <>
+                                    <TextRoll
+                                        duration={0.6}
+                                        getEnterDelay={(i) => i * 0.03}
+                                        getExitDelay={(i) => i * 0.03 + 0.2}
+                                    >
+                                        Um contrato. Um
+                                    </TextRoll>
+                                    <br />
+                                    <TextRoll
+                                        duration={0.6}
+                                        getEnterDelay={(i) => i * 0.03 + 0.35}
+                                        getExitDelay={(i) => i * 0.03 + 0.55}
+                                    >
+                                        responsável. Uma data.
+                                    </TextRoll>
+                                </>
+                            )}
                         </HeroTitle>
                         <HeroDesc $visible={visible}>
                             A Lopez Engenharia assume a obra inteira - viabilidade, projeto,

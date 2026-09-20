@@ -55,19 +55,24 @@ export const HeroContent = styled.div<{ $visible: boolean }>`
 `;
 
 export const HeroTitle = styled.h1<{ $visible: boolean }>`
-  font-size: clamp(3.7rem, 8.5vw, 6rem);
-  line-height: 1;
+  font-size: clamp(3rem, 6.5vw, 4.75rem);
+  line-height: 1.05;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.paper};
-  max-width: 16ch;
+  max-width: 20ch;
   margin: 0;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transform: translateY(${({ $visible }) => ($visible ? '0' : '44px')});
+  transition: opacity .6s ${({ theme }) => theme.ease} .16s;
   text-shadow: 0 4px 48px rgba(0, 0, 0, .6);
   letter-spacing: -0.03em;
-  transition: opacity .9s ${({ theme }) => theme.ease} .16s,
-              transform .9s ${({ theme }) => theme.ease} .16s;
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+    max-width: 100%;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
 `;
 
 export const HeroDesc = styled.p<{ $visible: boolean }>`
@@ -77,7 +82,7 @@ export const HeroDesc = styled.p<{ $visible: boolean }>`
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
   max-width: 60ch;
   margin: 0;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   transform: translateY(${({ $visible }) => ($visible ? '0' : '44px')});
   text-shadow: 0 1px 24px rgba(0, 0, 0, .4);
   transition: opacity .9s ${({ theme }) => theme.ease} .24s,
