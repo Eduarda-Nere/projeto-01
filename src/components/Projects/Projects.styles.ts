@@ -261,7 +261,8 @@ export const ProjectsCardStats = styled.div`
 
     @media (max-width: 940px) {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
+        align-items: center;
         padding-left: 0;
         padding-top: 1.25rem;
         border-left: none;
@@ -279,6 +280,8 @@ export const ProjectsCardStat = styled.div`
 
     @media (max-width: 940px) {
         flex: 1;
+        align-items: center;
+        text-align: center;
     }
 `;
 
