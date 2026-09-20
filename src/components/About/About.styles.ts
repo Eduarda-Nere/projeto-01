@@ -102,11 +102,15 @@ export const AboutMedia = styled.div`
     background: ${({ theme }) => theme.colors.paper};
 
     img {
+        position: absolute;
+        top: -10%;
+        left: 0;
         width: 100%;
-        height: 100%;
+        height: 120%;
         object-fit: cover;
         object-position: center;
         display: block;
+        will-change: transform;
     }
 
     @media (max-width: 1024px) {
