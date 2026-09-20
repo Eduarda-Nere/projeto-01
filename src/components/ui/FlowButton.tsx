@@ -8,9 +8,13 @@ interface FlowButtonProps {
     onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
     as?: 'button' | 'a';
     href?: string;
+    paddingY?: string;
 }
 
-const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
+const StyledFlowButton = styled.button<{
+    $scrolled: boolean;
+    $paddingY: string;
+}>`
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -20,7 +24,7 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
     border: 1.5px solid ${({ $scrolled, theme }) =>
         $scrolled ? theme.colors.navy : theme.colors.paper};
     background: transparent;
-    padding: 0.5rem 1.5rem;
+    padding: ${({ $paddingY }) => $paddingY} 1.5rem;
     font-size: 0.76rem;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -82,13 +86,25 @@ const StyledFlowButton = styled.button<{ $scrolled: boolean }>`
 `;
 
 export const FlowButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, FlowButtonProps>(
-    ({ text = "Contato", scrolled = false, onClick, as = 'button', href, ...props }, ref) => {
+    (
+        {
+            text = 'Contato',
+            scrolled = false,
+            onClick,
+            as = 'button',
+            href,
+            paddingY = '0.5rem',
+            ...props
+        },
+        ref
+    ) => {
         if (as === 'a' && href) {
             return (
                 <StyledFlowButton
                     as="a"
                     href={href}
                     $scrolled={scrolled}
+                    $paddingY={paddingY}
                     onClick={onClick as React.MouseEventHandler<HTMLAnchorElement>}
                     ref={ref as React.ForwardedRef<HTMLAnchorElement>}
                     {...props}
@@ -103,6 +119,7 @@ export const FlowButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Flow
             <StyledFlowButton
                 as="button"
                 $scrolled={scrolled}
+                $paddingY={paddingY}
                 onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
                 ref={ref as React.ForwardedRef<HTMLButtonElement>}
                 {...props}

@@ -17,14 +17,6 @@ export const NotFoundContent = styled.div`
   width: 100%;
 `;
 
-export const NotFoundIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.gold};
-  margin-bottom: 1.5rem;
-  opacity: 0.6;
-`;
-
 export const NotFoundCode = styled.h1`
   font-size: clamp(6rem, 15vw, 10rem);
   font-weight: 700;
@@ -34,7 +26,36 @@ export const NotFoundCode = styled.h1`
   letter-spacing: -0.03em;
   user-select: none;
   margin-bottom: 0.5rem;
+  padding-top: clamp(2rem, 5vw, 4rem);
   pointer-events: none;
+`;
+
+export const NotFoundLastFour = styled.span`
+  position: relative;
+  display: inline-block;
+`;
+
+export const NotFoundHelmet = styled.span`
+  position: absolute;
+  top: -0.22em;
+  left: 50%;
+  transform: translateX(calc(-50% + 0.15em)) rotate(15deg);
+  width: 0.55em;
+  height: 0.55em;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.gold};
+  opacity: 6;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+  }
 `;
 
 export const NotFoundTitle = styled.h2`

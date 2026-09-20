@@ -6,9 +6,10 @@ import {
     NotFoundSection,
     NotFoundContent,
     NotFoundCode,
+    NotFoundLastFour,
+    NotFoundHelmet,
     NotFoundTitle,
     NotFoundDescription,
-    NotFoundIcon,
     ButtonWrapper,
 } from './NotFound.styles';
 
@@ -29,23 +30,33 @@ function NotFound() {
     return (
         <NotFoundSection>
             <NotFoundContent>
-                <NotFoundIcon aria-hidden="true">
-                    <HardHat size={56} strokeWidth={1.5} />
-                </NotFoundIcon>
+                <NotFoundCode>
+                    40
+                    <NotFoundLastFour>
+                        <NotFoundHelmet aria-hidden="true">
+                            <HardHat />
+                        </NotFoundHelmet>
+                        4
+                    </NotFoundLastFour>
+                </NotFoundCode>
 
-                <NotFoundCode>404</NotFoundCode>
                 <NotFoundTitle>Página não encontrada</NotFoundTitle>
 
                 <NotFoundDescription>
-                    A página que você está procurando pode ter sido removida, 
+                    A página que você está procurando pode ter sido removida,
                     renomeada ou estar temporariamente indisponível.
                     <br /><br />
-                    Verifique se o endereço está correto ou volte para o início 
+                    Verifique se o endereço está correto ou volte para o início
                     do site para continuar navegando.
                 </NotFoundDescription>
 
                 <ButtonWrapper>
-                    <FlowButton text="Voltar para o início" scrolled onClick={handleGoHome} />
+                    <FlowButton
+                        text="Voltar para o início"
+                        scrolled
+                        paddingY="0.72rem"
+                        onClick={handleGoHome}
+                    />
                 </ButtonWrapper>
             </NotFoundContent>
         </NotFoundSection>
