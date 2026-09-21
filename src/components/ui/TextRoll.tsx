@@ -29,6 +29,13 @@ export type TextRollProps = {
 
 const Wrapper = styled.span`
     display: inline;
+    white-space: normal;
+    word-break: normal;
+`;
+
+const Word = styled.span`
+    display: inline-block;
+    white-space: nowrap;
 `;
 
 const LetterWrapper = styled.span`
@@ -64,6 +71,11 @@ const InvisibleLetter = styled.span`
     display: inline-block;
 `;
 
+const Space = styled.span`
+    display: inline-block;
+    width: 0.25em;
+`;
+
 export function TextRoll({
     children,
     duration = 0.5,
@@ -85,56 +97,87 @@ export function TextRoll({
         },
     } as const;
 
-    const letters = children.split('');
+    const words = children.split(' ');
+    const lastWordIndex = words.length - 1;
+    const lastLetterIndexInLastWord = words[lastWordIndex].length - 1;
+
+    const startIndices = words.reduce<number[]>((acc, word, index) => {
+        if (index === 0) {
+            acc.push(0);
+        } else {
+            acc.push(acc[index - 1] + words[index - 1].length);
+        }
+        return acc;
+    }, []);
 
     return (
         <Wrapper className={className}>
-            {letters.map((letter, i) => (
-                <LetterWrapper key={i} aria-hidden="true">
-                    <EnterLayer
-                        initial={
-                            variants?.enter?.initial ??
-                            defaultVariants.enter.initial
-                        }
-                        animate={
-                            variants?.enter?.animate ??
-                            defaultVariants.enter.animate
-                        }
-                        transition={{
-                            ...transition,
-                            duration,
-                            delay: getEnterDelay(i),
-                        }}
-                    >
-                        {letter === ' ' ? '\u00A0' : letter}
-                    </EnterLayer>
-                    <ExitLayer
-                        initial={
-                            variants?.exit?.initial ??
-                            defaultVariants.exit.initial
-                        }
-                        animate={
-                            variants?.exit?.animate ??
-                            defaultVariants.exit.animate
-                        }
-                        transition={{
-                            ...transition,
-                            duration,
-                            delay: getExitDelay(i),
-                        }}
-                        onAnimationComplete={
-                            letters.length === i + 1
-                                ? onAnimationComplete
-                                : undefined
-                        }
-                    >
-                        {letter === ' ' ? '\u00A0' : letter}
-                    </ExitLayer>
-                    <InvisibleLetter>
-                        {letter === ' ' ? '\u00A0' : letter}
-                    </InvisibleLetter>
-                </LetterWrapper>
-            ))}
+            {words.map((word, wordIndex) => {
+                const startIndex = startIndices[wordIndex];
+
+                return (
+                    <span key={wordIndex}>
+                        <Word aria-hidden="true">
+                            {word.split('').map((letter, letterIndex) => {
+                                const i = startIndex + letterIndex;
+                                const isLastLetter =
+                                    wordIndex === lastWordIndex &&
+                                    letterIndex === lastLetterIndexInLastWord;
+
+                                return (
+                                    <LetterWrapper key={letterIndex}>
+                                        <EnterLayer
+                                            initial={
+                                                variants?.enter?.initial ??
+                                                defaultVariants.enter.initial
+                                            }
+                                            animate={
+                                                variants?.enter?.animate ??
+                                                defaultVariants.enter.animate
+                                            }
+                                            transition={{
+                                                ...transition,
+                                                duration,
+                                                delay: getEnterDelay(i),
+                                            }}
+                                        >
+                                            {letter}
+                                        </EnterLayer>
+                                        <ExitLayer
+                                            initial={
+                                                variants?.exit?.initial ??
+                                                defaultVariants.exit.initial
+                                            }
+                                            animate={
+                                                variants?.exit?.animate ??
+                                                defaultVariants.exit.animate
+                                            }
+                                            transition={{
+                                                ...transition,
+                                                duration,
+                                                delay: getExitDelay(i),
+                                            }}
+                                            onAnimationComplete={
+                                                isLastLetter
+                                                    ? onAnimationComplete
+                                                    : undefined
+                                            }
+                                        >
+                                            {letter}
+                                        </ExitLayer>
+                                        <InvisibleLetter>
+                                            {letter}
+                                        </InvisibleLetter>
+                                    </LetterWrapper>
+                                );
+                            })}
+                        </Word>
+                        {wordIndex < words.length - 1 && (
+                            <Space aria-hidden="true"> </Space>
+                        )}
+                    </span>
+                );
+            })}
             <span className="sr-only">{children}</span>
         </Wrapper>
     );

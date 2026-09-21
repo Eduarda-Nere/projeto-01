@@ -48,23 +48,13 @@ function Hero() {
                     <HeroContent $visible={visible}>
                         <HeroTitle $visible={visible}>
                             {visible && (
-                                <>
-                                    <TextRoll
-                                        duration={0.6}
-                                        getEnterDelay={(i) => i * 0.03}
-                                        getExitDelay={(i) => i * 0.03 + 0.2}
-                                    >
-                                        Um contrato. Um
-                                    </TextRoll>
-                                    <br />
-                                    <TextRoll
-                                        duration={0.6}
-                                        getEnterDelay={(i) => i * 0.03 + 0.35}
-                                        getExitDelay={(i) => i * 0.03 + 0.55}
-                                    >
-                                        responsável. Uma data.
-                                    </TextRoll>
-                                </>
+                                <TextRoll
+                                    duration={0.6}
+                                    getEnterDelay={(i) => i * 0.03}
+                                    getExitDelay={(i) => i * 0.03 + 0.2}
+                                >
+                                    Um contrato. Um responsável. Uma data.
+                                </TextRoll>
                             )}
                         </HeroTitle>
                         <HeroDesc $visible={visible}>
