@@ -8,7 +8,8 @@ export const StyledFooter = styled.footer`
 export const FooterInner = styled.div`
     max-width: ${({ theme }) => theme.layout.container};
     margin: 0 auto;
-    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+    padding: ${({ theme }) =>
+        `${theme.layout.sectionGapHalf} clamp(1.5rem, 4vw, 3rem)`};
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 0.7fr) minmax(0, 1fr);
     gap: clamp(2.5rem, 5vw, 5rem);

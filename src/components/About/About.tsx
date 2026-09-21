@@ -1,7 +1,6 @@
 import { Home, Store, Factory } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useInViewOnce } from '../../hooks/useInViewOnce';
-import { useParallax } from '../../hooks/useParallax';
 import { SectionTitle } from '../ui';
 import {
     AboutSection,
@@ -43,7 +42,6 @@ function About() {
     const { ref: copyRef, inView: copyInView } = useInViewOnce<HTMLDivElement>();
     const { ref: mediaRef, inView: mediaInView } = useInViewOnce<HTMLDivElement>();
     const { ref: marketsRef, inView: marketsInView } = useInViewOnce<HTMLDivElement>();
-    const parallaxRef = useParallax<HTMLImageElement>(0.15);
 
     return (
         <AboutSection id="sobre">
@@ -87,7 +85,6 @@ function About() {
                 <AboutMediaWrapper ref={mediaRef} $visible={mediaInView}>
                     <AboutMedia>
                         <img
-                            ref={parallaxRef}
                             src={projetosImg}
                             alt="Obra da Lopez Engenharia"
                             decoding="async"

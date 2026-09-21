@@ -1,93 +1,156 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
 export const ProcessoWrapper = styled.section`
     position: relative;
-    scroll-margin-top: 80px;
-    padding: clamp(3rem, 6vw, 5rem) 0;
+    scroll-margin-top: 0;
+    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
 `;
 
 export const ProcessoHeader = styled.div`
     text-align: center;
     max-width: 1220px;
-    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+    margin: 0 auto clamp(1rem, 2vw, 1.5rem);
     padding: 0 clamp(1.5rem, 4vw, 3rem);
-`;
-
-export const CardsStack = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 clamp(1.5rem, 4vw, 3rem);
-
-    @media (orientation: landscape) and (max-height: 560px) {
-        gap: 0;
-        padding: 0 1rem;
-    }
+    flex-shrink: 0;
 
     @media (max-width: 768px) {
-        gap: 0;
+        margin-bottom: 0.75rem;
+    }
+`;
+
+export const StackViewport = styled.div<{ $count: number }>`
+    position: relative;
+    height: ${({ $count }) => `${$count * 130}vh`};
+
+    @media (max-width: 768px) {
+        height: ${({ $count }) => `${$count * 95}vh`};
     }
 
     @media (max-width: 480px) {
-        gap: 0;
+        height: ${({ $count }) => `${$count * 85}vh`};
     }
 `;
 
-export const StickyCard = styled.article<{
-    $bg: 'dark' | 'light';
-    $index: number;
-}>`
+export const StackSticky = styled.div`
     position: sticky;
-    top: 180px;
+    top: ${({ theme }) => theme.layout.headerHeight};
     width: 100%;
-    min-height: 420px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: clamp(2rem, 4vw, 3.5rem);
-    border-radius: 4px;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 3rem);
+
+    @media (max-width: 768px) {
+        gap: 1rem;
+        padding: 1rem clamp(1.5rem, 4vw, 3rem);
+    }
+
+    @media (max-width: 480px) {
+        gap: 0.75rem;
+        padding: 0.75rem clamp(1.5rem, 4vw, 3rem);
+    }
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        gap: 0.5rem;
+        padding: 0.5rem clamp(1.5rem, 4vw, 3rem);
+    }
+`;
+
+export const StackFrame = styled.div`
+    position: relative;
+    width: 100%;
+    max-width: 900px;
     overflow: hidden;
-    background: ${({ $bg, theme }) =>
-        $bg === 'dark'
-            ? theme.colors.navy
-            : `linear-gradient(135deg, ${theme.colors.paper} 0%, #ffffff 50%, ${theme.colors.paper} 100%)`};
-    color: ${({ $bg, theme }) =>
-        $bg === 'dark' ? theme.colors.paper : theme.colors.navy};
-    box-shadow: ${({ $bg }) =>
-        $bg === 'dark'
-            ? '0 1px 0 rgba(210, 170, 78, 0.15) inset, 0 2px 6px rgba(0, 0, 0, 0.12)'
-            : '0 1px 0 rgba(255, 255, 255, 1) inset, 0 2px 6px rgba(15, 30, 56, 0.08)'};
 
     @media (max-width: 1024px) {
-        width: 88%;
         max-width: 640px;
     }
 
     @media (max-width: 768px) {
-        top: 140px;
-        width: 90%;
-        max-width: 520px;
-        margin-top: ${({ $index }) => ($index === 0 ? '0' : '5.6rem')};
+        max-width: 100%;
+    }
+`;
+
+export const StaticStack = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
+`;
+
+export const Card = styled(motion.article)<{
+    $bg: 'dark' | 'light';
+    $index: number;
+    $static?: boolean;
+    $visible?: boolean;
+    $spacer?: boolean;
+}>`
+    position: ${({ $static, $spacer }) =>
+        $static || $spacer ? 'relative' : 'absolute'};
+    inset: ${({ $static, $spacer }) => ($static || $spacer ? 'auto' : '0')};
+    min-height: ${({ $static }) => ($static ? '360px' : 'auto')};
+    z-index: ${({ $index }) => $index + 1};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(3rem, 6vw, 5.5rem) clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
+    border-radius: 4px;
+    overflow: hidden;
+    background: ${({ $bg, theme }) =>
+        $bg === 'dark' ? theme.colors.navy : theme.colors.paper};
+    color: ${({ $bg, theme }) =>
+        $bg === 'dark' ? theme.colors.paper : theme.colors.navy};
+    opacity: ${({ $visible, $static, $spacer }) =>
+        $spacer ? 0 : $static ? 1 : $visible ? 1 : 0};
+    visibility: ${({ $visible, $static, $spacer }) =>
+        $spacer ? 'hidden' : $static ? 'visible' : $visible ? 'visible' : 'hidden'};
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    ${({ $spacer }) =>
+        $spacer &&
+        css`
+            pointer-events: none;
+            border-color: transparent;
+            box-shadow: none;
+        `}
+
+    @media (max-width: 768px) {
+        padding: 3.5rem 2rem;
     }
 
     @media (max-width: 480px) {
-        top: 136px;
-        width: 100%;
-        max-width: none;
-        margin-top: ${({ $index }) => ($index === 0 ? '0' : '7rem')};
+        padding: 3rem 1.5rem;
     }
 
     @media (orientation: landscape) and (max-height: 560px) {
-        top: 110px;
-        width: 85%;
-        max-width: 520px;
-        min-height: calc(100dvh - 140px);
-        padding: 1rem 1.25rem;
-        margin-top: ${({ $index }) => ($index === 0 ? '0' : '1.5rem')};
+        padding: 2.5rem 1.5rem;
     }
+`;
+
+export const StepIndicator = styled.div`
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+    flex-shrink: 0;
+
+    @media (max-width: 480px) {
+        gap: 0.35rem;
+    }
+`;
+
+export const StepDot = styled.span<{ $active: boolean }>`
+    width: ${({ $active }) => ($active ? '1.5rem' : '0.4rem')};
+    height: 0.4rem;
+    border-radius: 999px;
+    background: ${({ theme, $active }) =>
+        $active ? theme.colors.gold : 'rgba(15, 30, 56, 0.2)'};
+    transition: all ${({ theme }) => theme.duration.base} ${({ theme }) => theme.easeOut};
 `;
 
 export const GridBackground = styled.div<{ $isDark: boolean }>`
@@ -108,8 +171,16 @@ export const CardContent = styled.div`
     gap: 1.25rem;
     text-align: left;
 
+    @media (max-width: 768px) {
+        gap: 1.25rem;
+    }
+
+    @media (max-width: 480px) {
+        gap: 1.125rem;
+    }
+
     @media (orientation: landscape) and (max-height: 560px) {
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
 `;
 
@@ -122,6 +193,10 @@ export const CardTitle = styled.h3<{ $isDark: boolean }>`
     color: ${({ $isDark, theme }) =>
         $isDark ? theme.colors.gold : theme.colors.navyDeep};
     margin: 0;
+
+    @media (max-width: 480px) {
+        font-size: 1.15rem;
+    }
 
     @media (orientation: landscape) and (max-height: 560px) {
         font-size: 1.05rem;
@@ -139,6 +214,16 @@ export const CardText = styled.p<{ $isDark: boolean }>`
     color: ${({ $isDark }) =>
         $isDark ? 'rgba(250, 248, 244, 0.85)' : 'rgba(15, 30, 56, 0.85)'};
 
+    @media (max-width: 768px) {
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 0.85rem;
+        line-height: 1.65;
+    }
+
     @media (orientation: landscape) and (max-height: 560px) {
         font-size: 0.78rem;
         line-height: 1.5;
@@ -150,6 +235,10 @@ export const CardDelivery = styled.div`
     flex-direction: column;
     gap: 0.4rem;
     margin-top: 0.75rem;
+
+    @media (max-width: 480px) {
+        margin-top: 0.5rem;
+    }
 
     @media (orientation: landscape) and (max-height: 560px) {
         margin-top: 0.25rem;
@@ -177,6 +266,11 @@ export const CardDeliveryText = styled.span<{ $isDark: boolean }>`
     font-style: italic;
     color: ${({ $isDark }) =>
         $isDark ? 'rgba(250, 248, 244, 0.75)' : 'rgba(15, 30, 56, 0.85)'};
+
+    @media (max-width: 480px) {
+        font-size: 0.8rem;
+        line-height: 1.55;
+    }
 
     @media (orientation: landscape) and (max-height: 560px) {
         font-size: 0.72rem;

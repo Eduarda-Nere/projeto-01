@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export const ProjectsSection = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.paper};
-    padding: clamp(3rem, 6vw, 5rem) 0;
+    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
     overflow-x: clip;
     scroll-margin-top: 80px;
 `;

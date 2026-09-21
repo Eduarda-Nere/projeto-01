@@ -1,10 +1,22 @@
-import { motion } from 'framer-motion';
+import { useRef, useState } from 'react';
+import {
+    useScroll,
+    useTransform,
+    useMotionValueEvent,
+    useReducedMotion,
+    type MotionValue,
+} from 'framer-motion';
 import { SectionTitle } from '../ui';
 import {
     ProcessoWrapper,
     ProcessoHeader,
-    CardsStack,
-    StickyCard,
+    StaticStack,
+    StackViewport,
+    StackSticky,
+    StackFrame,
+    Card,
+    StepIndicator,
+    StepDot,
     GridBackground,
     CardContent,
     CardTitle,
@@ -37,64 +49,169 @@ const STEPS = [
     },
 ];
 
-const EASE = [0.25, 0.1, 0.25, 1] as const;
+function ProcessoCard({
+    step,
+    index,
+    total,
+    scrollYProgress,
+    isActive,
+    isNext,
+}: {
+    step: (typeof STEPS)[number];
+    index: number;
+    total: number;
+    scrollYProgress: MotionValue<number>;
+    isActive: boolean;
+    isNext: boolean;
+}) {
+    const isDark = index % 2 === 0;
+    const isFirst = index === 0;
 
-const contentVariants = {
-    hidden: { opacity: 0, x: -32 },
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: { duration: 1.1, ease: EASE },
-    },
-};
+    const segment = 1 / total;
+    const start = index * segment;
+    const edge = segment * 0.8;
+
+    const y = useTransform(
+        scrollYProgress,
+        isFirst
+            ? [0, 0]
+            : [start - edge, start],
+        isFirst ? ['0%', '0%'] : ['100%', '0%']
+    );
+
+    return (
+        <Card
+            style={{ y }}
+            $bg={isDark ? 'dark' : 'light'}
+            $index={index}
+            $visible={isActive || isNext}
+        >
+            <GridBackground $isDark={isDark} />
+            <CardContent>
+                <CardTitle $isDark={isDark}>{step.title}</CardTitle>
+                <CardText $isDark={isDark}>{step.text}</CardText>
+                <CardDelivery>
+                    <CardDeliveryLabel $isDark={isDark}>Entrega</CardDeliveryLabel>
+                    <CardDeliveryText $isDark={isDark}>{step.delivery}</CardDeliveryText>
+                </CardDelivery>
+            </CardContent>
+        </Card>
+    );
+}
+
+function ProcessoStatic() {
+    return (
+        <StaticStack>
+            {STEPS.map((step, index) => {
+                const isDark = index % 2 === 0;
+                return (
+                    <Card
+                        key={step.title}
+                        as="article"
+                        $bg={isDark ? 'dark' : 'light'}
+                        $index={index}
+                        $static
+                    >
+                        <GridBackground $isDark={isDark} />
+                        <CardContent>
+                            <CardTitle $isDark={isDark}>{step.title}</CardTitle>
+                            <CardText $isDark={isDark}>{step.text}</CardText>
+                            <CardDelivery>
+                                <CardDeliveryLabel $isDark={isDark}>Entrega</CardDeliveryLabel>
+                                <CardDeliveryText $isDark={isDark}>{step.delivery}</CardDeliveryText>
+                            </CardDelivery>
+                        </CardContent>
+                    </Card>
+                );
+            })}
+        </StaticStack>
+    );
+}
+
+function ProcessoStack() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ['start start', 'end end'],
+    });
+
+    useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+        const next = Math.min(STEPS.length - 1, Math.floor(latest * STEPS.length));
+        setActiveIndex((current) => (current === next ? current : next));
+    });
+
+    const spacerStep = STEPS.reduce((max, step) =>
+        step.text.length > max.text.length ? step : max
+    , STEPS[0]);
+
+    return (
+        <StackViewport ref={containerRef} $count={STEPS.length}>
+            <StackSticky>
+                <ProcessoHeader>
+                    <SectionTitle $maxWidth="20ch" $center>
+                        Do simples ao complexo, bem feito.
+                    </SectionTitle>
+                </ProcessoHeader>
+
+                <StackFrame>
+                    <Card
+                        aria-hidden="true"
+                        $bg="light"
+                        $index={-1}
+                        $spacer
+                    >
+                        <CardContent>
+                            <CardTitle $isDark={false}>{spacerStep.title}</CardTitle>
+                            <CardText $isDark={false}>{spacerStep.text}</CardText>
+                            <CardDelivery>
+                                <CardDeliveryLabel $isDark={false}>Entrega</CardDeliveryLabel>
+                                <CardDeliveryText $isDark={false}>{spacerStep.delivery}</CardDeliveryText>
+                            </CardDelivery>
+                        </CardContent>
+                    </Card>
+
+                    {STEPS.map((step, index) => (
+                        <ProcessoCard
+                            key={step.title}
+                            step={step}
+                            index={index}
+                            total={STEPS.length}
+                            scrollYProgress={scrollYProgress}
+                            isActive={index === activeIndex}
+                            isNext={index === activeIndex + 1}
+                        />
+                    ))}
+                </StackFrame>
+
+                <StepIndicator aria-hidden="true">
+                    {STEPS.map((step, index) => (
+                        <StepDot key={step.title} $active={index === activeIndex} />
+                    ))}
+                </StepIndicator>
+            </StackSticky>
+        </StackViewport>
+    );
+}
 
 function Processo() {
+    const prefersReducedMotion = useReducedMotion();
+
     return (
         <ProcessoWrapper id="processo">
-            <ProcessoHeader>
-                <SectionTitle $maxWidth="20ch" $center>
-                    Do simples ao complexo, bem feito.
-                </SectionTitle>
-            </ProcessoHeader>
-
-            <CardsStack>
-                {STEPS.map((step, index) => {
-                    const isDark = index % 2 === 0;
-                    const bgType = isDark ? 'dark' : 'light';
-
-                    return (
-                        <StickyCard
-                            key={step.title}
-                            $bg={bgType}
-                            $index={index}
-                        >
-                            <GridBackground $isDark={isDark} />
-
-                            <CardContent
-                                as={motion.div}
-                                variants={contentVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true, amount: 0.3 }}
-                            >
-                                <CardTitle $isDark={isDark}>
-                                    {step.title}
-                                </CardTitle>
-                                <CardText $isDark={isDark}>{step.text}</CardText>
-
-                                <CardDelivery>
-                                    <CardDeliveryLabel $isDark={isDark}>
-                                        Entrega
-                                    </CardDeliveryLabel>
-                                    <CardDeliveryText $isDark={isDark}>
-                                        {step.delivery}
-                                    </CardDeliveryText>
-                                </CardDelivery>
-                            </CardContent>
-                        </StickyCard>
-                    );
-                })}
-            </CardsStack>
+            {prefersReducedMotion ? (
+                <>
+                    <ProcessoHeader>
+                        <SectionTitle $maxWidth="20ch" $center>
+                            Do simples ao complexo, bem feito.
+                        </SectionTitle>
+                    </ProcessoHeader>
+                    <ProcessoStatic />
+                </>
+            ) : (
+                <ProcessoStack />
+            )}
         </ProcessoWrapper>
     );
 }

@@ -2,16 +2,8 @@ import styled from 'styled-components';
 
 export const AboutSection = styled.section`
     background: ${({ theme }) => theme.colors.paper};
-    padding: clamp(3rem, 6vw, 5rem) 0;
+    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
     scroll-margin-top: 80px;
-
-    @media (min-width: 1025px) {
-        padding: 0;
-    }
-
-    @media (max-width: 1024px) {
-        padding: 0;
-    }
 `;
 
 export const AboutGrid = styled.div`
@@ -31,7 +23,7 @@ export const AboutCopy = styled.div<{ $visible: boolean }>`
     display: flex;
     flex-direction: column;
     gap: clamp(1.5rem, 2.5vw, 2rem);
-    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
     padding-left: max(
         clamp(1.5rem, 4vw, 3rem),
         calc((100vw - 1220px) / 2 + clamp(1.5rem, 4vw, 3rem))
@@ -45,8 +37,7 @@ export const AboutCopy = styled.div<{ $visible: boolean }>`
 
     @media (max-width: 1024px) {
         order: 1;
-        padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
-        padding-bottom: clamp(1.25rem, 3vw, 2rem);
+        padding: 0 clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2rem);
         transform: none;
         opacity: 1;
     }
@@ -76,7 +67,6 @@ export const AboutMediaWrapper = styled.div<{ $visible: boolean }>`
     position: relative;
     display: flex;
     align-items: stretch;
-    padding: clamp(3rem, 6vw, 5rem) 0;
     opacity: ${({ $visible }) => ($visible ? 1 : 0)};
     transform: translateX(${({ $visible }) => ($visible ? '0' : '64px')});
     transition:
@@ -102,15 +92,11 @@ export const AboutMedia = styled.div`
     background: ${({ theme }) => theme.colors.paper};
 
     img {
-        position: absolute;
-        top: -10%;
-        left: 0;
         width: 100%;
-        height: 120%;
+        height: 100%;
         object-fit: cover;
         object-position: center;
         display: block;
-        will-change: transform;
     }
 
     @media (max-width: 1024px) {
@@ -131,7 +117,7 @@ export const AboutMedia = styled.div`
 `;
 
 export const MarketsStrip = styled.div`
-    padding: clamp(3rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
     padding-left: max(
         clamp(1.5rem, 4vw, 3rem),
         calc((100vw - 1220px) / 2 + clamp(1.5rem, 4vw, 3rem))
@@ -140,10 +126,7 @@ export const MarketsStrip = styled.div`
         clamp(1.5rem, 4vw, 3rem),
         calc((100vw - 1220px) / 2 + clamp(1.5rem, 4vw, 3rem))
     );
-
-    @media (max-width: 1024px) {
-        padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem);
-    }
+    margin-top: clamp(2rem, 4vw, 3rem);
 `;
 
 export const MarketsGrid = styled.div`

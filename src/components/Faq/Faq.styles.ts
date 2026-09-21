@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const FaqSection = styled.section`
-  background: ${({ theme }) => theme.colors.paper};
-  padding: clamp(3rem, 6vw, 5rem) 0;
-  scroll-margin-top: 80px;
+    background: ${({ theme }) => theme.colors.paper};
+    padding: ${({ theme }) =>
+        `calc(${theme.layout.sectionGapHalf} * 1.1) 0 ${theme.layout.sectionGapHalf}`};
+    scroll-margin-top: 80px;
 `;
 
 export const FaqList = styled.div<{ $visible: boolean }>`
