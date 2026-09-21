@@ -9,7 +9,7 @@ import {
     HeroTitle,
     HeroDesc,
 } from './Hero.styles';
-import { TextRoll } from '../ui';
+import { SplitText } from '../ui';
 import { useParallax } from '../../hooks/useParallax';
 import { hideInitialLoader } from '../../utils/initialLoader';
 import heroVideo from '../../assets/video/video.mp4';
@@ -48,13 +48,20 @@ function Hero() {
                     <HeroContent $visible={visible}>
                         <HeroTitle $visible={visible}>
                             {visible && (
-                                <TextRoll
+                                <SplitText
+                                    tag="span"
+                                    text="Um contrato. Um responsável. Uma data."
+                                    className="hero-split-text"
+                                    delay={30}
                                     duration={0.6}
-                                    getEnterDelay={(i) => i * 0.03}
-                                    getExitDelay={(i) => i * 0.03 + 0.2}
-                                >
-                                    Um contrato. Um responsável. Uma data.
-                                </TextRoll>
+                                    ease="power3.out"
+                                    splitType="words, chars"
+                                    from={{ opacity: 0, y: 40 }}
+                                    to={{ opacity: 1, y: 0 }}
+                                    threshold={0.1}
+                                    rootMargin="-100px"
+                                    textAlign="left"
+                                />
                             )}
                         </HeroTitle>
                         <HeroDesc $visible={visible}>

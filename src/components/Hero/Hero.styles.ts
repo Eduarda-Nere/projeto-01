@@ -66,6 +66,23 @@ export const HeroTitle = styled.h1<{ $visible: boolean }>`
   transition: opacity .6s ${({ theme }) => theme.ease} .16s;
   text-shadow: 0 4px 48px rgba(0, 0, 0, .6);
   letter-spacing: -0.03em;
+  overflow: visible;
+
+  .split-parent {
+    overflow: visible;
+    display: inline-block;
+  }
+
+  .split-word,
+  .split-char {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  .split-word {
+    overflow: visible;
+    vertical-align: top;
+  }
 
   @media (max-width: 480px) {
     font-size: 2rem;
