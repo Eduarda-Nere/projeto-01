@@ -101,7 +101,7 @@ export function TextRoll({
     const lastWordIndex = words.length - 1;
     const lastLetterIndexInLastWord = words[lastWordIndex].length - 1;
 
-    const startIndices = words.reduce<number[]>((acc, word, index) => {
+    const startIndices = words.reduce<number[]>((acc, _word, index) => {
         if (index === 0) {
             acc.push(0);
         } else {
