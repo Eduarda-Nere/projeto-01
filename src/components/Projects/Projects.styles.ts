@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { SectionDescription } from '../ui';
 
 export const ProjectsSection = styled.section`
     position: relative;
@@ -13,15 +14,6 @@ export const ProjectsHeader = styled(motion.div)`
     position: relative;
     z-index: 2;
     margin-bottom: clamp(2rem, 4vw, 3rem);
-    text-align: center;
-`;
-
-export const ProjectsSubtitle = styled(motion.p)`
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-    line-height: 1.7;
-    color: ${({ theme }) => theme.colors.ink70};
-    max-width: 60ch;
-    margin: 1rem auto 0;
     text-align: center;
 `;
 
@@ -239,11 +231,10 @@ export const ProjectsCardDescription = styled.div`
     margin-top: 0.25rem;
 `;
 
-export const ProjectsCardParagraph = styled.p`
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: ${({ theme }) => theme.colors.ink70};
-    margin: 0;
+export const ProjectsCardParagraph = styled(SectionDescription)`
+    max-width: none;
+    text-align: left;
+    hyphens: manual;
 
     strong {
         color: ${({ theme }) => theme.colors.navy};

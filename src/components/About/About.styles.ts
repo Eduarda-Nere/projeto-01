@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SectionDescription } from '../ui';
 
 export const AboutSection = styled.section`
     background: ${({ theme }) => theme.colors.paper};
@@ -48,14 +49,9 @@ export const Block = styled.div`
     flex-direction: column;
 `;
 
-export const Paragraph = styled.p`
-    font-size: 0.95rem;
-    line-height: 1.75;
+export const Paragraph = styled(SectionDescription)`
+    max-width: none;
     color: ${({ theme }) => theme.colors.ink70};
-    margin: 0;
-    max-width: 100%;
-    text-align: justify;
-    hyphens: auto;
 
     strong {
         color: ${({ theme }) => theme.colors.navy};
@@ -210,9 +206,9 @@ export const MarketTitle = styled.h3`
     line-height: 1.3;
 `;
 
-export const MarketDescription = styled.p`
-    margin: 0;
+export const MarketDescription = styled(SectionDescription)`
+    text-align: left;
+    hyphens: manual;
     font-size: 0.9rem;
     line-height: 1.65;
-    color: ${({ theme }) => theme.colors.ink70};
 `;

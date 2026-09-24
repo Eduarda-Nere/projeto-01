@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SectionDescription } from './SectionDescription';
 
 export const GoldList = styled.ul`
     list-style: none;
@@ -9,13 +10,13 @@ export const GoldList = styled.ul`
     gap: 0.5rem;
 `;
 
-export const GoldListItem = styled.li`
+export const GoldListItem = styled(SectionDescription)`
     position: relative;
+    max-width: none;
     padding-left: 1.5rem;
-    font-size: 0.95rem;
-    line-height: 1.8;
-    color: ${({ theme }) => theme.colors.ink70};
-    text-align: justify;
+    text-align: left;
+    hyphens: manual;
+    margin: 0;
 
     &::before {
         content: '';

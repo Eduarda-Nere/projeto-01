@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { SectionSubtitle } from '../ui';
+import { SectionSubtitle, SectionDescription } from '../ui';
 
 export const ProcessoWrapper = styled.section`
     position: relative;
@@ -28,7 +28,6 @@ export const ProcessoInner = styled.div`
 export const ProcessoLeft = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 `;
 
 export const Subtitle = styled(SectionSubtitle)`
@@ -134,20 +133,12 @@ export const CardTitle = styled.h3<{ $isDark: boolean }>`
     }
 `;
 
-export const CardText = styled.p<{ $isDark: boolean }>`
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 0.88rem;
-    line-height: 1.65;
-    margin: 0;
-    text-align: justify;
-    hyphens: auto;
+export const CardText = styled(SectionDescription)<{ $isDark: boolean }>`
+    max-width: none;
+    text-align: left;
+    hyphens: manual;
     color: ${({ $isDark }) =>
-        $isDark ? 'rgba(250, 248, 244, 0.85)' : 'rgba(15, 30, 56, 0.85)'};
-
-    @media (max-width: 480px) {
-        font-size: 0.84rem;
-        line-height: 1.6;
-    }
+        $isDark ? 'rgba(250, 248, 244, 0.7)' : 'rgba(22, 34, 58, 0.7)'};
 `;
 
 export const CardDelivery = styled.div`
@@ -175,7 +166,7 @@ export const CardDeliveryText = styled.span<{ $isDark: boolean }>`
     line-height: 1.5;
     font-style: italic;
     color: ${({ $isDark }) =>
-        $isDark ? 'rgba(250, 248, 244, 0.75)' : 'rgba(15, 30, 56, 0.85)'};
+        $isDark ? 'rgba(250, 248, 244, 0.7)' : 'rgba(22, 34, 58, 0.7)'};
 `;
 
 export const CardFooter = styled.div`

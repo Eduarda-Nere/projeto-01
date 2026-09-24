@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { SectionDescription } from '../ui';
 
 export const StyledFooter = styled.footer`
     background: ${({ theme }) => theme.colors.navy};
@@ -61,15 +62,14 @@ export const FooterLogo = styled.div`
     }
 `;
 
-export const FooterTagline = styled.p`
+export const FooterTagline = styled(SectionDescription)`
+    max-width: none;
     font-size: clamp(0.85rem, 0.9vw, 0.95rem);
     line-height: 1.7;
-    color: rgba(250, 248, 244, 0.75);
-    margin: 0;
-    max-width: 50ch;
+    color: rgba(250, 248, 244, 0.7);
 
     @media (max-width: 640px) {
-        max-width: 100%;
+        text-align: center;
     }
 `;
 
@@ -234,14 +234,18 @@ export const FooterNavList = styled.ul`
     }
 `;
 
-export const FooterNavLink = styled.a`
+export const FooterNavLink = styled(SectionDescription)`
     position: relative;
     display: inline-block;
+    max-width: none;
     padding: 0.5rem 0;
     font-size: clamp(0.85rem, 0.9vw, 0.95rem);
     line-height: 1.4;
-    color: rgba(250, 248, 244, 0.75);
+    text-align: left;
+    hyphens: manual;
+    color: rgba(250, 248, 244, 0.7);
     text-decoration: none;
+    cursor: pointer;
     transition: color ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
 
     &:hover,
@@ -253,6 +257,10 @@ export const FooterNavLink = styled.a`
         outline: 2px solid ${({ theme }) => theme.colors.gold};
         outline-offset: 3px;
         border-radius: 4px;
+    }
+
+    @media (max-width: 640px) {
+        text-align: center;
     }
 `;
 
@@ -284,9 +292,9 @@ const contactRowStyles = css`
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem 0;
-    font-size: clamp(0.85rem, 0.9vw, 0.95rem);
     line-height: 1.4;
     text-decoration: none;
+    color: rgba(250, 248, 244, 0.7);
 
     svg {
         width: 20px;
@@ -296,14 +304,21 @@ const contactRowStyles = css`
     }
 `;
 
-export const FooterContactStatic = styled.span`
+export const FooterContactStatic = styled(SectionDescription)`
     ${contactRowStyles}
-    color: rgba(250, 248, 244, 0.75);
+    max-width: none;
+    font-size: clamp(0.85rem, 0.9vw, 0.95rem);
+    text-align: left;
+    hyphens: manual;
 `;
 
-export const FooterContactLink = styled.a`
+export const FooterContactLink = styled(SectionDescription)`
     ${contactRowStyles}
-    color: rgba(250, 248, 244, 0.75);
+    max-width: none;
+    font-size: clamp(0.85rem, 0.9vw, 0.95rem);
+    text-align: left;
+    hyphens: manual;
+    cursor: pointer;
     transition: color ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
 
     span {
@@ -333,5 +348,5 @@ export const FooterBottomInner = styled.div`
     padding: 22px 0;
     text-align: center;
     font-size: clamp(0.75rem, 0.8vw, 0.85rem);
-    color: rgba(250, 248, 244, 0.75);
+    color: rgba(250, 248, 244, 0.7);
 `;

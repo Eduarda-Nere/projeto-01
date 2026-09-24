@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { SectionSubtitle, GoldList } from '../ui';
+import { SectionSubtitle, SectionDescription, GoldList } from '../ui';
 
 export const CulturaSection = styled.section`
     position: relative;
@@ -77,10 +77,12 @@ export const RowTitle = styled(motion.span)`
     color: ${({ theme }) => theme.colors.navy};
 `;
 
-export const RowTeaser = styled(motion.span)`
-    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+export const RowTeaser = styled(motion.create(SectionDescription))`
+    font-size: 0.95rem;
     line-height: 1.6;
-    color: ${({ theme }) => theme.colors.ink70};
+    text-align: left;
+    hyphens: manual;
+    max-width: none;
     white-space: nowrap;
 
     @media (max-width: 700px) {
@@ -291,13 +293,12 @@ export const CulturaTopicDescription = styled.div`
     }
 `;
 
-export const CulturaTopicParagraph = styled.p`
+export const CulturaTopicParagraph = styled(SectionDescription)`
+    text-align: left;
+    hyphens: manual;
     font-size: clamp(0.85rem, 1.2vw, 0.9rem);
     line-height: 1.65;
-    color: ${({ theme }) => theme.colors.ink70};
     margin: 0 0 0.85rem;
-    text-align: justify;
-    hyphens: auto;
 
     &:last-child {
         margin-bottom: 0;

@@ -1,10 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SectionWrap, SectionTitle, GoldList, GoldListItem } from '../ui';
+import {
+    SectionWrap,
+    SectionTitle,
+    SectionSubtitle,
+    GoldList,
+    GoldListItem,
+} from '../ui';
 import {
     ProjectsSection,
     ProjectsHeader,
-    ProjectsSubtitle,
     ProjectsTabs,
     ProjectsTab,
     ProjectsTabKicker,
@@ -62,21 +67,24 @@ const PROJECTS: Project[] = [
             },
             {
                 type: 'paragraph',
-                content: <>A solução foi fazer essa faixa de 2,90 m trabalhar duas vezes:</>,
+                content: (
+                    <>
+                        A solução foi fazer essa faixa de 2,90 m trabalhar duas
+                        vezes:
+                    </>
+                ),
             },
             {
                 type: 'list',
                 items: [
                     <>
-                        O carro ocupa os primeiros 5,50 m e
-                        sobra 1,05 m de passagem livre ao lado
-                        dele;
+                        O carro ocupa os primeiros 5,50 m e sobra 1,05 m de
+                        passagem livre ao lado dele;
                     </>,
                     <>
-                        Na chegada à edícula, a faixa estreita para{' '}
-                        2,00 m, onde a escada de{' '}
-                        1,00 m ainda deixa{' '}
-                        1,00 m de circulação.
+                        Na chegada à edícula, a faixa estreita para 2,00 m,
+                        onde a escada de 1,00 m ainda deixa 1,00 m de
+                        circulação.
                     </>,
                 ],
             },
@@ -330,10 +338,15 @@ function Projects() {
                     >
                         Projetos Entregues
                     </SectionTitle>
-                    <ProjectsSubtitle variants={headerItem}>
+                    <SectionSubtitle
+                        as={motion.p}
+                        $maxWidth="60ch"
+                        variants={headerItem}
+                        style={{ margin: '1rem auto 0' }}
+                    >
                         Cada obra começou num terreno real. Aqui está o que
                         estava em jogo, a decisão tomada e o resultado.
-                    </ProjectsSubtitle>
+                    </SectionSubtitle>
                 </ProjectsHeader>
 
                 <ProjectsTabs

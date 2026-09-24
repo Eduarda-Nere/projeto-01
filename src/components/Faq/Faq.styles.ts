@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SectionDescription } from '../ui';
 
 export const FaqSection = styled.section`
     background: ${({ theme }) => theme.colors.paper};
@@ -84,17 +85,14 @@ export const FaqAnswer = styled.div<{ $open: boolean }>`
 `;
 
 export const FaqAnswerContent = styled.div`
-  color: ${({ theme }) => theme.colors.ink70};
-  font-size: 0.95rem;
-  line-height: 1.8;
-  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   max-width: 100%;
 `;
 
-export const FaqAnswerText = styled.p`
-  margin: 0 0 0.5rem 0;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
+export const FaqAnswerText = styled(SectionDescription)`
+    max-width: none;
+    text-align: justify;
+    hyphens: auto;
 `;
