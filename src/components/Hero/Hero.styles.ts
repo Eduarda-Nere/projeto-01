@@ -25,7 +25,7 @@ export const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(155deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.46));
+  background: rgba(0, 0, 0, 0.60);
 `;
 
 export const Wrap = styled.div`
