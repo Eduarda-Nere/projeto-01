@@ -13,8 +13,8 @@ export const theme = {
         overlayDark: 'rgba(0, 0, 0, 0.35)',
     },
     fonts: {
-        display: '"League Spartan", sans-serif',
-        body: '"Inter", sans-serif',
+        display: '"League Spartan Variable", "League Spartan", sans-serif',
+        body: '"Inter Variable", "Inter", sans-serif',
     },
     layout: {
         container: '1220px',
