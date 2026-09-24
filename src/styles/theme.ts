@@ -3,7 +3,6 @@ export const theme = {
         navy: '#0f1e38',
         navyDeep: '#0a1526',
         gold: '#d2aa4e',
-        goldDark: '#a8853a',
         goldSoft: '#e8cf99',
         paper: '#ffffff',
         ink: '#16223a',

@@ -46,7 +46,10 @@ function Hero() {
             <Wrap>
                 <HeroInner>
                     <HeroContent $visible={visible}>
-                        <HeroTitle $visible={visible}>
+                        <HeroTitle
+                            $visible={visible}
+                            aria-label="Um contrato. Um responsável. Uma data."
+                        >
                             {visible && (
                                 <SplitText
                                     tag="span"

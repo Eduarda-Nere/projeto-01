@@ -251,7 +251,7 @@ function Cultura() {
                                 <RowMain>
                                     <RowKicker
                                         variants={{
-                                            rest: { color: '#d2aa4e' },
+                                            rest: { x: 0 },
                                             hover: { x: 4 },
                                         }}
                                         transition={{
