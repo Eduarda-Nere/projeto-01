@@ -46,7 +46,7 @@ function Footer() {
                     </FooterLogo>
 
                     <FooterTagline>
-                        Construção de escopo completo - projeto, aprovação, execução e
+                        Construção de escopo completo: projeto, aprovação, execução e
                         entrega - em obras residenciais, comerciais e industriais.
                     </FooterTagline>
 

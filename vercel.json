@@ -36,7 +36,7 @@
     ],
     "rewrites": [
         {
-            "source": "/(.*)",
+            "source": "/((?!\\.well-known|ai-catalog\\.json|robots\\.txt|sitemap\\.xml|llms\\.txt|favicon\\.png|assets/).*)",
             "destination": "/index.html"
         }
     ]

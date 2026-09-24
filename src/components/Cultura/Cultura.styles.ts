@@ -59,7 +59,7 @@ export const RowKicker = styled(motion.span)`
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.gold};
+    color: ${({ theme }) => theme.colors.goldDark};
 `;
 
 export const RowTitleGroup = styled.span`

@@ -287,11 +287,10 @@ export const ProjectsCardStatValue = styled.span`
 `;
 
 export const ProjectsCardStatLabel = styled.span`
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.ink70};
-    opacity: 0.75;
     white-space: nowrap;
 `;

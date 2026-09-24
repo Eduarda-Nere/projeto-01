@@ -63,12 +63,13 @@ export const FooterLogo = styled.div`
 `;
 
 export const FooterTagline = styled(SectionDescription)`
-    max-width: none;
-    font-size: clamp(0.85rem, 0.9vw, 0.95rem);
+    max-width: 58ch;
+    font-size: 0.9rem;
     line-height: 1.7;
     color: rgba(250, 248, 244, 0.7);
 
     @media (max-width: 640px) {
+        max-width: 55ch;
         text-align: center;
     }
 `;
