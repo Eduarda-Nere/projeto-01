@@ -1,22 +1,13 @@
-import { useRef, useState } from 'react';
-import {
-    useScroll,
-    useTransform,
-    useMotionValueEvent,
-    useReducedMotion,
-    type MotionValue,
-} from 'framer-motion';
-import { SectionTitle } from '../ui';
+import { useState } from 'react';
 import {
     ProcessoWrapper,
-    ProcessoHeader,
-    StaticStack,
-    StackViewport,
-    StackSticky,
-    StackFrame,
+    ProcessoInner,
+    ProcessoLeft,
+    Subtitle,
+    ProcessoRight,
+    CardViewport,
+    CardTrack,
     Card,
-    StepIndicator,
-    StepDot,
     GridBackground,
     CardContent,
     CardTitle,
@@ -24,9 +15,21 @@ import {
     CardDelivery,
     CardDeliveryLabel,
     CardDeliveryText,
+    CardFooter,
+    Indicators,
+    Indicator,
+    Arrows,
+    Arrow,
 } from './Processo.styles';
+import { SectionTitle } from '../ui';
 
-const STEPS = [
+type Step = {
+    title: string;
+    text: string;
+    delivery: string;
+};
+
+const STEPS: Step[] = [
     {
         title: 'Viabilidade',
         text: 'Visita ao local, leitura do zoneamento, checagem de recuos, taxa de ocupação e uso permitido, e confronto com o orçamento-alvo. Antes de qualquer desenho, você descobre o que pode ser construído ali e quanto custa.',
@@ -49,169 +52,103 @@ const STEPS = [
     },
 ];
 
-function ProcessoCard({
-    step,
-    index,
-    total,
-    scrollYProgress,
-    isActive,
-    isNext,
-}: {
-    step: (typeof STEPS)[number];
-    index: number;
-    total: number;
-    scrollYProgress: MotionValue<number>;
-    isActive: boolean;
-    isNext: boolean;
-}) {
-    const isDark = index % 2 === 0;
-    const isFirst = index === 0;
-
-    const segment = 1 / total;
-    const start = index * segment;
-    const edge = segment * 0.8;
-
-    const y = useTransform(
-        scrollYProgress,
-        isFirst
-            ? [0, 0]
-            : [start - edge, start],
-        isFirst ? ['0%', '0%'] : ['100%', '0%']
-    );
-
+function ProcessoCard({ data, isDark }: { data: Step; isDark: boolean }) {
     return (
-        <Card
-            style={{ y }}
-            $bg={isDark ? 'dark' : 'light'}
-            $index={index}
-            $visible={isActive || isNext}
-        >
+        <Card $bg={isDark ? 'dark' : 'light'}>
             <GridBackground $isDark={isDark} />
+
             <CardContent>
-                <CardTitle $isDark={isDark}>{step.title}</CardTitle>
-                <CardText $isDark={isDark}>{step.text}</CardText>
-                <CardDelivery>
-                    <CardDeliveryLabel $isDark={isDark}>Entrega</CardDeliveryLabel>
-                    <CardDeliveryText $isDark={isDark}>{step.delivery}</CardDeliveryText>
-                </CardDelivery>
+                <CardTitle $isDark={isDark}>{data.title}</CardTitle>
+                <CardText $isDark={isDark}>{data.text}</CardText>
             </CardContent>
+
+            <CardDelivery>
+                <CardDeliveryLabel $isDark={isDark}>
+                    Entrega
+                </CardDeliveryLabel>
+                <CardDeliveryText $isDark={isDark}>
+                    {data.delivery}
+                </CardDeliveryText>
+            </CardDelivery>
         </Card>
     );
 }
 
-function ProcessoStatic() {
-    return (
-        <StaticStack>
-            {STEPS.map((step, index) => {
-                const isDark = index % 2 === 0;
-                return (
-                    <Card
-                        key={step.title}
-                        as="article"
-                        $bg={isDark ? 'dark' : 'light'}
-                        $index={index}
-                        $static
-                    >
-                        <GridBackground $isDark={isDark} />
-                        <CardContent>
-                            <CardTitle $isDark={isDark}>{step.title}</CardTitle>
-                            <CardText $isDark={isDark}>{step.text}</CardText>
-                            <CardDelivery>
-                                <CardDeliveryLabel $isDark={isDark}>Entrega</CardDeliveryLabel>
-                                <CardDeliveryText $isDark={isDark}>{step.delivery}</CardDeliveryText>
-                            </CardDelivery>
-                        </CardContent>
-                    </Card>
-                );
-            })}
-        </StaticStack>
-    );
-}
-
-function ProcessoStack() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ['start start', 'end end'],
-    });
-
-    useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-        const next = Math.min(STEPS.length - 1, Math.floor(latest * STEPS.length));
-        setActiveIndex((current) => (current === next ? current : next));
-    });
-
-    const spacerStep = STEPS.reduce((max, step) =>
-        step.text.length > max.text.length ? step : max
-    , STEPS[0]);
-
-    return (
-        <StackViewport ref={containerRef} $count={STEPS.length}>
-            <StackSticky>
-                <ProcessoHeader>
-                    <SectionTitle $maxWidth="20ch" $center>
-                        Do simples ao complexo, bem feito.
-                    </SectionTitle>
-                </ProcessoHeader>
-
-                <StackFrame>
-                    <Card
-                        aria-hidden="true"
-                        $bg="light"
-                        $index={-1}
-                        $spacer
-                    >
-                        <CardContent>
-                            <CardTitle $isDark={false}>{spacerStep.title}</CardTitle>
-                            <CardText $isDark={false}>{spacerStep.text}</CardText>
-                            <CardDelivery>
-                                <CardDeliveryLabel $isDark={false}>Entrega</CardDeliveryLabel>
-                                <CardDeliveryText $isDark={false}>{spacerStep.delivery}</CardDeliveryText>
-                            </CardDelivery>
-                        </CardContent>
-                    </Card>
-
-                    {STEPS.map((step, index) => (
-                        <ProcessoCard
-                            key={step.title}
-                            step={step}
-                            index={index}
-                            total={STEPS.length}
-                            scrollYProgress={scrollYProgress}
-                            isActive={index === activeIndex}
-                            isNext={index === activeIndex + 1}
-                        />
-                    ))}
-                </StackFrame>
-
-                <StepIndicator aria-hidden="true">
-                    {STEPS.map((step, index) => (
-                        <StepDot key={step.title} $active={index === activeIndex} />
-                    ))}
-                </StepIndicator>
-            </StackSticky>
-        </StackViewport>
-    );
-}
-
 function Processo() {
-    const prefersReducedMotion = useReducedMotion();
+    const [active, setActive] = useState(0);
+    const total = STEPS.length;
+
+    const prev = () => setActive((i) => Math.max(0, i - 1));
+    const next = () => setActive((i) => Math.min(total - 1, i + 1));
 
     return (
         <ProcessoWrapper id="processo">
-            {prefersReducedMotion ? (
-                <>
-                    <ProcessoHeader>
-                        <SectionTitle $maxWidth="20ch" $center>
-                            Do simples ao complexo, bem feito.
-                        </SectionTitle>
-                    </ProcessoHeader>
-                    <ProcessoStatic />
-                </>
-            ) : (
-                <ProcessoStack />
-            )}
+            <ProcessoInner>
+                <ProcessoLeft>
+                    <SectionTitle $maxWidth="23ch">
+                        Do simples ao complexo, bem feito.
+                    </SectionTitle>
+                    <Subtitle>
+                        Quatro etapas, um contrato. Cada uma entrega algo
+                        concreto antes da próxima começar - sem etapa pulada,
+                        sem retrabalho.
+                    </Subtitle>
+                </ProcessoLeft>
+
+                <ProcessoRight>
+                    <CardViewport>
+                        <CardTrack
+                            animate={{ x: `${-active * 100}%` }}
+                            transition={{
+                                duration: 0.6,
+                                ease: [0.23, 1, 0.32, 1],
+                            }}
+                        >
+                            {STEPS.map((item, index) => (
+                                <ProcessoCard
+                                    key={item.title}
+                                    data={item}
+                                    isDark={index % 2 === 0}
+                                />
+                            ))}
+                        </CardTrack>
+                    </CardViewport>
+
+                    <CardFooter>
+                        <Indicators aria-hidden="true">
+                            {STEPS.map((item, index) => (
+                                <Indicator
+                                    key={item.title}
+                                    $active={index === active}
+                                />
+                            ))}
+                        </Indicators>
+
+                        <Arrows>
+                            <Arrow
+                                type="button"
+                                onClick={prev}
+                                disabled={active === 0}
+                                aria-label="Etapa anterior"
+                            >
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M15 18l-6-6 6-6" />
+                                </svg>
+                            </Arrow>
+                            <Arrow
+                                type="button"
+                                onClick={next}
+                                disabled={active === total - 1}
+                                aria-label="Próxima etapa"
+                            >
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9 18l6-6-6-6" />
+                                </svg>
+                            </Arrow>
+                        </Arrows>
+                    </CardFooter>
+                </ProcessoRight>
+            </ProcessoInner>
         </ProcessoWrapper>
     );
 }
