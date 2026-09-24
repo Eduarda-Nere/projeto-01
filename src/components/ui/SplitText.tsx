@@ -94,8 +94,8 @@ const SplitText = ({
                 marginValue === 0
                     ? ''
                     : marginValue < 0
-                      ? `-=${Math.abs(marginValue)}${marginUnit}`
-                      : `+=${marginValue}${marginUnit}`;
+                        ? `-=${Math.abs(marginValue)}${marginUnit}`
+                        : `+=${marginValue}${marginUnit}`;
             const start = `top ${startPct}%${sign}`;
 
             let targets: Element[] | undefined;
@@ -135,6 +135,12 @@ const SplitText = ({
                 reduceWhiteSpace: false,
                 onSplit: (self) => {
                     assignTargets(self);
+
+                    el.removeAttribute('aria-label');
+                    el.querySelectorAll('[aria-label]').forEach((node) => {
+                        node.removeAttribute('aria-label');
+                    });
+
                     const tween = gsap.fromTo(
                         targets!,
                         { ...from },
