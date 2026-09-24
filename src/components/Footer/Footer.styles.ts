@@ -234,15 +234,14 @@ export const FooterNavList = styled.ul`
     }
 `;
 
-export const FooterNavLink = styled(SectionDescription)`
+export const FooterNavLink = styled.a`
     position: relative;
     display: inline-block;
-    max-width: none;
     padding: 0.5rem 0;
+    font-family: ${({ theme }) => theme.fonts.body};
     font-size: clamp(0.85rem, 0.9vw, 0.95rem);
+    font-weight: 300;
     line-height: 1.4;
-    text-align: left;
-    hyphens: manual;
     color: rgba(250, 248, 244, 0.7);
     text-decoration: none;
     cursor: pointer;
@@ -292,9 +291,12 @@ const contactRowStyles = css`
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem 0;
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: clamp(0.85rem, 0.9vw, 0.95rem);
+    font-weight: 300;
     line-height: 1.4;
-    text-decoration: none;
     color: rgba(250, 248, 244, 0.7);
+    text-decoration: none;
 
     svg {
         width: 20px;
@@ -304,20 +306,12 @@ const contactRowStyles = css`
     }
 `;
 
-export const FooterContactStatic = styled(SectionDescription)`
+export const FooterContactStatic = styled.span`
     ${contactRowStyles}
-    max-width: none;
-    font-size: clamp(0.85rem, 0.9vw, 0.95rem);
-    text-align: left;
-    hyphens: manual;
 `;
 
-export const FooterContactLink = styled(SectionDescription)`
+export const FooterContactLink = styled.a`
     ${contactRowStyles}
-    max-width: none;
-    font-size: clamp(0.85rem, 0.9vw, 0.95rem);
-    text-align: left;
-    hyphens: manual;
     cursor: pointer;
     transition: color ${({ theme }) => theme.duration.fast} ${({ theme }) => theme.ease};
 
