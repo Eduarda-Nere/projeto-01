@@ -6,7 +6,7 @@ export const theme = {
         goldSoft: '#e8cf99',
         paper: '#ffffff',
         ink: '#16223a',
-        ink70: 'rgba(22, 34, 58, .7)',
+        ink70: 'rgba(22, 34, 58, .96)',
         lineOnNavy: 'rgba(210, 170, 78, .28)',
         lineOnCream: 'rgba(15, 30, 56, .14)',
         navySoft06: 'rgba(15, 30, 56, 0.06)',

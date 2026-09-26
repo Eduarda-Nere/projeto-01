@@ -59,7 +59,7 @@ export const RowKicker = styled(motion.span)`
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.gold};
 `;
 
 export const RowTitleGroup = styled.span`
@@ -220,13 +220,9 @@ export const ModalClose = styled.button`
 export const ModalTitle = styled.h3`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(1.6rem, 2.6vw, 2.1rem);
-    font-weight: 400;
+    font-weight: 300;
     color: ${({ theme }) => theme.colors.navy};
     margin: 0;
-
-    @media (max-width: 520px) {
-        align-self: flex-start;
-    }
 `;
 
 export const ModalTopicList = styled(GoldList)`

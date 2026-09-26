@@ -42,6 +42,7 @@ export const FaqQuestion = styled.button`
   align-items: flex-start;
   text-align: left;
   transition: color .5s ${({ theme }) => theme.ease},
+              font-weight .5s ${({ theme }) => theme.ease},
               -webkit-text-stroke .5s ${({ theme }) => theme.ease},
               text-shadow .5s ${({ theme }) => theme.ease};
   gap: 1.5rem;
@@ -49,6 +50,7 @@ export const FaqQuestion = styled.button`
 
   &[aria-expanded="true"] {
     color: ${({ theme }) => theme.colors.navy};
+    font-weight: 400;
     -webkit-text-stroke: 0.04px currentColor;
     text-shadow: 0.04px 0 0 currentColor, -0.04px 0 0 currentColor;
   }
