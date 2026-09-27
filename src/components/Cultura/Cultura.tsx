@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, useReducedMotion } from 'framer-motion';
-import { SectionWrap, SectionTitle, Highlight } from '../ui';
-import { useInViewOnce } from '../../hooks/useInViewOnce';
+import { SectionWrap, SectionTitle } from '../ui';
 import {
     CulturaSection,
-    ConfiabilitySection,
     Header,
     Subtitle,
     PillarList,
@@ -16,7 +14,6 @@ import {
     RowTitle,
     RowTeaser,
     RowAction,
-    FooterNote,
     ModalOverlay,
     ModalPanel,
     ModalHeader,
@@ -144,9 +141,6 @@ function Cultura() {
     const activePillar =
         PILLARS.find((pillar) => pillar.id === activeId) ?? null;
     const prefersReducedMotion = useReducedMotion();
-
-    const { ref: footerRef, inView: footerInView } =
-        useInViewOnce<HTMLParagraphElement>();
 
     useEffect(() => {
         if (activeId === null) return;
@@ -313,26 +307,6 @@ function Cultura() {
                     </PillarList>
                 </SectionWrap>
             </CulturaSection>
-
-            <ConfiabilitySection>
-                <SectionWrap>
-                    <FooterNote
-                        ref={footerRef}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.4 }}
-                        transition={{ duration: 0.6, ease: EASE }}
-                    >
-                        <Highlight $active={footerInView} $delay={0.3}>
-                            <strong>Confiabilidade</strong>
-                        </Highlight>{' '}
-                        não está nesta lista porque não é um princípio: é o que
-                        sobra quando todos os outros foram cumpridos até o fim.
-                        Nenhuma empresa consegue declarar confiabilidade - só
-                        consegue ser encontrada tendo-a.
-                    </FooterNote>
-                </SectionWrap>
-            </ConfiabilitySection>
 
             {createPortal(
                 <AnimatePresence>

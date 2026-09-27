@@ -11,13 +11,6 @@ export const CulturaSection = styled.section`
     scroll-margin-top: 80px;
 `;
 
-export const ConfiabilitySection = styled.section`
-    position: relative;
-    background: ${({ theme }) => theme.colors.paper};
-    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
-    scroll-margin-top: 80px;
-`;
-
 export const Header = styled(motion.div)`
     margin-bottom: clamp(1.25rem, 3vw, 2rem);
 `;
@@ -121,24 +114,6 @@ export const RowAction = styled(motion.span)`
         stroke-width: 1.3;
         fill: none;
         stroke-linecap: round;
-    }
-`;
-
-export const FooterNote = styled(motion.p)`
-    position: relative;
-    z-index: 2;
-    margin: 0 auto;
-    max-width: 62ch;
-    text-align: center;
-    font-size: clamp(0.9rem, 1.3vw, 0.95rem);
-    line-height: 1.75;
-    color: ${({ theme }) => theme.colors.ink70};
-    font-style: italic;
-
-    strong {
-        color: ${({ theme }) => theme.colors.navy};
-        font-style: normal;
-        font-weight: 600;
     }
 `;
 
