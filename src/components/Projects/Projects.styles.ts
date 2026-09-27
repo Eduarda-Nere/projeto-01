@@ -31,7 +31,7 @@ export const ProjectsTabs = styled(motion.div)`
     }
 `;
 
-export const ProjectsTab = styled(motion.button)<{
+export const ProjectsTab = styled(motion.button) <{
     $active: boolean;
     $disabled?: boolean;
 }>`
@@ -42,24 +42,24 @@ export const ProjectsTab = styled(motion.button)<{
     padding: 0.65rem 1.35rem;
     border: 1px solid
         ${({ $active, $disabled, theme }) =>
-            $disabled
-                ? theme.colors.lineOnCream
-                : $active
-                  ? theme.colors.navy
-                  : theme.colors.lineOnCream};
+        $disabled
+            ? theme.colors.lineOnCream
+            : $active
+                ? theme.colors.navy
+                : theme.colors.lineOnCream};
     border-radius: 4px;
     background: ${({ $active, $disabled, theme }) =>
         $disabled
             ? 'transparent'
             : $active
-              ? theme.colors.navy
-              : 'transparent'};
+                ? theme.colors.navy
+                : 'transparent'};
     color: ${({ $active, $disabled, theme }) =>
         $disabled
             ? theme.colors.ink70
             : $active
-              ? theme.colors.paper
-              : theme.colors.navy};
+                ? theme.colors.paper
+                : theme.colors.navy};
     cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
     font: inherit;
     white-space: nowrap;
@@ -73,7 +73,7 @@ export const ProjectsTab = styled(motion.button)<{
 
     &:hover {
         border-color: ${({ $disabled, theme }) =>
-            $disabled ? theme.colors.lineOnCream : theme.colors.navy};
+        $disabled ? theme.colors.lineOnCream : theme.colors.navy};
     }
 
     &:focus-visible {
@@ -94,8 +94,8 @@ export const ProjectsTabKicker = styled.span<{
         $disabled
             ? theme.colors.ink70
             : $active
-              ? theme.colors.paper
-              : theme.colors.navy};
+                ? theme.colors.paper
+                : theme.colors.navy};
     transition: color 0.4s ${({ theme }) => theme.easeOut};
 `;
 
@@ -203,14 +203,14 @@ export const ProjectsDropdownOption = styled.li<{
         $disabled
             ? theme.colors.ink70
             : $active
-              ? theme.colors.paper
-              : theme.colors.navy};
+                ? theme.colors.paper
+                : theme.colors.navy};
     background: ${({ $active, $disabled, theme }) =>
         $disabled
             ? 'transparent'
             : $active
-              ? theme.colors.navy
-              : 'transparent'};
+                ? theme.colors.navy
+                : 'transparent'};
     cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
     opacity: ${({ $disabled }) => ($disabled ? 0.45 : 1)};
     transition:
@@ -219,11 +219,11 @@ export const ProjectsDropdownOption = styled.li<{
 
     &:hover {
         background: ${({ $active, $disabled, theme }) =>
-            $disabled
-                ? 'transparent'
-                : $active
-                  ? theme.colors.navy
-                  : theme.colors.navySoft06};
+        $disabled
+            ? 'transparent'
+            : $active
+                ? theme.colors.navy
+                : theme.colors.navySoft06};
     }
 `;
 
@@ -232,20 +232,103 @@ export const ProjectsStage = styled.div`
     width: 100%;
 `;
 
-export const ProjectsCard = styled(motion.article)`
+export const ProjectsGrid = styled.div`
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: clamp(2rem, 4vw, 3.5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: stretch;
+
+    @media (max-width: 940px) {
+        grid-template-columns: 1fr;
+    }
+`;
+
+export const ProjectsVisual = styled.div`
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 100%;
+
+    @media (max-width: 940px) {
+        min-height: 420px;
+    }
+`;
+
+export const ProjectsVisualImage = styled.div`
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+`;
+
+export const ProjectsVisualScrim = styled.div`
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(15, 30, 56, 0.15) 0%,
+        rgba(15, 30, 56, 0.05) 45%,
+        rgba(15, 30, 56, 0.55) 100%
+    );
+    pointer-events: none;
+`;
+
+export const ProjectsVisualBands = styled.div`
+    position: absolute;
+    right: clamp(1rem, 2vw, 1.5rem);
+    bottom: clamp(1rem, 2vw, 1.5rem);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    width: auto;
+    max-width: 70%;
+`;
+
+export const ProjectsVisualBand = styled.div`
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.7rem 1.1rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+`;
+
+export const ProjectsVisualBandValue = styled.span`
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.colors.paper};
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+`;
+
+export const ProjectsVisualBandLabel = styled.span`
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+`;
+
+export const ProjectsCard = styled(motion.article)`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.5rem);
     border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
     border-radius: 4px;
     background: ${({ theme }) => theme.colors.paper};
-    align-items: start;
-
-    @media (max-width: 940px) {
-        grid-template-columns: 1fr;
-        gap: 1.75rem;
-    }
 `;
 
 export const ProjectsCardMain = styled.div`
@@ -281,57 +364,4 @@ export const ProjectsCardParagraph = styled(SectionDescription)`
         color: ${({ theme }) => theme.colors.navy};
         font-weight: 600;
     }
-`;
-
-export const ProjectsCardStats = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-left: clamp(1.5rem, 3vw, 2.5rem);
-    border-left: 1px solid ${({ theme }) => theme.colors.lineOnCream};
-    min-width: 160px;
-
-    @media (max-width: 940px) {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        padding-left: 0;
-        padding-top: 1.25rem;
-        border-left: none;
-        border-top: 1px solid ${({ theme }) => theme.colors.lineOnCream};
-        min-width: 0;
-        gap: 1rem;
-    }
-`;
-
-export const ProjectsCardStat = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.2rem;
-
-    @media (max-width: 940px) {
-        flex: 1;
-        align-items: center;
-        text-align: center;
-    }
-`;
-
-export const ProjectsCardStatValue = styled.span`
-    font-family: ${({ theme }) => theme.fonts.display};
-    font-size: clamp(1.1rem, 1.4vw, 1.3rem);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: ${({ theme }) => theme.colors.navy};
-    white-space: nowrap;
-`;
-
-export const ProjectsCardStatLabel = styled.span`
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.ink70};
-    white-space: nowrap;
 `;

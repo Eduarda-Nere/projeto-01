@@ -19,16 +19,21 @@ import {
     ProjectsDropdownMenu,
     ProjectsDropdownOption,
     ProjectsStage,
+    ProjectsGrid,
+    ProjectsVisual,
+    ProjectsVisualImage,
+    ProjectsVisualScrim,
+    ProjectsVisualBands,
+    ProjectsVisualBand,
+    ProjectsVisualBandValue,
+    ProjectsVisualBandLabel,
     ProjectsCard,
     ProjectsCardMain,
     ProjectsCardSubtitle,
     ProjectsCardDescription,
     ProjectsCardParagraph,
-    ProjectsCardStats,
-    ProjectsCardStat,
-    ProjectsCardStatValue,
-    ProjectsCardStatLabel,
 } from './Projects.styles';
+import projetosImg from '../../assets/img/projetos.jpg';
 
 type ProjectStat = {
     value: string;
@@ -416,35 +421,46 @@ function Projects() {
                         custom={direction}
                         initial={false}
                     >
-                        <ProjectsCard
+                        <ProjectsGrid
                             key={current.id}
+                            as={motion.div}
                             custom={direction}
                             variants={panelVariants}
                             initial="enter"
                             animate="center"
                             exit="exit"
                         >
-                            <ProjectsCardMain>
-                                <ProjectsCardSubtitle>
-                                    {current.subtitle}
-                                </ProjectsCardSubtitle>
+                            <ProjectsVisual>
+                                <ProjectsVisualImage
+                                    style={{
+                                        backgroundImage: `url(${projetosImg})`,
+                                    }}
+                                />
+                                <ProjectsVisualScrim />
+                                <ProjectsVisualBands>
+                                    {current.stats.map((stat) => (
+                                        <ProjectsVisualBand key={stat.label}>
+                                            <ProjectsVisualBandValue>
+                                                {stat.value}
+                                            </ProjectsVisualBandValue>
+                                            <ProjectsVisualBandLabel>
+                                                {stat.label}
+                                            </ProjectsVisualBandLabel>
+                                        </ProjectsVisualBand>
+                                    ))}
+                                </ProjectsVisualBands>
+                            </ProjectsVisual>
 
-                                <ProjectBlocks blocks={current.blocks} />
-                            </ProjectsCardMain>
+                            <ProjectsCard>
+                                <ProjectsCardMain>
+                                    <ProjectsCardSubtitle>
+                                        {current.subtitle}
+                                    </ProjectsCardSubtitle>
 
-                            <ProjectsCardStats>
-                                {current.stats.map((stat) => (
-                                    <ProjectsCardStat key={stat.label}>
-                                        <ProjectsCardStatValue>
-                                            {stat.value}
-                                        </ProjectsCardStatValue>
-                                        <ProjectsCardStatLabel>
-                                            {stat.label}
-                                        </ProjectsCardStatLabel>
-                                    </ProjectsCardStat>
-                                ))}
-                            </ProjectsCardStats>
-                        </ProjectsCard>
+                                    <ProjectBlocks blocks={current.blocks} />
+                                </ProjectsCardMain>
+                            </ProjectsCard>
+                        </ProjectsGrid>
                     </AnimatePresence>
                 </ProjectsStage>
             </SectionWrap>
