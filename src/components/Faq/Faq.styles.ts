@@ -3,8 +3,7 @@ import { SectionDescription } from '../ui';
 
 export const FaqSection = styled.section`
     background: ${({ theme }) => theme.colors.paper};
-    padding: ${({ theme }) =>
-        `calc(${theme.layout.sectionGapHalf} * 1.1) 0 ${theme.layout.sectionGapHalf}`};
+    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
     scroll-margin-top: 80px;
 `;
 
