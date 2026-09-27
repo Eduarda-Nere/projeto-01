@@ -54,17 +54,18 @@ export const CardViewport = styled.div`
     border-radius: 4px;
     clip-path: inset(0 round 4px);
     isolation: isolate;
+    background: ${({ theme }) => theme.colors.navy};
+    transform: translateZ(0);
 `;
 
 export const CardTrack = styled(motion.div)`
     display: flex;
     align-items: stretch;
     will-change: transform;
+    backface-visibility: hidden;
 `;
 
-export const Card = styled.article<{
-    $bg: 'dark' | 'light';
-}>`
+export const Card = styled.article`
     position: relative;
     flex: 0 0 100%;
     width: 100%;
@@ -74,13 +75,16 @@ export const Card = styled.article<{
     justify-content: center;
     gap: clamp(1.5rem, 2.5vw, 2rem);
     padding: clamp(1.5rem, 2.75vw, 2.25rem) clamp(1.35rem, 2.75vw, 2.25rem);
-    border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
-    border-radius: 4px;
+    border: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0;
     overflow: hidden;
-    background: ${({ $bg, theme }) =>
-        $bg === 'dark' ? theme.colors.navy : theme.colors.paper};
-    color: ${({ $bg, theme }) =>
-        $bg === 'dark' ? theme.colors.paper : theme.colors.navy};
+    background: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.paper};
+
+    &:last-child {
+        border-right: none;
+    }
 
     @media (max-width: 480px) {
         padding: 1.5rem 1.25rem;
@@ -88,21 +92,19 @@ export const Card = styled.article<{
     }
 `;
 
-export const GridBackground = styled.div<{ $isDark: boolean }>`
+export const GridBackground = styled.div`
     position: absolute;
     inset: 0;
     pointer-events: none;
     background-image:
         linear-gradient(
             to right,
-            ${({ $isDark }) =>
-                $isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'} 1px,
+            rgba(255, 255, 255, 0.04) 1px,
             transparent 1px
         ),
         linear-gradient(
             to bottom,
-            ${({ $isDark }) =>
-                $isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'} 1px,
+            rgba(255, 255, 255, 0.04) 1px,
             transparent 1px
         );
     background-size: 54px 54px;
@@ -118,14 +120,13 @@ export const CardContent = styled.div`
     align-items: flex-start;
 `;
 
-export const CardTitle = styled.h3<{ $isDark: boolean }>`
+export const CardTitle = styled.h3`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: clamp(1.3rem, 2.1vw, 1.75rem);
     line-height: 1.15;
     font-weight: 400;
     letter-spacing: -0.01em;
-    color: ${({ $isDark, theme }) =>
-        $isDark ? theme.colors.gold : theme.colors.navyDeep};
+    color: ${({ theme }) => theme.colors.gold};
     margin: 0;
 
     @media (max-width: 480px) {
@@ -133,12 +134,11 @@ export const CardTitle = styled.h3<{ $isDark: boolean }>`
     }
 `;
 
-export const CardText = styled(SectionDescription)<{ $isDark: boolean }>`
+export const CardText = styled(SectionDescription)`
     max-width: none;
     text-align: left;
     hyphens: manual;
-    color: ${({ $isDark }) =>
-        $isDark ? 'rgba(250, 248, 244, 0.7)' : 'rgba(22, 34, 58, 0.7)'};
+    color: rgba(250, 248, 244, 0.7);
 `;
 
 export const CardDelivery = styled.div`
@@ -151,22 +151,20 @@ export const CardDelivery = styled.div`
     align-items: flex-start;
 `;
 
-export const CardDeliveryLabel = styled.span<{ $isDark: boolean }>`
+export const CardDeliveryLabel = styled.span`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: 0.66rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: ${({ $isDark, theme }) =>
-        $isDark ? theme.colors.gold : theme.colors.navy};
+    color: ${({ theme }) => theme.colors.gold};
 `;
 
-export const CardDeliveryText = styled.span<{ $isDark: boolean }>`
+export const CardDeliveryText = styled.span`
     font-size: 0.8rem;
     line-height: 1.5;
     font-style: italic;
-    color: ${({ $isDark }) =>
-        $isDark ? 'rgba(250, 248, 244, 0.7)' : 'rgba(22, 34, 58, 0.7)'};
+    color: rgba(250, 248, 244, 0.7);
 `;
 
 export const CardFooter = styled.div`

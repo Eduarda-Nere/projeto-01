@@ -52,23 +52,19 @@ const STEPS: Step[] = [
     },
 ];
 
-function ProcessoCard({ data, isDark }: { data: Step; isDark: boolean }) {
+function ProcessoCard({ data }: { data: Step }) {
     return (
-        <Card $bg={isDark ? 'dark' : 'light'}>
-            <GridBackground $isDark={isDark} />
+        <Card>
+            <GridBackground />
 
             <CardContent>
-                <CardTitle $isDark={isDark}>{data.title}</CardTitle>
-                <CardText $isDark={isDark}>{data.text}</CardText>
+                <CardTitle>{data.title}</CardTitle>
+                <CardText>{data.text}</CardText>
             </CardContent>
 
             <CardDelivery>
-                <CardDeliveryLabel $isDark={isDark}>
-                    Entrega
-                </CardDeliveryLabel>
-                <CardDeliveryText $isDark={isDark}>
-                    {data.delivery}
-                </CardDeliveryText>
+                <CardDeliveryLabel>Entrega</CardDeliveryLabel>
+                <CardDeliveryText>{data.delivery}</CardDeliveryText>
             </CardDelivery>
         </Card>
     );
@@ -104,12 +100,8 @@ function Processo() {
                                 ease: [0.23, 1, 0.32, 1],
                             }}
                         >
-                            {STEPS.map((item, index) => (
-                                <ProcessoCard
-                                    key={item.title}
-                                    data={item}
-                                    isDark={index % 2 === 0}
-                                />
+                            {STEPS.map((item) => (
+                                <ProcessoCard key={item.title} data={item} />
                             ))}
                         </CardTrack>
                     </CardViewport>

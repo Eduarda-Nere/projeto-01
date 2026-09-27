@@ -46,6 +46,7 @@ type Project = {
     subtitle: string;
     blocks: ProjectBlock[];
     stats: ProjectStat[];
+    disabled?: boolean;
 };
 
 const PROJECTS: Project[] = [
@@ -164,47 +165,13 @@ const PROJECTS: Project[] = [
         ],
     },
     {
-        id: 'lorem',
-        kicker: 'LOREM - IPSUM',
-        short: 'Lorem',
-        subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-        blocks: [
-            {
-                type: 'paragraph',
-                content: (
-                    <>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
-                    </>
-                ),
-            },
-            {
-                type: 'paragraph',
-                content: (
-                    <>
-                        Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Duis aute irure dolor in reprehenderit in voluptate velit
-                        esse cillum dolore eu fugiat nulla pariatur.
-                    </>
-                ),
-            },
-            {
-                type: 'paragraph',
-                content: (
-                    <>
-                        Excepteur sint occaecat cupidatat non proident, sunt in
-                        culpa qui officia deserunt mollit anim id est laborum.
-                    </>
-                ),
-            },
-        ],
-        stats: [
-            { value: '0', label: 'LOREM' },
-            { value: '0', label: 'IPSUM' },
-            { value: '0', label: 'DOLOR' },
-        ],
+        id: 'em-breve',
+        kicker: 'EM BREVE',
+        short: 'Em breve',
+        subtitle: '',
+        blocks: [],
+        stats: [],
+        disabled: true,
     },
 ];
 
@@ -286,6 +253,7 @@ function Projects() {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const goTo = useCallback((next: number) => {
+        if (PROJECTS[next]?.disabled) return;
         setActive((prev) => {
             if (next === prev) return prev;
             setDirection(next > prev ? 1 : -1);
@@ -363,13 +331,26 @@ function Projects() {
                                 key={project.id}
                                 type="button"
                                 $active={isActive}
+                                $disabled={project.disabled}
+                                disabled={project.disabled}
                                 variants={tabItem}
                                 onClick={() => goTo(i)}
                                 aria-pressed={isActive}
-                                aria-label={project.kicker}
-                                whileTap={{ scale: 0.97 }}
+                                aria-label={
+                                    project.disabled
+                                        ? `${project.kicker} - em breve`
+                                        : project.kicker
+                                }
+                                whileTap={
+                                    project.disabled
+                                        ? undefined
+                                        : { scale: 0.97 }
+                                }
                             >
-                                <ProjectsTabKicker $active={isActive}>
+                                <ProjectsTabKicker
+                                    $active={isActive}
+                                    $disabled={project.disabled}
+                                >
                                     {project.kicker}
                                 </ProjectsTabKicker>
                             </ProjectsTab>
@@ -415,7 +396,9 @@ function Projects() {
                                             key={project.id}
                                             role="option"
                                             aria-selected={isActive}
+                                            aria-disabled={project.disabled}
                                             $active={isActive}
+                                            $disabled={project.disabled}
                                             onClick={() => goTo(i)}
                                         >
                                             {project.kicker}

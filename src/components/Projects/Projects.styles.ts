@@ -31,31 +31,49 @@ export const ProjectsTabs = styled(motion.div)`
     }
 `;
 
-export const ProjectsTab = styled(motion.button)<{ $active: boolean }>`
+export const ProjectsTab = styled(motion.button)<{
+    $active: boolean;
+    $disabled?: boolean;
+}>`
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.65rem 1.35rem;
     border: 1px solid
-        ${({ $active, theme }) =>
-            $active ? theme.colors.navy : theme.colors.lineOnCream};
+        ${({ $active, $disabled, theme }) =>
+            $disabled
+                ? theme.colors.lineOnCream
+                : $active
+                  ? theme.colors.navy
+                  : theme.colors.lineOnCream};
     border-radius: 4px;
-    background: ${({ $active, theme }) =>
-        $active ? theme.colors.navy : 'transparent'};
-    color: ${({ $active, theme }) =>
-        $active ? theme.colors.paper : theme.colors.navy};
-    cursor: pointer;
+    background: ${({ $active, $disabled, theme }) =>
+        $disabled
+            ? 'transparent'
+            : $active
+              ? theme.colors.navy
+              : 'transparent'};
+    color: ${({ $active, $disabled, theme }) =>
+        $disabled
+            ? theme.colors.ink70
+            : $active
+              ? theme.colors.paper
+              : theme.colors.navy};
+    cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
     font: inherit;
     white-space: nowrap;
     text-align: center;
+    opacity: ${({ $disabled }) => ($disabled ? 0.45 : 1)};
     transition:
         background 0.4s ${({ theme }) => theme.easeOut},
         border-color 0.4s ${({ theme }) => theme.easeOut},
-        color 0.4s ${({ theme }) => theme.easeOut};
+        color 0.4s ${({ theme }) => theme.easeOut},
+        opacity 0.4s ${({ theme }) => theme.easeOut};
 
     &:hover {
-        border-color: ${({ theme }) => theme.colors.navy};
+        border-color: ${({ $disabled, theme }) =>
+            $disabled ? theme.colors.lineOnCream : theme.colors.navy};
     }
 
     &:focus-visible {
@@ -64,13 +82,20 @@ export const ProjectsTab = styled(motion.button)<{ $active: boolean }>`
     }
 `;
 
-export const ProjectsTabKicker = styled.span<{ $active: boolean }>`
+export const ProjectsTabKicker = styled.span<{
+    $active: boolean;
+    $disabled?: boolean;
+}>`
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: ${({ $active, theme }) =>
-        $active ? theme.colors.paper : theme.colors.navy};
+    color: ${({ $active, $disabled, theme }) =>
+        $disabled
+            ? theme.colors.ink70
+            : $active
+              ? theme.colors.paper
+              : theme.colors.navy};
     transition: color 0.4s ${({ theme }) => theme.easeOut};
 `;
 
@@ -161,7 +186,10 @@ export const ProjectsDropdownMenu = styled(motion.ul)`
     overflow-y: auto;
 `;
 
-export const ProjectsDropdownOption = styled.li<{ $active: boolean }>`
+export const ProjectsDropdownOption = styled.li<{
+    $active: boolean;
+    $disabled?: boolean;
+}>`
     display: flex;
     align-items: center;
     padding: 0.75rem 0.85rem;
@@ -171,18 +199,31 @@ export const ProjectsDropdownOption = styled.li<{ $active: boolean }>`
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: ${({ $active, theme }) =>
-        $active ? theme.colors.paper : theme.colors.navy};
-    background: ${({ $active, theme }) =>
-        $active ? theme.colors.navy : 'transparent'};
-    cursor: pointer;
+    color: ${({ $active, $disabled, theme }) =>
+        $disabled
+            ? theme.colors.ink70
+            : $active
+              ? theme.colors.paper
+              : theme.colors.navy};
+    background: ${({ $active, $disabled, theme }) =>
+        $disabled
+            ? 'transparent'
+            : $active
+              ? theme.colors.navy
+              : 'transparent'};
+    cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+    opacity: ${({ $disabled }) => ($disabled ? 0.45 : 1)};
     transition:
         background 0.2s ${({ theme }) => theme.easeOut},
         color 0.2s ${({ theme }) => theme.easeOut};
 
     &:hover {
-        background: ${({ $active, theme }) =>
-            $active ? theme.colors.navy : theme.colors.navySoft06};
+        background: ${({ $active, $disabled, theme }) =>
+            $disabled
+                ? 'transparent'
+                : $active
+                  ? theme.colors.navy
+                  : theme.colors.navySoft06};
     }
 `;
 
