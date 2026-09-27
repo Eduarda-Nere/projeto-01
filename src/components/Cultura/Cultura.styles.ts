@@ -6,7 +6,7 @@ export const CulturaSection = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.navy};
     color: ${({ theme }) => theme.colors.paper};
-    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
+    padding: clamp(2.5rem, 5vw, 3.5rem) 0;
     scroll-margin-top: 80px;
 `;
 
@@ -41,6 +41,7 @@ export const PillarRow = styled(motion.button)`
 
     &:last-child {
         border-bottom: none;
+        padding-bottom: 0;
     }
 
     &:focus-visible {
