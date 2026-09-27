@@ -1,13 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HardHat } from 'lucide-react';
 import { FlowButton } from '../ui';
 import {
     NotFoundSection,
     NotFoundContent,
     NotFoundCode,
-    NotFoundLastFour,
-    NotFoundHelmet,
     NotFoundTitle,
     NotFoundDescription,
     ButtonWrapper,
@@ -30,15 +27,7 @@ function NotFound() {
     return (
         <NotFoundSection>
             <NotFoundContent>
-                <NotFoundCode>
-                    40
-                    <NotFoundLastFour>
-                        <NotFoundHelmet aria-hidden="true">
-                            <HardHat />
-                        </NotFoundHelmet>
-                        4
-                    </NotFoundLastFour>
-                </NotFoundCode>
+                <NotFoundCode>404</NotFoundCode>
 
                 <NotFoundTitle>Página não encontrada</NotFoundTitle>
 

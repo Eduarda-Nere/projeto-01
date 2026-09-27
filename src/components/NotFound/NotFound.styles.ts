@@ -9,7 +9,7 @@ export const NotFoundSection = styled.section`
   background: ${({ theme }) => theme.colors.paper};
   padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 4vw, 3rem);
   text-align: center;
-  padding-top: calc(${({ theme }) => theme.layout.headerHeight} + 2rem);
+  padding-top: calc(${({ theme }) => theme.layout.headerHeight} + 1rem);
 `;
 
 export const NotFoundContent = styled.div`
@@ -25,37 +25,9 @@ export const NotFoundCode = styled.h1`
   line-height: 1;
   letter-spacing: -0.03em;
   user-select: none;
-  margin-bottom: 0.5rem;
-  padding-top: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 0.25rem;
+  padding-top: 0;
   pointer-events: none;
-`;
-
-export const NotFoundLastFour = styled.span`
-  position: relative;
-  display: inline-block;
-`;
-
-export const NotFoundHelmet = styled.span`
-  position: absolute;
-  top: -0.22em;
-  left: 50%;
-  transform: translateX(calc(-50% + 0.15em)) rotate(15deg);
-  width: 0.55em;
-  height: 0.55em;
-  pointer-events: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.gold};
-  opacity: 6;
-
-  svg {
-    width: 100%;
-    height: 100%;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    fill: none;
-  }
 `;
 
 export const NotFoundTitle = styled.h2`
