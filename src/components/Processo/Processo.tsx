@@ -3,21 +3,22 @@ import {
     ProcessoWrapper,
     ProcessoInner,
     ProcessoLeft,
-    Subtitle,
     ProcessoRight,
-    CardViewport,
-    CardTrack,
-    Card,
-    GridBackground,
-    CardContent,
-    CardTitle,
-    CardText,
-    CardDelivery,
-    CardDeliveryLabel,
-    CardDeliveryText,
-    CardFooter,
-    Indicators,
-    Indicator,
+    Subtitle,
+    Stepper,
+    StepperTrack,
+    StepperProgress,
+    StepperItem,
+    StepperCircle,
+    StepPanel,
+    StepTrack,
+    StepSlide,
+    StepTitle,
+    StepText,
+    StepDelivery,
+    StepDeliveryLabel,
+    StepDeliveryText,
+    StepFooter,
     Arrows,
     Arrow,
 } from './Processo.styles';
@@ -52,24 +53,6 @@ const STEPS: Step[] = [
     },
 ];
 
-function ProcessoCard({ data }: { data: Step }) {
-    return (
-        <Card>
-            <GridBackground />
-
-            <CardContent>
-                <CardTitle>{data.title}</CardTitle>
-                <CardText>{data.text}</CardText>
-            </CardContent>
-
-            <CardDelivery>
-                <CardDeliveryLabel>Entrega</CardDeliveryLabel>
-                <CardDeliveryText>{data.delivery}</CardDeliveryText>
-            </CardDelivery>
-        </Card>
-    );
-}
-
 function Processo() {
     const [active, setActive] = useState(0);
     const total = STEPS.length;
@@ -77,14 +60,16 @@ function Processo() {
     const prev = () => setActive((i) => Math.max(0, i - 1));
     const next = () => setActive((i) => Math.min(total - 1, i + 1));
 
+    const progress = total > 1 ? (active / (total - 1)) * 100 : 0;
+
     return (
         <ProcessoWrapper id="processo">
             <ProcessoInner>
                 <ProcessoLeft>
-                    <SectionTitle $maxWidth="23ch">
-                        Do simples ao complexo, bem feito.
+                    <SectionTitle $maxWidth="20ch">
+                        Do simples ao complexo, bem feito
                     </SectionTitle>
-                    <Subtitle>
+                    <Subtitle $maxWidth="56ch">
                         Quatro etapas, um contrato. Cada uma entrega algo
                         concreto antes da próxima começar - sem etapa pulada,
                         sem retrabalho.
@@ -92,30 +77,54 @@ function Processo() {
                 </ProcessoLeft>
 
                 <ProcessoRight>
-                    <CardViewport>
-                        <CardTrack
-                            animate={{ x: `${-active * 100}%` }}
-                            transition={{
-                                duration: 0.6,
-                                ease: [0.23, 1, 0.32, 1],
-                            }}
-                        >
-                            {STEPS.map((item) => (
-                                <ProcessoCard key={item.title} data={item} />
-                            ))}
-                        </CardTrack>
-                    </CardViewport>
+                    <Stepper role="tablist" aria-label="Etapas do processo">
+                        <StepperTrack>
+                            <StepperProgress style={{ width: `${progress}%` }} />
+                        </StepperTrack>
 
-                    <CardFooter>
-                        <Indicators aria-hidden="true">
-                            {STEPS.map((item, index) => (
-                                <Indicator
-                                    key={item.title}
-                                    $active={index === active}
-                                />
-                            ))}
-                        </Indicators>
+                        {STEPS.map((step, index) => {
+                            const isActive = index === active;
+                            const isDone = index < active;
 
+                            return (
+                                <StepperItem key={step.title}>
+                                    <StepperCircle
+                                        as="button"
+                                        type="button"
+                                        $active={isActive}
+                                        $done={isDone}
+                                        onClick={() => setActive(index)}
+                                        role="tab"
+                                        aria-selected={isActive}
+                                        aria-label={`Ir para etapa ${index + 1}: ${step.title}`}
+                                    >
+                                        {String(index + 1).padStart(2, '0')}
+                                    </StepperCircle>
+                                </StepperItem>
+                            );
+                        })}
+                    </Stepper>
+
+                    <StepPanel>
+                        <StepTrack $offset={active}>
+                            {STEPS.map((step) => (
+                                <StepSlide key={step.title}>
+                                    <StepTitle>{step.title}</StepTitle>
+                                    <StepText>{step.text}</StepText>
+                                    <StepDelivery>
+                                        <StepDeliveryLabel>
+                                            Entrega
+                                        </StepDeliveryLabel>
+                                        <StepDeliveryText>
+                                            {step.delivery}
+                                        </StepDeliveryText>
+                                    </StepDelivery>
+                                </StepSlide>
+                            ))}
+                        </StepTrack>
+                    </StepPanel>
+
+                    <StepFooter>
                         <Arrows>
                             <Arrow
                                 type="button"
@@ -138,7 +147,7 @@ function Processo() {
                                 </svg>
                             </Arrow>
                         </Arrows>
-                    </CardFooter>
+                    </StepFooter>
                 </ProcessoRight>
             </ProcessoInner>
         </ProcessoWrapper>

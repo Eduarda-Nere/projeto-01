@@ -6,8 +6,8 @@ export const CulturaSection = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.navy};
     color: ${({ theme }) => theme.colors.paper};
-    padding: clamp(2.5rem, 5vw, 3.5rem) 0;
-    scroll-margin-top: 80px;
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    scroll-margin-top: ${({ theme }) => theme.layout.headerHeight};
 `;
 
 export const Header = styled(motion.div)`
