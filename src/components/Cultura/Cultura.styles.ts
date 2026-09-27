@@ -4,21 +4,31 @@ import { SectionSubtitle, SectionDescription, GoldList } from '../ui';
 
 export const CulturaSection = styled.section`
     position: relative;
+    background: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.paper};
+    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0
+        clamp(1.5rem, 3vw, 2.5rem);
+    scroll-margin-top: 80px;
+`;
+
+export const ConfiabilitySection = styled.section`
+    position: relative;
     background: ${({ theme }) => theme.colors.paper};
     padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
     scroll-margin-top: 80px;
 `;
 
 export const Header = styled(motion.div)`
-    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: clamp(1.25rem, 3vw, 2rem);
 `;
 
 export const Subtitle = styled(SectionSubtitle)`
-    margin: 1rem 0 0;
+    margin: 0.75rem 0 0;
 `;
 
 export const PillarList = styled(motion.div)`
-    border-top: 1px solid ${({ theme }) => theme.colors.lineOnCream};
+    display: flex;
+    flex-direction: column;
 `;
 
 export const PillarRow = styled(motion.button)`
@@ -29,13 +39,17 @@ export const PillarRow = styled(motion.button)`
     width: 100%;
     padding: clamp(1.75rem, 3.5vw, 2.5rem) 0;
     border: none;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.lineOnCream};
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     background: none;
     text-align: left;
     cursor: pointer;
     font: inherit;
     color: inherit;
     -webkit-tap-highlight-color: transparent;
+
+    &:last-child {
+        border-bottom: none;
+    }
 
     &:focus-visible {
         outline: 2px solid ${({ theme }) => theme.colors.gold};
@@ -74,7 +88,7 @@ export const RowTitle = styled(motion.span)`
     font-size: clamp(1.6rem, 3.4vw, 2.4rem);
     font-weight: 300;
     letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.paper};
 `;
 
 export const RowTeaser = styled(motion.create(SectionDescription))`
@@ -84,6 +98,7 @@ export const RowTeaser = styled(motion.create(SectionDescription))`
     hyphens: manual;
     max-width: none;
     white-space: nowrap;
+    color: rgba(250, 248, 244, 0.75);
 
     @media (max-width: 700px) {
         display: none;
@@ -97,7 +112,7 @@ export const RowAction = styled(motion.span)`
     justify-content: center;
     width: 22px;
     height: 22px;
-    color: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.paper};
 
     svg {
         width: 100%;
@@ -112,7 +127,7 @@ export const RowAction = styled(motion.span)`
 export const FooterNote = styled(motion.p)`
     position: relative;
     z-index: 2;
-    margin: clamp(2.5rem, 6vw, 4rem) auto 0;
+    margin: 0 auto;
     max-width: 62ch;
     text-align: center;
     font-size: clamp(0.9rem, 1.3vw, 0.95rem);
@@ -147,7 +162,8 @@ export const ModalPanel = styled(motion.div)`
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     background: ${({ theme }) => theme.colors.paper};
-    border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
+    border: none;
+    box-shadow: ${({ theme }) => theme.shadows.medium};
     padding: clamp(2rem, 4vw, 3rem);
 `;
 
@@ -227,6 +243,15 @@ export const ModalTitle = styled.h3`
 
 export const ModalTopicList = styled(GoldList)`
     gap: 1.5rem;
+    border: none;
+    border-top: none;
+    border-bottom: none;
+
+    > li {
+        border: none;
+        border-top: none;
+        border-bottom: none;
+    }
 `;
 
 export const CulturaTopic = styled.li`
@@ -236,6 +261,7 @@ export const CulturaTopic = styled.li`
     font-size: 0.95rem;
     line-height: 1.8;
     color: ${({ theme }) => theme.colors.ink70};
+    border: none;
 
     &::before {
         content: '';

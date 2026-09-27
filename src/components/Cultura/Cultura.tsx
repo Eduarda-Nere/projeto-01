@@ -5,6 +5,7 @@ import { SectionWrap, SectionTitle, Highlight } from '../ui';
 import { useInViewOnce } from '../../hooks/useInViewOnce';
 import {
     CulturaSection,
+    ConfiabilitySection,
     Header,
     Subtitle,
     PillarList,
@@ -140,7 +141,8 @@ const rowVariants = {
 
 function Cultura() {
     const [activeId, setActiveId] = useState<string | null>(null);
-    const activePillar = PILLARS.find((pillar) => pillar.id === activeId) ?? null;
+    const activePillar =
+        PILLARS.find((pillar) => pillar.id === activeId) ?? null;
     const prefersReducedMotion = useReducedMotion();
 
     const { ref: footerRef, inView: footerInView } =
@@ -219,8 +221,10 @@ function Cultura() {
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.8, ease: EASE }}
                     >
-                        <SectionTitle $maxWidth="20ch">Cultura Lopez</SectionTitle>
-                        <Subtitle $maxWidth="56ch">
+                        <SectionTitle $light $maxWidth="20ch">
+                            Cultura Lopez
+                        </SectionTitle>
+                        <Subtitle $light $maxWidth="56ch">
                             A Cultura Lopez define o que aceitamos e recusamos
                             em cada obra: imprevisto é falha de método, e
                             resultado vem de quem entende o porquê.
@@ -295,7 +299,10 @@ function Cultura() {
                                         rest: { x: 0 },
                                         hover: { x: 6 },
                                     }}
-                                    transition={{ duration: 0.4, ease: EASE }}
+                                    transition={{
+                                        duration: 0.4,
+                                        ease: EASE,
+                                    }}
                                 >
                                     <svg viewBox="0 0 24 24">
                                         <path d="M5 12h14M12 5l7 7-7 7" />
@@ -304,7 +311,11 @@ function Cultura() {
                             </PillarRow>
                         ))}
                     </PillarList>
+                </SectionWrap>
+            </CulturaSection>
 
+            <ConfiabilitySection>
+                <SectionWrap>
                     <FooterNote
                         ref={footerRef}
                         initial={{ opacity: 0, y: 20 }}
@@ -321,7 +332,7 @@ function Cultura() {
                         consegue ser encontrada tendo-a.
                     </FooterNote>
                 </SectionWrap>
-            </CulturaSection>
+            </ConfiabilitySection>
 
             {createPortal(
                 <AnimatePresence>
@@ -353,7 +364,10 @@ function Cultura() {
                                         onClick={() => setActiveId(null)}
                                         aria-label="Voltar para a lista de pilares"
                                     >
-                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
                                             <path d="M19 12H5M12 19l-7-7 7-7" />
                                         </svg>
                                         Voltar
