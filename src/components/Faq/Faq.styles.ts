@@ -91,6 +91,7 @@ export const FaqAnswerContent = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   max-width: 100%;
+  padding-right: clamp(1rem, 3vw, 2.5rem);
 `;
 
 export const FaqAnswerText = styled(SectionDescription)`
