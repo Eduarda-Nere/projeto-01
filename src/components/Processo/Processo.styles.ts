@@ -49,6 +49,8 @@ export const Subtitle = styled(SectionSubtitle)`
     max-width: 56ch;
 `;
 
+/* ---------- Stepper horizontal ---------- */
+
 export const Stepper = styled.div`
     position: relative;
     display: grid;
@@ -107,14 +109,14 @@ export const StepperCircle = styled.button<{
     cursor: pointer;
     border: 1.5px solid
         ${({ $active, $done, theme }) =>
-        $active || $done ? theme.colors.gold : theme.colors.lineOnCream};
+            $active || $done ? theme.colors.gold : theme.colors.lineOnCream};
     background: ${({ theme }) => theme.colors.paper};
     color: ${({ $active, $done, theme }) =>
         $active
             ? theme.colors.paper
             : $done
-                ? theme.colors.gold
-                : theme.colors.ink70};
+              ? theme.colors.gold
+              : theme.colors.ink70};
     transition:
         background 0.4s ${({ theme }) => theme.easeOut},
         border-color 0.4s ${({ theme }) => theme.easeOut},
@@ -140,6 +142,8 @@ export const StepperCircle = styled.button<{
     }
 `;
 
+/* ---------- Painel de conteúdo (retângulo com borda completa) ---------- */
+
 export const StepPanel = styled.div`
     position: relative;
     width: calc(75% + 48px);
@@ -148,9 +152,8 @@ export const StepPanel = styled.div`
     overflow: hidden;
     min-height: 200px;
     background: ${({ theme }) => theme.colors.paper};
-    clip-path: inset(0 1px 0 1px);
-    -webkit-clip-path: inset(0 1px 0 1px);
-    transform: translateZ(0);
+    border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
+    border-radius: 4px;
 `;
 
 export const StepTrack = styled.div<{ $offset: number }>`
@@ -170,7 +173,7 @@ export const StepSlide = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     gap: 1rem;
-    padding: 0;
+    padding: clamp(1.5rem, 2.75vw, 2.25rem) clamp(1.35rem, 2.75vw, 2.25rem);
     background: ${({ theme }) => theme.colors.paper};
     border: none;
     color: ${({ theme }) => theme.colors.navy};
@@ -215,6 +218,8 @@ export const StepDeliveryText = styled.span`
     font-style: italic;
     color: ${({ theme }) => theme.colors.ink70};
 `;
+
+/* ---------- Setas abaixo ---------- */
 
 export const StepFooter = styled.div`
     display: flex;
