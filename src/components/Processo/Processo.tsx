@@ -3,6 +3,7 @@ import {
     ProcessoWrapper,
     ProcessoInner,
     ProcessoLeft,
+    ProcessoRightWrapper,
     ProcessoRight,
     Subtitle,
     Stepper,
@@ -76,53 +77,55 @@ function Processo() {
                     </Subtitle>
                 </ProcessoLeft>
 
-                <ProcessoRight>
-                    <Stepper role="tablist" aria-label="Etapas do processo">
-                        <StepperTrack>
-                            <StepperProgress style={{ width: `${progress}%` }} />
-                        </StepperTrack>
+                <ProcessoRightWrapper>
+                    <ProcessoRight>
+                        <Stepper role="tablist" aria-label="Etapas do processo">
+                            <StepperTrack>
+                                <StepperProgress style={{ width: `${progress}%` }} />
+                            </StepperTrack>
 
-                        {STEPS.map((step, index) => {
-                            const isActive = index === active;
-                            const isDone = index < active;
+                            {STEPS.map((step, index) => {
+                                const isActive = index === active;
+                                const isDone = index < active;
 
-                            return (
-                                <StepperItem key={step.title}>
-                                    <StepperCircle
-                                        as="button"
-                                        type="button"
-                                        $active={isActive}
-                                        $done={isDone}
-                                        onClick={() => setActive(index)}
-                                        role="tab"
-                                        aria-selected={isActive}
-                                        aria-label={`Ir para etapa ${index + 1}: ${step.title}`}
-                                    >
-                                        {String(index + 1).padStart(2, '0')}
-                                    </StepperCircle>
-                                </StepperItem>
-                            );
-                        })}
-                    </Stepper>
+                                return (
+                                    <StepperItem key={step.title}>
+                                        <StepperCircle
+                                            as="button"
+                                            type="button"
+                                            $active={isActive}
+                                            $done={isDone}
+                                            onClick={() => setActive(index)}
+                                            role="tab"
+                                            aria-selected={isActive}
+                                            aria-label={`Ir para etapa ${index + 1}: ${step.title}`}
+                                        >
+                                            {String(index + 1).padStart(2, '0')}
+                                        </StepperCircle>
+                                    </StepperItem>
+                                );
+                            })}
+                        </Stepper>
 
-                    <StepPanel>
-                        <StepTrack $offset={active}>
-                            {STEPS.map((step) => (
-                                <StepSlide key={step.title}>
-                                    <StepTitle>{step.title}</StepTitle>
-                                    <StepText>{step.text}</StepText>
-                                    <StepDelivery>
-                                        <StepDeliveryLabel>
-                                            Entrega
-                                        </StepDeliveryLabel>
-                                        <StepDeliveryText>
-                                            {step.delivery}
-                                        </StepDeliveryText>
-                                    </StepDelivery>
-                                </StepSlide>
-                            ))}
-                        </StepTrack>
-                    </StepPanel>
+                        <StepPanel>
+                            <StepTrack $offset={active}>
+                                {STEPS.map((step) => (
+                                    <StepSlide key={step.title}>
+                                        <StepTitle>{step.title}</StepTitle>
+                                        <StepText>{step.text}</StepText>
+                                        <StepDelivery>
+                                            <StepDeliveryLabel>
+                                                Entrega
+                                            </StepDeliveryLabel>
+                                            <StepDeliveryText>
+                                                {step.delivery}
+                                            </StepDeliveryText>
+                                        </StepDelivery>
+                                    </StepSlide>
+                                ))}
+                            </StepTrack>
+                        </StepPanel>
+                    </ProcessoRight>
 
                     <StepFooter>
                         <Arrows>
@@ -148,7 +151,7 @@ function Processo() {
                             </Arrow>
                         </Arrows>
                     </StepFooter>
-                </ProcessoRight>
+                </ProcessoRightWrapper>
             </ProcessoInner>
         </ProcessoWrapper>
     );

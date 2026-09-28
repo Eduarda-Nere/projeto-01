@@ -16,11 +16,12 @@ export const ProcessoInner = styled.div`
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
     gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
+    align-items: center;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
         gap: clamp(2rem, 4vw, 3rem);
+        align-items: start;
     }
 `;
 
@@ -29,6 +30,14 @@ export const ProcessoLeft = styled.div`
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    width: 100%;
+`;
+
+export const ProcessoRightWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
     width: 100%;
 `;
 
@@ -48,8 +57,6 @@ export const Subtitle = styled(SectionSubtitle)`
     margin: 0.75rem 0 0;
     max-width: 56ch;
 `;
-
-/* ---------- Stepper horizontal ---------- */
 
 export const Stepper = styled.div`
     position: relative;
@@ -142,8 +149,6 @@ export const StepperCircle = styled.button<{
     }
 `;
 
-/* ---------- Painel de conteúdo (retângulo com borda completa) ---------- */
-
 export const StepPanel = styled.div`
     position: relative;
     width: calc(75% + 48px);
@@ -152,7 +157,6 @@ export const StepPanel = styled.div`
     overflow: hidden;
     min-height: 200px;
     background: ${({ theme }) => theme.colors.paper};
-    border: 1px solid ${({ theme }) => theme.colors.lineOnCream};
     border-radius: 4px;
 `;
 
@@ -173,7 +177,7 @@ export const StepSlide = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     gap: 1rem;
-    padding: clamp(1.5rem, 2.75vw, 2.25rem) clamp(1.35rem, 2.75vw, 2.25rem);
+    padding: 0;
     background: ${({ theme }) => theme.colors.paper};
     border: none;
     color: ${({ theme }) => theme.colors.navy};
@@ -219,8 +223,6 @@ export const StepDeliveryText = styled.span`
     color: ${({ theme }) => theme.colors.ink70};
 `;
 
-/* ---------- Setas abaixo ---------- */
-
 export const StepFooter = styled.div`
     display: flex;
     justify-content: center;
@@ -234,7 +236,7 @@ export const StepFooter = styled.div`
 
 export const Arrows = styled.div`
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
 `;
 
 export const Arrow = styled.button<{ $disabled?: boolean }>`
