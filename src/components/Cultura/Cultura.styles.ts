@@ -143,69 +143,77 @@ export const ModalPanel = styled(motion.div)`
     padding: clamp(2rem, 4vw, 3rem);
 `;
 
-export const ModalHeader = styled.div`
+export const ModalCloseRow = styled.div`
+    position: sticky;
+    top: calc(clamp(2rem, 4vw, 3rem) * -1);
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 1.75rem;
+    gap: 1rem;
+    margin: calc(clamp(2rem, 4vw, 3rem) * -1)
+        calc(clamp(2rem, 4vw, 3rem) * -1) 0;
+    padding: clamp(0.75rem, 1.5vw, 1rem) clamp(0.75rem, 1.5vw, 1rem) 0.85rem;
+    background: ${({ theme }) => theme.colors.paper};
+`;
 
-    @media (max-width: 520px) {
-        flex-direction: column-reverse;
-        align-items: stretch;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
+export const ModalCloseTitle = styled.h3`
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-weight: 300;
+    color: ${({ theme }) => theme.colors.navy};
+    margin: 0;
+    text-align: left;
+    padding-left: clamp(1rem, 2vw, 1.25rem);
 `;
 
 export const ModalClose = styled.button`
-    flex-shrink: 0;
-    border: none;
-    background: none;
-    padding: 0.25rem 0.5rem;
-    margin: 0;
-    cursor: pointer;
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.ink70};
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    transition: color 0.3s ease;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: ${({ theme }) => theme.colors.ink70};
+    cursor: pointer;
     line-height: 1;
+    transition: color 0.3s ease, background 0.3s ease;
+    flex-shrink: 0;
 
     svg {
-        width: 14px;
-        height: 14px;
+        width: 20px;
+        height: 20px;
         stroke: currentColor;
-        stroke-width: 1.8;
+        stroke-width: 1.6;
         fill: none;
         stroke-linecap: round;
         stroke-linejoin: round;
-        transition: transform 0.3s ease;
     }
 
     &:hover {
         color: ${({ theme }) => theme.colors.navy};
+        background: rgba(15, 30, 56, 0.06);
+    }
 
-        svg {
-            transform: translateX(-3px);
-        }
+    &:active {
+        background: rgba(15, 30, 56, 0.1);
     }
 
     &:focus-visible {
         outline: 2px solid ${({ theme }) => theme.colors.gold};
         outline-offset: 3px;
-        border-radius: 4px;
     }
+`;
+
+export const ModalHeader = styled.div`
+    margin-bottom: 1.75rem;
 
     @media (max-width: 520px) {
-        align-self: flex-end;
-        padding: 0.5rem 0;
-        margin-bottom: 0.25rem;
+        margin-bottom: 1.5rem;
     }
 `;
 
@@ -292,8 +300,8 @@ export const CulturaTopicDescription = styled.div`
 `;
 
 export const CulturaTopicParagraph = styled(SectionDescription)`
-    text-align: left;
-    hyphens: manual;
+    text-align: justify;
+    hyphens: auto;
     font-size: clamp(0.85rem, 1.2vw, 0.9rem);
     line-height: 1.65;
     margin: 0 0 0.85rem;

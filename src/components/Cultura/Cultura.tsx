@@ -16,9 +16,9 @@ import {
     RowAction,
     ModalOverlay,
     ModalPanel,
-    ModalHeader,
+    ModalCloseRow,
     ModalClose,
-    ModalTitle,
+    ModalCloseTitle,
     ModalTopicList,
     CulturaTopic,
     CulturaTopicTitle,
@@ -89,7 +89,7 @@ const PILLARS: Pillar[] = [
                 paragraph:
                     'Atender bem é devolver o problema resolvido, não responder rápido. Coordenar fornecedores e resolver pendências é nossa parte, não do cliente.',
                 practice:
-                    'Nenhuma pendência de obra é devolvida ao cliente como tarefa — ela chega a ele já com a solução proposta e o custo, para decisão.',
+                    'Nenhuma pendência de obra é devolvida ao cliente como tarefa - ela chega a ele já com a solução proposta e o custo, para decisão.',
             },
         ],
     },
@@ -330,23 +330,22 @@ function Cultura() {
                                 exit={{ opacity: 0, y: 10, scale: 0.98 }}
                                 transition={{ duration: 0.4, ease: EASE }}
                             >
-                                <ModalHeader>
-                                    <ModalTitle>
+                                <ModalCloseRow>
+                                    <ModalCloseTitle>
                                         {activePillar.title}
-                                    </ModalTitle>
+                                    </ModalCloseTitle>
                                     <ModalClose
                                         onClick={() => setActiveId(null)}
-                                        aria-label="Voltar para a lista de pilares"
+                                        aria-label="Fechar"
                                     >
                                         <svg
                                             viewBox="0 0 24 24"
                                             aria-hidden="true"
                                         >
-                                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                                            <path d="M18 6L6 18M6 6l12 12" />
                                         </svg>
-                                        Voltar
                                     </ModalClose>
-                                </ModalHeader>
+                                </ModalCloseRow>
 
                                 <ModalTopicList>
                                     {activePillar.topics.map((topic) => (
