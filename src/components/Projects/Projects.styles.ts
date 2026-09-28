@@ -5,7 +5,8 @@ import { SectionDescription } from '../ui';
 export const ProjectsSection = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.paper};
-    padding: ${({ theme }) => theme.layout.sectionGapHalf} 0;
+    padding-top: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
+    padding-bottom: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
     overflow-x: clip;
     scroll-margin-top: 80px;
 `;

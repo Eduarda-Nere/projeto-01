@@ -6,7 +6,8 @@ export const CulturaSection = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.navy};
     color: ${({ theme }) => theme.colors.paper};
-    padding: clamp(2rem, 4vw, 3rem) 0;
+    padding-top: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
+    padding-bottom: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
     scroll-margin-top: ${({ theme }) => theme.layout.headerHeight};
 `;
 

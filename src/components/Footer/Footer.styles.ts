@@ -4,6 +4,7 @@ import { SectionDescription } from '../ui';
 export const StyledFooter = styled.footer`
     background: ${({ theme }) => theme.colors.navy};
     color: rgba(250, 248, 244, 0.85);
+    scroll-margin-top: ${({ theme }) => theme.layout.headerHeight};
 `;
 
 export const FooterInner = styled.div`

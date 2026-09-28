@@ -5,8 +5,8 @@ export const ProcessoWrapper = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.paper};
     scroll-margin-top: ${({ theme }) => theme.layout.headerHeight};
-    padding: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25) 0
-        ${({ theme }) => theme.layout.sectionGapHalf};
+    padding-top: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
+    padding-bottom: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
 `;
 
 export const ProcessoInner = styled.div`

@@ -1,20 +1,28 @@
 import styled from 'styled-components';
 
 export const NotFoundSection = styled.section`
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: ${({ theme }) => theme.colors.paper};
-  padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+  min-height: 100vh;
+  padding-top: ${({ theme }) => theme.layout.headerHeight};
+  padding-bottom: 0;
+  padding-left: clamp(1.5rem, 4vw, 3rem);
+  padding-right: clamp(1.5rem, 4vw, 3rem);
   text-align: center;
-  padding-top: calc(${({ theme }) => theme.layout.headerHeight} + 1rem);
 `;
 
 export const NotFoundContent = styled.div`
   max-width: 600px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - ${({ theme }) => theme.layout.headerHeight});
+  padding: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25) 0;
 `;
 
 export const NotFoundCode = styled.h1`
