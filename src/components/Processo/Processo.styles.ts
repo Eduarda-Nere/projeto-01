@@ -181,7 +181,7 @@ export const SpineDotNumber = styled.span<{ $active: boolean }>`
     line-height: 1;
     padding-top: 4px;
     color: ${({ $active, theme }) =>
-        $active ? theme.colors.gold : theme.colors.ink70};
+        $active ? theme.colors.navy : theme.colors.ink70};
     transition: color 0.5s ${({ theme }) => theme.easeOut};
 `;
 

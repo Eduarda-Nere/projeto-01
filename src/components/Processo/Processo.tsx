@@ -202,7 +202,7 @@ function Processo() {
                         sem retrabalho.
                     </Subtitle>
 
-                    <Spine role="tablist" aria-label="Etapas do processo">
+                    <Spine aria-label="Etapas do processo">
                         <SpineTrack aria-hidden="true" $vertical>
                             <SpineTrackFill
                                 $vertical
@@ -250,7 +250,7 @@ function Processo() {
             </ProcessoInner>
 
             <MobileStepWrapper>
-                <Spine role="tablist" aria-label="Etapas do processo" $mobile>
+                <Spine aria-label="Etapas do processo" $mobile>
                     <SpineTrack aria-hidden="true">
                         <SpineTrackFill
                             style={{
