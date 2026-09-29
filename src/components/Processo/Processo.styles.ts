@@ -1,19 +1,13 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { SectionSubtitle, SectionDescription } from '../ui';
 
-export const ProcessoWrapper = styled.section<{ $forceMobile?: boolean }>`
+export const ProcessoWrapper = styled.section`
     position: relative;
     background: ${({ theme }) => theme.colors.paper};
     scroll-margin-top: ${({ theme }) => theme.layout.headerHeight};
     padding-top: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
     padding-bottom: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
     overflow: clip;
-
-    ${({ $forceMobile }) =>
-        $forceMobile &&
-        css`
-            --force-mobile: 1;
-        `}
 `;
 
 export const ProcessoInner = styled.div`
@@ -26,11 +20,6 @@ export const ProcessoInner = styled.div`
     align-items: start;
 
     @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-        gap: clamp(3rem, 6vw, 4.5rem);
-    }
-
-    ${ProcessoWrapper}[style*="--force-mobile"] & {
         grid-template-columns: 1fr;
         gap: clamp(3rem, 6vw, 4.5rem);
     }
@@ -47,10 +36,6 @@ export const ProcessoLeft = styled.div`
         position: sticky;
         top: calc(${({ theme }) => theme.layout.headerHeight} + 3rem);
     }
-
-    ${ProcessoWrapper}[style*="--force-mobile"] & {
-        position: static;
-    }
 `;
 
 export const Subtitle = styled(SectionSubtitle)`
@@ -65,11 +50,12 @@ export const Spine = styled.div<{ $mobile?: boolean }>`
     gap: 0;
     margin-top: clamp(2.5rem, 5vw, 3.5rem);
 
-    @media (max-width: 1024px) {
-        display: none;
+    @media (min-width: 1025px) {
+        min-height: min(42vh, 380px);
+        justify-content: space-between;
     }
 
-    ${ProcessoWrapper}[style*="--force-mobile"] & {
+    @media (max-width: 1024px) {
         display: none;
     }
 `;
@@ -180,14 +166,10 @@ export const SpineLabel = styled.span<{ $active: boolean }>`
 export const StepList = styled.div`
     display: flex;
     flex-direction: column;
-    gap: clamp(1.5rem, 3vw, 2.25rem);
+    gap: clamp(3rem, 6vw, 5rem);
     width: 100%;
 
     @media (max-width: 1024px) {
-        display: none;
-    }
-
-    ${ProcessoWrapper}[style*="--force-mobile"] & {
         display: none;
     }
 `;
@@ -198,7 +180,7 @@ export const StepPanel = styled.article`
     border-radius: 4px;
     background-color: ${({ theme }) => theme.colors.navy};
     color: ${({ theme }) => theme.colors.paper};
-    padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem);
+    padding: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3.25rem);
 
     &::before {
         content: '';
@@ -215,7 +197,7 @@ export const StepPanel = styled.article`
 
     @media (max-width: 1024px) {
         padding: 2rem 2rem;
-        height: 20rem;
+        height: 22rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -224,16 +206,7 @@ export const StepPanel = styled.article`
 
     @media (max-width: 640px) {
         padding: 1.75rem 1.5rem;
-        height: 22rem;
-    }
-
-    ${ProcessoWrapper}[style*="--force-mobile"] & {
-        padding: 2rem 2rem;
-        height: 20rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        border-radius: 0;
+        height: 24rem;
     }
 `;
 
@@ -252,22 +225,16 @@ export const StepBody = styled.div`
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
-
-    ${ProcessoWrapper}[style*="--force-mobile"] & {
-        max-height: 100%;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-    }
 `;
 
 export const StepTitle = styled.h3`
     font-family: ${({ theme }) => theme.fonts.display};
-    font-size: clamp(1.5rem, 2.6vw, 2rem);
-    line-height: 1.15;
-    font-weight: 400;
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-weight: 300;
     letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: ${({ theme }) => theme.colors.paper};
     margin: 0;
-    color: inherit;
 `;
 
 export const StepText = styled(SectionDescription)`
@@ -280,13 +247,14 @@ export const StepText = styled(SectionDescription)`
 export const StepDelivery = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    gap: 1.1rem;
+    margin-top: 1.25rem;
+    width: 100%;
 `;
 
 export const StepDeliveryLabel = styled.span`
     font-family: ${({ theme }) => theme.fonts.display};
-    font-size: 0.66rem;
+    font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -304,15 +272,6 @@ export const MobileStepWrapper = styled.div`
     display: none;
 
     @media (max-width: 1024px) {
-        display: block;
-        width: 100%;
-        max-width: ${({ theme }) => theme.layout.container};
-        margin: 0 auto;
-        padding: 0 clamp(1.5rem, 4vw, 3rem);
-        margin-top: clamp(3rem, 6vw, 4.5rem);
-    }
-
-    ${ProcessoWrapper}[style*="--force-mobile"] & {
         display: block;
         width: 100%;
         max-width: ${({ theme }) => theme.layout.container};

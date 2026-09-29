@@ -75,6 +75,20 @@ const slideVariants = {
     }),
 };
 
+function StepContent({ step }: { step: Step }) {
+    return (
+        <StepBody>
+            <StepTitle>{step.title}</StepTitle>
+            <StepText>{step.text}</StepText>
+
+            <StepDelivery>
+                <StepDeliveryLabel>Entrega</StepDeliveryLabel>
+                <StepDeliveryText>{step.delivery}</StepDeliveryText>
+            </StepDelivery>
+        </StepBody>
+    );
+}
+
 function ProcessoStep({
     step,
     index,
@@ -93,23 +107,13 @@ function ProcessoStep({
 
     return (
         <StepPanel ref={ref} id={`etapa-${index}`}>
-            <StepBody>
-                <StepTitle>{step.title}</StepTitle>
-                <StepText>{step.text}</StepText>
-
-                <StepDelivery>
-                    <StepDeliveryLabel>Entrega</StepDeliveryLabel>
-                    <StepDeliveryText>{step.delivery}</StepDeliveryText>
-                </StepDelivery>
-            </StepBody>
+            <StepContent step={step} />
         </StepPanel>
     );
 }
 
 function Processo() {
-    const stepsRef = useRef<(HTMLElement | null)[]>(
-        STEPS.map(() => null)
-    );
+    const stepsRef = useRef<(HTMLElement | null)[]>(STEPS.map(() => null));
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [mobileIndex, setMobileIndex] = useState<number>(0);
     const [direction, setDirection] = useState<number>(1);
@@ -263,20 +267,7 @@ function Processo() {
                         >
                             <MobileCarouselInner>
                                 <StepPanel>
-                                    <StepBody>
-                                        <StepTitle>
-                                            {currentStep.title}
-                                        </StepTitle>
-                                        <StepText>{currentStep.text}</StepText>
-                                        <StepDelivery>
-                                            <StepDeliveryLabel>
-                                                Entrega
-                                            </StepDeliveryLabel>
-                                            <StepDeliveryText>
-                                                {currentStep.delivery}
-                                            </StepDeliveryText>
-                                        </StepDelivery>
-                                    </StepBody>
+                                    <StepContent step={currentStep} />
                                 </StepPanel>
                             </MobileCarouselInner>
                         </motion.div>
@@ -291,18 +282,7 @@ function Processo() {
                     >
                         <MobileCarouselInner>
                             <StepPanel>
-                                <StepBody>
-                                    <StepTitle>{currentStep.title}</StepTitle>
-                                    <StepText>{currentStep.text}</StepText>
-                                    <StepDelivery>
-                                        <StepDeliveryLabel>
-                                            Entrega
-                                        </StepDeliveryLabel>
-                                        <StepDeliveryText>
-                                            {currentStep.delivery}
-                                        </StepDeliveryText>
-                                    </StepDelivery>
-                                </StepBody>
+                                <StepContent step={currentStep} />
                             </StepPanel>
                         </MobileCarouselInner>
                     </div>
