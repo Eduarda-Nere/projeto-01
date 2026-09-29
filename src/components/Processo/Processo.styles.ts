@@ -394,12 +394,12 @@ export const MobileCounter = styled.span`
     text-align: center;
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.08em;
     color: ${({ theme }) => theme.colors.navy};
 
     span {
         color: ${({ theme }) => theme.colors.ink70};
-        font-weight: 400;
+        font-weight: 500;
     }
 `;
