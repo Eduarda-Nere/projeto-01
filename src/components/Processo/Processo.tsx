@@ -1,29 +1,33 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { SectionTitle } from '../ui';
 import {
     ProcessoWrapper,
     ProcessoInner,
     ProcessoLeft,
-    ProcessoRightWrapper,
-    ProcessoRight,
     Subtitle,
-    Stepper,
-    StepperTrack,
-    StepperProgress,
-    StepperItem,
-    StepperCircle,
+    Spine,
+    SpineRow,
+    SpineDot,
+    SpineDotNumber,
+    SpineLabel,
+    SpineTrack,
+    SpineTrackFill,
+    StepList,
     StepPanel,
-    StepTrack,
-    StepSlide,
+    StepBody,
     StepTitle,
     StepText,
     StepDelivery,
     StepDeliveryLabel,
     StepDeliveryText,
-    StepFooter,
-    Arrows,
-    Arrow,
+    MobileStepWrapper,
+    MobileCarouselViewport,
+    MobileCarouselInner,
+    MobileNav,
+    MobileNavButton,
 } from './Processo.styles';
-import { SectionTitle } from '../ui';
 
 type Step = {
     title: string;
@@ -54,14 +58,136 @@ const STEPS: Step[] = [
     },
 ];
 
+const EASE = [0.65, 0, 0.35, 1] as const;
+
+const slideVariants = {
+    enter: (dir: number) => ({
+        x: dir > 0 ? '100%' : '-100%',
+    }),
+    center: {
+        x: 0,
+        transition: { duration: 0.55, ease: EASE },
+    },
+    exit: (dir: number) => ({
+        x: dir > 0 ? '-100%' : '100%',
+        transition: { duration: 0.55, ease: EASE },
+    }),
+};
+
+function ProcessoStep({
+    step,
+    index,
+    onRef,
+}: {
+    step: Step;
+    index: number;
+    onRef: (index: number, el: HTMLElement | null) => void;
+}) {
+    const ref = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        onRef(index, ref.current);
+        return () => onRef(index, null);
+    }, [index, onRef]);
+
+    return (
+        <StepPanel ref={ref} id={`etapa-${index}`}>
+            <StepBody>
+                <StepTitle>{step.title}</StepTitle>
+                <StepText>{step.text}</StepText>
+
+                <StepDelivery>
+                    <StepDeliveryLabel>Entrega</StepDeliveryLabel>
+                    <StepDeliveryText>{step.delivery}</StepDeliveryText>
+                </StepDelivery>
+            </StepBody>
+        </StepPanel>
+    );
+}
+
 function Processo() {
-    const [active, setActive] = useState(0);
-    const total = STEPS.length;
+    const stepsRef = useRef<(HTMLElement | null)[]>(
+        STEPS.map(() => null)
+    );
+    const [activeIndex, setActiveIndex] = useState<number>(0);
+    const [mobileIndex, setMobileIndex] = useState<number>(0);
+    const [direction, setDirection] = useState<number>(1);
 
-    const prev = () => setActive((i) => Math.max(0, i - 1));
-    const next = () => setActive((i) => Math.min(total - 1, i + 1));
+    const handleRef = useCallback((index: number, el: HTMLElement | null) => {
+        stepsRef.current[index] = el;
+    }, []);
 
-    const progress = total > 1 ? (active / (total - 1)) * 100 : 0;
+    useEffect(() => {
+        const update = () => {
+            const viewportCenter = window.innerHeight / 2;
+            let closest = 0;
+            let closestDist = Infinity;
+
+            stepsRef.current.forEach((el, index) => {
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+                if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+                const elCenter = rect.top + rect.height / 2;
+                const dist = Math.abs(elCenter - viewportCenter);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closest = index;
+                }
+            });
+
+            setActiveIndex((prev) => (prev === closest ? prev : closest));
+        };
+
+        let frame: number | null = null;
+        const onScroll = () => {
+            if (frame !== null) return;
+            frame = requestAnimationFrame(() => {
+                frame = null;
+                update();
+            });
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            if (frame !== null) cancelAnimationFrame(frame);
+        };
+    }, []);
+
+    const goTo = (index: number) => {
+        document
+            .getElementById(`etapa-${index}`)
+            ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    const goPrev = () => {
+        if (mobileIndex === 0) return;
+        setDirection(-1);
+        setMobileIndex((prev) => Math.max(0, prev - 1));
+    };
+
+    const goNext = () => {
+        if (mobileIndex === STEPS.length - 1) return;
+        setDirection(1);
+        setMobileIndex((prev) => Math.min(STEPS.length - 1, prev + 1));
+    };
+
+    const goToMobile = (index: number) => {
+        if (index === mobileIndex) return;
+        setDirection(index > mobileIndex ? 1 : -1);
+        setMobileIndex(index);
+    };
+
+    const currentStep = STEPS[mobileIndex];
+    const desktopProgress =
+        STEPS.length > 1 ? (activeIndex / (STEPS.length - 1)) * 100 : 0;
+    const mobileProgress =
+        STEPS.length > 1 ? (mobileIndex / (STEPS.length - 1)) * 100 : 0;
 
     return (
         <ProcessoWrapper id="processo">
@@ -75,84 +201,171 @@ function Processo() {
                         concreto antes da próxima começar - sem etapa pulada,
                         sem retrabalho.
                     </Subtitle>
+
+                    <Spine role="tablist" aria-label="Etapas do processo">
+                        <SpineTrack aria-hidden="true" $vertical>
+                            <SpineTrackFill
+                                $vertical
+                                style={{
+                                    transform: `scaleY(${desktopProgress / 100})`,
+                                }}
+                            />
+                        </SpineTrack>
+
+                        {STEPS.map((step, index) => {
+                            const isActive = index <= activeIndex;
+                            const isCurrent = index === activeIndex;
+
+                            return (
+                                <SpineRow
+                                    key={step.title}
+                                    type="button"
+                                    onClick={() => goTo(index)}
+                                    aria-label={`Ir para etapa ${index + 1}: ${step.title}`}
+                                >
+                                    <SpineDot $active={isActive} $current={isCurrent}>
+                                        <SpineDotNumber $active={isActive}>
+                                            {String(index + 1).padStart(2, '0')}
+                                        </SpineDotNumber>
+                                    </SpineDot>
+                                    <SpineLabel $active={isActive}>
+                                        {step.title}
+                                    </SpineLabel>
+                                </SpineRow>
+                            );
+                        })}
+                    </Spine>
                 </ProcessoLeft>
 
-                <ProcessoRightWrapper>
-                    <ProcessoRight>
-                        <Stepper role="tablist" aria-label="Etapas do processo">
-                            <StepperTrack>
-                                <StepperProgress style={{ width: `${progress}%` }} />
-                            </StepperTrack>
+                <StepList>
+                    {STEPS.map((step, index) => (
+                        <ProcessoStep
+                            key={step.title}
+                            step={step}
+                            index={index}
+                            onRef={handleRef}
+                        />
+                    ))}
+                </StepList>
+            </ProcessoInner>
 
-                            {STEPS.map((step, index) => {
-                                const isActive = index === active;
-                                const isDone = index < active;
+            <MobileStepWrapper>
+                <Spine role="tablist" aria-label="Etapas do processo" $mobile>
+                    <SpineTrack aria-hidden="true">
+                        <SpineTrackFill
+                            style={{
+                                transform: `scaleX(${mobileProgress / 100})`,
+                            }}
+                        />
+                    </SpineTrack>
 
-                                return (
-                                    <StepperItem key={step.title}>
-                                        <StepperCircle
-                                            as="button"
-                                            type="button"
-                                            $active={isActive}
-                                            $done={isDone}
-                                            onClick={() => setActive(index)}
-                                            role="tab"
-                                            aria-selected={isActive}
-                                            aria-label={`Ir para etapa ${index + 1}: ${step.title}`}
-                                        >
-                                            {String(index + 1).padStart(2, '0')}
-                                        </StepperCircle>
-                                    </StepperItem>
-                                );
-                            })}
-                        </Stepper>
+                    {STEPS.map((step, index) => {
+                        const isActive = index <= mobileIndex;
+                        const isCurrent = index === mobileIndex;
 
-                        <StepPanel>
-                            <StepTrack $offset={active}>
-                                {STEPS.map((step) => (
-                                    <StepSlide key={step.title}>
-                                        <StepTitle>{step.title}</StepTitle>
-                                        <StepText>{step.text}</StepText>
+                        return (
+                            <SpineRow
+                                key={step.title}
+                                type="button"
+                                onClick={() => goToMobile(index)}
+                                aria-label={`Ir para etapa ${index + 1}: ${step.title}`}
+                                $mobile
+                            >
+                                <SpineDot $active={isActive} $current={isCurrent}>
+                                    <SpineDotNumber $active={isActive}>
+                                        {String(index + 1).padStart(2, '0')}
+                                    </SpineDotNumber>
+                                </SpineDot>
+                            </SpineRow>
+                        );
+                    })}
+                </Spine>
+
+                <MobileCarouselViewport>
+                    <AnimatePresence custom={direction} initial={false}>
+                        <motion.div
+                            key={currentStep.title}
+                            custom={direction}
+                            variants={slideVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                width: '100%',
+                            }}
+                        >
+                            <MobileCarouselInner>
+                                <StepPanel>
+                                    <StepBody>
+                                        <StepTitle>
+                                            {currentStep.title}
+                                        </StepTitle>
+                                        <StepText>{currentStep.text}</StepText>
                                         <StepDelivery>
                                             <StepDeliveryLabel>
                                                 Entrega
                                             </StepDeliveryLabel>
                                             <StepDeliveryText>
-                                                {step.delivery}
+                                                {currentStep.delivery}
                                             </StepDeliveryText>
                                         </StepDelivery>
-                                    </StepSlide>
-                                ))}
-                            </StepTrack>
-                        </StepPanel>
-                    </ProcessoRight>
+                                    </StepBody>
+                                </StepPanel>
+                            </MobileCarouselInner>
+                        </motion.div>
+                    </AnimatePresence>
 
-                    <StepFooter>
-                        <Arrows>
-                            <Arrow
-                                type="button"
-                                onClick={prev}
-                                disabled={active === 0}
-                                aria-label="Etapa anterior"
-                            >
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M15 18l-6-6 6-6" />
-                                </svg>
-                            </Arrow>
-                            <Arrow
-                                type="button"
-                                onClick={next}
-                                disabled={active === total - 1}
-                                aria-label="Próxima etapa"
-                            >
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M9 18l6-6-6-6" />
-                                </svg>
-                            </Arrow>
-                        </Arrows>
-                    </StepFooter>
-                </ProcessoRightWrapper>
-            </ProcessoInner>
+                    <div
+                        style={{
+                            visibility: 'hidden',
+                            pointerEvents: 'none',
+                        }}
+                        aria-hidden="true"
+                    >
+                        <MobileCarouselInner>
+                            <StepPanel>
+                                <StepBody>
+                                    <StepTitle>{currentStep.title}</StepTitle>
+                                    <StepText>{currentStep.text}</StepText>
+                                    <StepDelivery>
+                                        <StepDeliveryLabel>
+                                            Entrega
+                                        </StepDeliveryLabel>
+                                        <StepDeliveryText>
+                                            {currentStep.delivery}
+                                        </StepDeliveryText>
+                                    </StepDelivery>
+                                </StepBody>
+                            </StepPanel>
+                        </MobileCarouselInner>
+                    </div>
+                </MobileCarouselViewport>
+
+                <MobileNav>
+                    <MobileNavButton
+                        type="button"
+                        onClick={goPrev}
+                        disabled={mobileIndex === 0}
+                        aria-label="Etapa anterior"
+                    >
+                        <ChevronLeft />
+                    </MobileNavButton>
+
+                    <MobileNavButton
+                        type="button"
+                        onClick={goNext}
+                        disabled={mobileIndex === STEPS.length - 1}
+                        aria-label="Próxima etapa"
+                    >
+                        <ChevronRight />
+                    </MobileNavButton>
+                </MobileNav>
+            </MobileStepWrapper>
         </ProcessoWrapper>
     );
 }

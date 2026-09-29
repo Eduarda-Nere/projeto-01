@@ -7,6 +7,7 @@ export const ProcessoWrapper = styled.section`
     scroll-margin-top: ${({ theme }) => theme.layout.headerHeight};
     padding-top: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
     padding-bottom: calc(${({ theme }) => theme.layout.sectionGapHalf} * 1.25);
+    overflow: clip;
 `;
 
 export const ProcessoInner = styled.div`
@@ -14,14 +15,13 @@ export const ProcessoInner = styled.div`
     margin: 0 auto;
     padding: 0 clamp(1.5rem, 4vw, 3rem);
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
-        gap: clamp(2rem, 4vw, 3rem);
-        align-items: start;
+        gap: clamp(3rem, 6vw, 4.5rem);
     }
 `;
 
@@ -31,179 +31,245 @@ export const ProcessoLeft = styled.div`
     align-items: flex-start;
     text-align: left;
     width: 100%;
-`;
 
-export const ProcessoRightWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    min-width: 0;
-    width: 100%;
-`;
-
-export const ProcessoRight = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-    min-width: 0;
-    width: 100%;
-
-    @media (max-width: 900px) {
-        gap: 1.25rem;
+    @media (min-width: 901px) {
+        position: sticky;
+        top: calc(${({ theme }) => theme.layout.headerHeight} + 3rem);
     }
 `;
 
 export const Subtitle = styled(SectionSubtitle)`
-    margin: 0.75rem 0 0;
+    margin: 1rem 0 0;
     max-width: 56ch;
 `;
 
-export const Stepper = styled.div`
+export const Spine = styled.div<{ $mobile?: boolean }>`
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: 100%;
-`;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
 
-export const StepperTrack = styled.div`
-    position: absolute;
-    top: 24px;
-    left: 12.5%;
-    right: 12.5%;
-    height: 1.5px;
-    background: ${({ theme }) => theme.colors.lineOnCream};
-    z-index: 0;
+    ${({ $mobile }) =>
+        $mobile &&
+        `
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0;
+            margin: 0 auto 1.75rem;
+            width: 100%;
+            max-width: 360px;
+        `}
+
+    @media (max-width: 900px) {
+        display: ${({ $mobile }) => ($mobile ? 'flex' : 'none')};
+    }
 
     @media (max-width: 480px) {
-        top: 20px;
+        ${({ $mobile }) =>
+            $mobile &&
+            `
+                max-width: 260px;
+            `}
+    }
+
+    @media (min-width: 901px) {
+        display: ${({ $mobile }) => ($mobile ? 'none' : 'flex')};
     }
 `;
 
-export const StepperProgress = styled.div`
+export const SpineTrack = styled.span<{ $vertical?: boolean }>`
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background: ${({ theme }) => theme.colors.lineOnCream};
+
+    ${({ $vertical }) =>
+        $vertical
+            ? `
+                top: calc(0.6rem + 22px);
+                bottom: calc(0.6rem + 22px);
+                left: 22px;
+                width: 2px;
+                height: auto;
+                transform: none;
+            `
+            : `
+                top: 50%;
+                left: 22px;
+                right: 22px;
+                height: 1.5px;
+                transform: translateY(-50%);
+            `}
+`;
+
+export const SpineTrackFill = styled.span<{ $vertical?: boolean }>`
+    position: absolute;
+    inset: 0;
     background: ${({ theme }) => theme.colors.gold};
-    transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-origin: ${({ $vertical }) =>
+        $vertical ? 'top center' : 'left center'};
+    transition: transform 0.55s ${({ theme }) => theme.easeOut};
 `;
 
-export const StepperItem = styled.div`
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-export const StepperCircle = styled.button<{
-    $active: boolean;
-    $done: boolean;
+export const SpineRow = styled.button<{
+    $mobile?: boolean;
+    $last?: boolean;
 }>`
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    font-family: ${({ theme }) => theme.fonts.display};
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    line-height: 0;
-    padding: 4px 0 0 0;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    background: none;
+    border: none;
     cursor: pointer;
-    border: 1.5px solid
-        ${({ $active, $done, theme }) =>
-            $active || $done ? theme.colors.gold : theme.colors.lineOnCream};
-    background: ${({ theme }) => theme.colors.paper};
-    color: ${({ $active, $done, theme }) =>
-        $active
-            ? theme.colors.paper
-            : $done
-              ? theme.colors.gold
-              : theme.colors.ink70};
-    transition:
-        background 0.4s ${({ theme }) => theme.easeOut},
-        border-color 0.4s ${({ theme }) => theme.easeOut},
-        color 0.4s ${({ theme }) => theme.easeOut};
+    text-align: left;
+    font: inherit;
+    color: inherit;
 
-    ${({ $active, theme }) =>
-        $active &&
+    ${({ $mobile }) =>
+        $mobile &&
         `
-        background: ${theme.colors.gold};
-        border-color: ${theme.colors.gold};
-    `}
+            gap: 0;
+            padding: 0;
+            flex: 0 0 auto;
+            z-index: 1;
+        `}
 
     &:focus-visible {
         outline: 2px solid ${({ theme }) => theme.colors.gold};
-        outline-offset: 3px;
-    }
-
-    @media (max-width: 480px) {
-        width: 40px;
-        height: 40px;
-        font-size: 0.75rem;
-        padding-top: 2.5px;
+        outline-offset: 4px;
     }
 `;
 
-export const StepPanel = styled.div`
+export const SpineDot = styled.span<{
+    $active: boolean;
+    $current: boolean;
+}>`
     position: relative;
-    width: calc(75% + 48px);
-    margin-left: calc(12.5% - 24px);
-    margin-top: 1rem;
-    overflow: hidden;
-    min-height: 200px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid
+        ${({ $active, theme }) =>
+            $active ? theme.colors.gold : theme.colors.lineOnCream};
     background: ${({ theme }) => theme.colors.paper};
-    border-radius: 4px;
+    z-index: 2;
+    transition:
+        border-color 0.5s ${({ theme }) => theme.easeOut},
+        box-shadow 0.5s ${({ theme }) => theme.easeOut};
+
+    ${({ $current }) =>
+        $current &&
+        `
+            box-shadow: 0 0 0 3px rgba(210, 170, 78, 0.18);
+        `}
 `;
 
-export const StepTrack = styled.div<{ $offset: number }>`
-    display: flex;
-    align-items: flex-start;
-    transform: translateX(${({ $offset }) => `-${$offset * 100}%`});
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    will-change: transform;
+export const SpineDotNumber = styled.span<{ $active: boolean }>`
+    display: block;
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1;
+    padding-top: 4px;
+    color: ${({ $active, theme }) =>
+        $active ? theme.colors.gold : theme.colors.ink70};
+    transition: color 0.5s ${({ theme }) => theme.easeOut};
 `;
 
-export const StepSlide = styled.div`
-    flex: 0 0 100%;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+export const SpineLabel = styled.span<{ $active: boolean }>`
+    font-size: 0.85rem;
+    font-weight: ${({ $active }) => ($active ? 600 : 400)};
+    color: ${({ $active, theme }) =>
+        $active ? theme.colors.navy : theme.colors.ink70};
+    transition: color 0.4s ${({ theme }) => theme.easeOut},
+        font-weight 0.4s ${({ theme }) => theme.easeOut};
+`;
+
+export const StepList = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    gap: 1rem;
-    padding: 0;
-    background: ${({ theme }) => theme.colors.paper};
-    border: none;
-    color: ${({ theme }) => theme.colors.navy};
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    width: 100%;
+
+    @media (max-width: 900px) {
+        display: none;
+    }
+`;
+
+export const StepPanel = styled.article`
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: ${({ theme }) => theme.colors.navy};
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    color: ${({ theme }) => theme.colors.paper};
+    padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem);
+
+    @media (max-width: 900px) {
+        padding: 2rem 2rem;
+        height: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 0;
+    }
+
+    @media (max-width: 640px) {
+        padding: 1.75rem 1.5rem;
+        height: 22rem;
+    }
+`;
+
+export const StepBody = styled.div`
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    max-width: 56ch;
+    width: 100%;
+
+    @media (max-width: 900px) {
+        max-height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 `;
 
 export const StepTitle = styled.h3`
     font-family: ${({ theme }) => theme.fonts.display};
-    font-size: clamp(1.4rem, 2.3vw, 1.9rem);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
     line-height: 1.15;
     font-weight: 400;
     letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.colors.gold};
     margin: 0;
+    color: inherit;
 `;
 
 export const StepText = styled(SectionDescription)`
-    max-width: 65ch;
+    max-width: none;
     text-align: left;
     hyphens: manual;
-    color: ${({ theme }) => theme.colors.ink70};
+    color: rgba(250, 248, 244, 0.78);
 `;
 
 export const StepDelivery = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.5rem;
     margin-top: 0.5rem;
 `;
 
@@ -211,73 +277,97 @@ export const StepDeliveryLabel = styled.span`
     font-family: ${({ theme }) => theme.fonts.display};
     font-size: 0.66rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
+    line-height: 1;
     color: ${({ theme }) => theme.colors.gold};
 `;
 
 export const StepDeliveryText = styled.span`
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     line-height: 1.5;
-    font-style: italic;
-    color: ${({ theme }) => theme.colors.ink70};
+    color: rgba(250, 248, 244, 0.78);
 `;
 
-export const StepFooter = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0.75rem;
+export const MobileStepWrapper = styled.div`
+    display: none;
 
     @media (max-width: 900px) {
-        margin-top: 0;
+        display: block;
+        width: 100%;
+        max-width: ${({ theme }) => theme.layout.container};
+        margin: 0 auto;
+        padding: 0 clamp(1.5rem, 4vw, 3rem);
+        margin-top: clamp(3rem, 6vw, 4.5rem);
+    }
+
+    @media (min-width: 641px) and (max-width: 900px) {
+        max-width: 34rem;
     }
 `;
 
-export const Arrows = styled.div`
-    display: flex;
-    gap: 1rem;
+export const MobileCarouselViewport = styled.div`
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: ${({ theme }) => theme.colors.navy};
+    isolation: isolate;
 `;
 
-export const Arrow = styled.button<{ $disabled?: boolean }>`
+export const MobileCarouselInner = styled.div`
+    width: 100%;
+    height: 100%;
+`;
+
+export const MobileNav = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 999px;
-    border: 1px solid ${({ theme }) => theme.colors.navy};
-    background: transparent;
-    color: ${({ theme }) => theme.colors.navy};
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+`;
+
+export const MobileNavButton = styled.button`
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid ${({ theme }) => theme.colors.navy};
+    background: ${({ theme }) => theme.colors.navy};
+    color: ${({ theme }) => theme.colors.paper};
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
     transition:
         background 0.3s ${({ theme }) => theme.easeOut},
-        color 0.3s ${({ theme }) => theme.easeOut},
         border-color 0.3s ${({ theme }) => theme.easeOut},
+        color 0.3s ${({ theme }) => theme.easeOut},
         opacity 0.3s ${({ theme }) => theme.easeOut};
 
     svg {
-        width: 1rem;
-        height: 1rem;
-        stroke: currentColor;
-        stroke-width: 2;
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.8;
     }
 
     &:hover:not(:disabled) {
-        background: ${({ theme }) => theme.colors.navy};
+        background: ${({ theme }) => theme.colors.navyDeep};
+        border-color: ${({ theme }) => theme.colors.navyDeep};
         color: ${({ theme }) => theme.colors.paper};
     }
 
-    &:focus-visible {
-        outline: 2px solid ${({ theme }) => theme.colors.gold};
-        outline-offset: 3px;
+    &:active:not(:disabled),
+    &:focus:not(:disabled),
+    &:focus-visible:not(:disabled) {
+        background: ${({ theme }) => theme.colors.navy};
+        border-color: ${({ theme }) => theme.colors.navy};
+        color: ${({ theme }) => theme.colors.paper};
+        outline: none;
     }
 
     &:disabled {
-        opacity: 0.3;
+        opacity: 0.35;
         cursor: not-allowed;
     }
 `;
