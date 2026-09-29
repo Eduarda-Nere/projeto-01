@@ -19,7 +19,7 @@ export const ProcessoInner = styled.div`
     gap: clamp(2.5rem, 5vw, 5rem);
     align-items: start;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
         grid-template-columns: 1fr;
         gap: clamp(3rem, 6vw, 4.5rem);
     }
@@ -32,7 +32,7 @@ export const ProcessoLeft = styled.div`
     text-align: left;
     width: 100%;
 
-    @media (min-width: 1025px) {
+    @media (min-width: 901px) {
         position: sticky;
         top: calc(${({ theme }) => theme.layout.headerHeight} + 3rem);
     }
@@ -50,12 +50,12 @@ export const Spine = styled.div<{ $mobile?: boolean }>`
     gap: 0;
     margin-top: clamp(2.5rem, 5vw, 3.5rem);
 
-    @media (min-width: 1025px) {
+    @media (min-width: 901px) {
         min-height: min(42vh, 380px);
         justify-content: space-between;
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
         display: none;
     }
 `;
@@ -169,7 +169,7 @@ export const StepList = styled.div`
     gap: clamp(3rem, 6vw, 5rem);
     width: 100%;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
         display: none;
     }
 `;
@@ -195,7 +195,7 @@ export const StepPanel = styled.article`
         mask-image: linear-gradient(to bottom, black, transparent 85%);
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
         padding: 2rem 2rem;
         height: 22rem;
         display: flex;
@@ -220,7 +220,7 @@ export const StepBody = styled.div`
     max-width: 56ch;
     width: 100%;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
         max-height: 100%;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
@@ -271,7 +271,7 @@ export const StepDeliveryText = styled.span`
 export const MobileStepWrapper = styled.div`
     display: none;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
         display: block;
         width: 100%;
         max-width: ${({ theme }) => theme.layout.container};
