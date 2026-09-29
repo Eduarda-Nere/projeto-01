@@ -27,6 +27,7 @@ import {
     MobileCarouselInner,
     MobileNav,
     MobileNavButton,
+    MobileCounter,
 } from './Processo.styles';
 
 type Step = {
@@ -177,17 +178,9 @@ function Processo() {
         setMobileIndex((prev) => Math.min(STEPS.length - 1, prev + 1));
     };
 
-    const goToMobile = (index: number) => {
-        if (index === mobileIndex) return;
-        setDirection(index > mobileIndex ? 1 : -1);
-        setMobileIndex(index);
-    };
-
     const currentStep = STEPS[mobileIndex];
     const desktopProgress =
         STEPS.length > 1 ? (activeIndex / (STEPS.length - 1)) * 100 : 0;
-    const mobileProgress =
-        STEPS.length > 1 ? (mobileIndex / (STEPS.length - 1)) * 100 : 0;
 
     return (
         <ProcessoWrapper id="processo">
@@ -250,37 +243,6 @@ function Processo() {
             </ProcessoInner>
 
             <MobileStepWrapper>
-                <Spine aria-label="Etapas do processo" $mobile>
-                    <SpineTrack aria-hidden="true">
-                        <SpineTrackFill
-                            style={{
-                                transform: `scaleX(${mobileProgress / 100})`,
-                            }}
-                        />
-                    </SpineTrack>
-
-                    {STEPS.map((step, index) => {
-                        const isActive = index <= mobileIndex;
-                        const isCurrent = index === mobileIndex;
-
-                        return (
-                            <SpineRow
-                                key={step.title}
-                                type="button"
-                                onClick={() => goToMobile(index)}
-                                aria-label={`Ir para etapa ${index + 1}: ${step.title}`}
-                                $mobile
-                            >
-                                <SpineDot $active={isActive} $current={isCurrent}>
-                                    <SpineDotNumber $active={isActive}>
-                                        {String(index + 1).padStart(2, '0')}
-                                    </SpineDotNumber>
-                                </SpineDot>
-                            </SpineRow>
-                        );
-                    })}
-                </Spine>
-
                 <MobileCarouselViewport>
                     <AnimatePresence custom={direction} initial={false}>
                         <motion.div
@@ -355,6 +317,11 @@ function Processo() {
                     >
                         <ChevronLeft />
                     </MobileNavButton>
+
+                    <MobileCounter>
+                        {String(mobileIndex + 1).padStart(2, '0')}{' '}
+                        <span>/ {String(STEPS.length).padStart(2, '0')}</span>
+                    </MobileCounter>
 
                     <MobileNavButton
                         type="button"

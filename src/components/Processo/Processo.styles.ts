@@ -50,32 +50,8 @@ export const Spine = styled.div<{ $mobile?: boolean }>`
     gap: 0;
     margin-top: clamp(2.5rem, 5vw, 3.5rem);
 
-    ${({ $mobile }) =>
-        $mobile &&
-        `
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0;
-            margin: 0 auto 1.75rem;
-            width: 100%;
-            max-width: 360px;
-        `}
-
     @media (max-width: 900px) {
-        display: ${({ $mobile }) => ($mobile ? 'flex' : 'none')};
-    }
-
-    @media (max-width: 480px) {
-        ${({ $mobile }) =>
-            $mobile &&
-            `
-                max-width: 260px;
-            `}
-    }
-
-    @media (min-width: 901px) {
-        display: ${({ $mobile }) => ($mobile ? 'none' : 'flex')};
+        display: none;
     }
 `;
 
@@ -114,10 +90,7 @@ export const SpineTrackFill = styled.span<{ $vertical?: boolean }>`
     transition: transform 0.55s ${({ theme }) => theme.easeOut};
 `;
 
-export const SpineRow = styled.button<{
-    $mobile?: boolean;
-    $last?: boolean;
-}>`
+export const SpineRow = styled.button`
     position: relative;
     display: flex;
     align-items: center;
@@ -129,15 +102,6 @@ export const SpineRow = styled.button<{
     text-align: left;
     font: inherit;
     color: inherit;
-
-    ${({ $mobile }) =>
-        $mobile &&
-        `
-            gap: 0;
-            padding: 0;
-            flex: 0 0 auto;
-            z-index: 1;
-        `}
 
     &:focus-visible {
         outline: 2px solid ${({ theme }) => theme.colors.gold};
@@ -210,12 +174,21 @@ export const StepPanel = styled.article`
     overflow: hidden;
     border-radius: 4px;
     background-color: ${({ theme }) => theme.colors.navy};
-    background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 48px 48px;
     color: ${({ theme }) => theme.colors.paper};
     padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 48px 48px;
+        -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+        mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
 
     @media (max-width: 900px) {
         padding: 2rem 2rem;
@@ -300,10 +273,6 @@ export const MobileStepWrapper = styled.div`
         padding: 0 clamp(1.5rem, 4vw, 3rem);
         margin-top: clamp(3rem, 6vw, 4.5rem);
     }
-
-    @media (min-width: 641px) and (max-width: 900px) {
-        max-width: 34rem;
-    }
 `;
 
 export const MobileCarouselViewport = styled.div`
@@ -369,5 +338,21 @@ export const MobileNavButton = styled.button`
     &:disabled {
         opacity: 0.35;
         cursor: not-allowed;
+    }
+`;
+
+export const MobileCounter = styled.span`
+    display: inline-block;
+    min-width: 5rem;
+    text-align: center;
+    font-family: ${({ theme }) => theme.fonts.display};
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: ${({ theme }) => theme.colors.navy};
+
+    span {
+        color: ${({ theme }) => theme.colors.ink70};
+        font-weight: 400;
     }
 `;
